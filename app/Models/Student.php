@@ -13,6 +13,8 @@ class Student extends Model
     protected $fillable  = [
         'studentName',
         'studentNumber',
+        'major',
+        'majorCreditsCompleted',
         'coursesCompleted',
         'eligibleCourses',
         'creditsCompleted',

@@ -45,6 +45,7 @@ class StudentController extends Controller
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
             'studentNumber' => 'required|numeric|digits:7',
+            'major' => 'required|string|max:4',
             'coursesCompleted' => 'nullable|string'
         ]);
 
@@ -145,6 +146,7 @@ class StudentController extends Controller
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
             'studentNumber' => 'required|numeric|digits:7',
+            'major' => 'required|string|max:4',
         ]);
         $student->update($validated);
 
@@ -178,11 +180,23 @@ class StudentController extends Controller
 
         if($student->coursesCompleted) {
             foreach ($student->coursesCompleted as $coursesCompleted) {
+                $count = 0;
+
                 if (Str::substr($coursesCompleted, 6, 1) == "P") {
-                    $creditsCompleted += 0.5;
+                    $count += 0.5;
                 } elseif (Str::substr($coursesCompleted, 6, 1) == "F") {
-                    $creditsCompleted += 1;
+                    $count += 1;
                 }
+
+                // major?
+                $course = Course::where('courseCode', $coursesCompleted)->first();
+
+                if (!is_null($course)) {
+                    if ($course->major == $student->major) {
+                        $student->majorCreditsCompleted += $count;
+                    }
+                }
+                $creditsCompleted += $count;
             }
         }
 

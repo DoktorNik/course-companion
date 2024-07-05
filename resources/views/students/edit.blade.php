@@ -35,16 +35,30 @@
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >
             </p>
-            <p class = "mt-2">
-                Student Number
-                <input
-                    type = "text"
-                    name = "studentNumber"
-                    placeholder = "{{__('1234567') }}"
-                    value = "{{ old('studentNumber', $student->studentNumber) }}"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >
-            </p>
+            <div class="mt-2 flex justify-between w-full">
+                <div class="w-full">
+                    Student Number
+                    <input
+                        type = "text"
+                        name = "studentNumber"
+                        placeholder = "{{__('1234567') }}"
+                        value = "{{ old('studentNumber', $student->studentNumber) }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class="pl-1 w-full">
+                    Major
+                    <input
+                        type = "text"
+                        name = "major"
+                        placeholder= "{{__('COSC') }}"
+                        value = "{{ old('major', $student->major) }}"
+                        class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+            </div>
             <div class = "mt-2">
                 Completed Courses
                 <div class="flex flex-nowrap w-full">

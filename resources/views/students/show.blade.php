@@ -17,20 +17,32 @@
                             <div>
                                 <span class="font-bold text-lg">{{ $student->studentName }}</a></span>
                                 <span class="ml-1.5 text-gray-700">{{ $student->studentNumber }}</span>
+                                <span class="ml-3.5 text-gray-700">{{ $student->major }} {{ __(' Major') }}</span>
                             </div>
                         </div>
                     </div>
                 </div>
         </div>
-        <p class = "mt-2">
-            Credits Completed
-            <input readonly
+        <div class="mt-2 flex justify-between w-full">
+            <div class="w-full">
+                Credits Completed
+                <input readonly
                    type="text"
                    name="creditsCompleted"
                    value="{{$student->creditsCompleted}}"
                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >
-        </p>
+                >
+            </div>
+            <div class="pl-1 w-full">
+                Major Credits Completed
+                <input readonly
+                   type="text"
+                   name="majorCreditsCompleted"
+                   value="{{$student->majorCreditsCompleted}}"
+                   class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                >
+            </div>
+        </div>
         <p class = "mt-2">
             Completed Courses
             <textarea readonly
