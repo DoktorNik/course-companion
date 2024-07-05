@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="ec62649f-db63-44e7-ae89-c978803d98ec" name="aws-course-review" url="http://ec2-3-144-108-99.us-east-2.compute.amazonaws.com/">
-        <fileTransfer rootFolder="/var/www/html/course-review" accessType="SFTP" host="ec2-3-144-108-99.us-east-2.compute.amazonaws.com" port="22" sshConfigId="553362e3-1c1f-4ab2-98c0-e08c25b506a9" sshConfig="aws-course-review" keyPair="true">
+      <webServer id="25f74b32-f062-4269-8445-d9a7757dc673" name="aws-course-companion" url="http://wrinklyideas.com">
+        <fileTransfer rootFolder="/var/www/html/course-companion-dev" accessType="SFTP" host="wrinklyideas.com" port="22" sshConfigId="866b259a-eb79-4723-8945-ee0d3d48d02f" sshConfig="ec2-user@wrinklyideas.com:22 key" keyPair="true">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" isUseSudo="true" />
           </advancedOptions>
