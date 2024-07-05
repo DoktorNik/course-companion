@@ -453,12 +453,14 @@ class DatabaseSeeder extends Seeder
         $prereq['MATH 1P67'] = "Math 1P67";
 
         Course::factory()->create([
-            'courseCode' => 'COSC 4P42',
+            'courseCode' => 'COSC 4P61',
             'courseDuration' => 'D2',
             'coursePrereqCredits' => 3.5,
             'courseName' => 'Theory of Computation',
             'coursePrereqs' => $prereq,
         ]);
+
+
 
         $prereq = array();
         $prereq['COSC 3P71'] = "Artificial Intelligence";
