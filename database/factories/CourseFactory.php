@@ -22,6 +22,7 @@ class CourseFactory extends Factory
         return [
             'user_id' => 1,
             'courseCode' => Str::random(6),
+            'elective' => 0,
             'courseDuration' => 'D0',
             'coursePrereqCredits' => 0,
             'courseName' => Str::random(25),

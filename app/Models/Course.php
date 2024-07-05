@@ -15,7 +15,8 @@ class Course extends Model
         'courseDuration',
         'coursePrereqCredits',
         'courseName',
-        'coursePrereqs'
+        'coursePrereqs',
+        'elective',
     ];
 
     protected function casts(): array
