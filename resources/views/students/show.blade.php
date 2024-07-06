@@ -65,13 +65,13 @@
                 @endphp</div>
         </p>
         <p class = "mt-2">
-            Eligible Elective Courses
+            Eligible Major Elective Courses
         <div
             class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         >@php
-                // required by major
+                // major electives
                 $out = "";
-                foreach($student->eligibleElectiveCourses as $cc=>$ec) {
+                foreach($student->eligibleElectiveMajorCourses as $cc=>$ec) {
                     $out.= $cc.": ".$ec."<br />";
                 }
                 $out = rtrim($out, "<br />");
@@ -80,6 +80,22 @@
                 echo $out;
             @endphp</div>
         </p>
+            <p class = "mt-2">
+                Eligible Non-Major Elective Courses
+            <div
+                class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >@php
+                    // non-major electives
+                    $out = "";
+                    foreach($student->eligibleElectiveNonMajorCourses as $cc=>$ec) {
+                        $out.= $cc.": ".$ec."<br />";
+                    }
+                    $out = rtrim($out, "<br />");
+                    if($out == "")
+                        $out = "None";
+                    echo $out;
+                @endphp</div>
+            </p>
 
         @endif
         <div class="mt-4 space-x-2">

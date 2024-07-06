@@ -209,7 +209,8 @@ class StudentController extends Controller
     {
         // reset list of eligible courses
         $student->eligibleRequiredCourses = array();
-        $student->eligibleElectiveCourses = array();
+        $student->eligibleElectiveMajorCourses = array();
+        $student->eligibleElectiveNonMajorCourses = array();
 
         $courses = Course::all();
 
@@ -276,7 +277,12 @@ class StudentController extends Controller
                 $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $course->courseName);
             }
             else {
-                $student->eligibleElectiveCourses = Arr::add($student->eligibleElectiveCourses, $course->courseCode, $course->courseName);
+                if(substr($course->courseCode,0,4) == $student->major) {
+                    $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->courseCode, $course->courseName);
+                }
+                else {
+                    $student->eligibleElectiveNonMajorCourses = Arr::add($student->eligibleElectiveNonMajorCourses, $course->courseCode, $course->courseName);
+                }
             }
         }
     }
