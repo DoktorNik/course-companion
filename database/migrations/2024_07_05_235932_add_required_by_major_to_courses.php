@@ -4,8 +4,6 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-// there is no courses major =\
-
 return new class extends Migration
 {
     /**
@@ -14,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->text('major')
-                ->change()
+            $table->string('requiredByMajor')
+                ->after('coursePrereqs')
                 ->default('COSC');
         });
     }
@@ -26,9 +24,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('courses', function (Blueprint $table) {
-            $table->boolean('major')
-                ->change()
-                ->default(0);
+            $table->dropColumn('requiredByMajor');
         });
     }
 };

@@ -51,18 +51,34 @@
             >@foreach($student->coursesCompleted as $cc){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach</textarea>
         </p>
         <p class = "mt-2">
-            Eligible Courses
+            Eligible Courses Required by Major
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
+                // required by major
                 $out = "";
-                foreach($student->eligibleCourses as $cc=>$ec) {
+                foreach($student->eligibleRequiredCourses as $cc=>$ec) {
                     $out.= $cc.": ".$ec."<br />";
                 }
                 $out = rtrim($out, "<br />");
                 echo $out;
                 @endphp</div>
-            </p>
+        </p>
+        <p class = "mt-2">
+            Eligible Elective Courses
+        <div
+            class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        >@php
+                // required by major
+                $out = "";
+                foreach($student->eligibleElectiveCourses as $cc=>$ec) {
+                    $out.= $cc.": ".$ec."<br />";
+                }
+                $out = rtrim($out, "<br />");
+                echo $out;
+            @endphp</div>
+        </p>
+
         @endif
         <div class="mt-4 space-x-2">
             <a href="{{ route('students.index') }}">{{ __('Back') }}</a>

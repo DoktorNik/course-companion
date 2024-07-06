@@ -17,8 +17,11 @@
                         <div>
                             <span class="font-bold text-lg">{{ $course->courseCode }}: {{$course->courseName}}</span>
                             <span class="ml-1.5 text-gray-700">{{ $course->courseDuration }}</span>
-                            <small class="ml-2 text-sm text-gray-600">{{ $course->coursePrereqCredits }} credits required</small>
                         </div>
+                    </div>
+                    <div>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->coursePrereqCredits }} credits required</small>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->coursesMajorPrereqCredits }} major credits required</small>
                     </div>
                 </div>
             </div>

@@ -192,7 +192,7 @@ class StudentController extends Controller
                 $course = Course::where('courseCode', $coursesCompleted)->first();
 
                 if (!is_null($course)) {
-                    if ($course->major == $student->major) {
+                    if ($course->requiredByMajor == $student->major) {
                         $student->majorCreditsCompleted += $count;
                     }
                 }
@@ -206,7 +206,8 @@ class StudentController extends Controller
     private function updateEligibleCourses(Student $student): void
     {
         // reset list of eligible courses
-        $student->eligibleCourses = array();
+        $student->eligibleRequiredCourses = array();
+        $student->eligibleElectiveCourses = array();
 
         $courses = Course::all();
 
@@ -268,7 +269,13 @@ class StudentController extends Controller
 
             //dd($course->courseName);
             // all checks passed, so add it to as eligible
-            $student->eligibleCourses = Arr::add($student->eligibleCourses, $course->courseCode, $course->courseName);
+            // does the course major match the student major
+            if ($course->requiredByMajor == $student->major) {
+                $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $course->courseName);
+            }
+            else {
+                $student->eligibleElectiveCourses = Arr::add($student->eligibleElectiveCourses, $course->courseCode, $course->courseName);
+            }
         }
     }
 

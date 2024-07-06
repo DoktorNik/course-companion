@@ -59,6 +59,8 @@ class CourseController extends Controller
             'courseDuration' => 'required|string|max:4',
             'coursePrereqCredits' => 'nullable|numeric|max:20',
             'courseName' => 'required|string|max:255',
+            'requiredByMajor' => 'required|string|min:4',
+            'coursesMajorPrereqCredits' => 'numeric|max:20',
         ]);
 
         // explode prereqs in to array
@@ -110,6 +112,8 @@ class CourseController extends Controller
             'courseDuration' => 'required|string|max:4',
             'coursePrereqCredits' => 'nullable|numeric|max:20',
             'courseName' => 'required|string|max:255',
+            'requiredByMajor' => 'required|string|min:4',
+            'coursesMajorPrereqCredits' => 'numeric|max:20',
         ]);
 
         // explode prereqs in to array

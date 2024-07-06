@@ -50,12 +50,36 @@
                     >
                 </div>
                 <div>
+                    Required By Major
+                    <input
+                        type = "text"
+                        name = "requiredByMajor"
+                        placeholder = "{{__('COSC')}}"
+                        value = "{{ old('requiredByMajor', $course->requiredByMajor) }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+            </div>
+            <div class="mt-2 flex justify-between w-full">
+                <div class="w-full">
                     Required Credits
                     <input
                         type = "text"
                         name = "coursePrereqCredits"
                         placeholder = "{{__('2') }}"
                         value = "{{ old('coursePrereqCredits', $course->coursePrereqCredits) }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class = "pl-1 w-full">
+                    Required Major Credits
+                    <input
+                        type = "text"
+                        name = "coursesMajorPrereqCredits"
+                        placeholder = "{{__('1') }}"
+                        value = "{{ old('coursesMajorPrereqCredits', $course->coursesMajorPrereqCredits) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
