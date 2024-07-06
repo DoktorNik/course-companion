@@ -196,7 +196,7 @@ class StudentController extends Controller
                 $course = Course::where('courseCode', $coursesCompleted)->first();
 
                 if (!is_null($course)) {
-                    if ($course->requiredByMajor == $student->major) {
+                    if ($course->requiredByMajor == $student->major || Str::substr($course->courseCode, 0,4) == $student->major) {
                         $majorCreditsCompleted += $count;
                     }
                 }
