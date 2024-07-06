@@ -28,10 +28,8 @@
         </div>
         <p class = "mt-2">
             Prerequisite Courses
-            <textarea readonly
-                      id="taArray"
-                      name="coursePrereqs"
-                      class="h-auto block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            <div
+                class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
                 if(!is_null($course->coursePrereqs)) {
                     $out = "";
@@ -41,7 +39,9 @@
                     $out = substr($out, 0, -1);
                     echo $out;
                 }
-                @endphp</textarea>
+                if($out == "")
+                    echo "None";
+                @endphp</div>
         </p>
         @endif
         <div class="mt-4 space-x-2">

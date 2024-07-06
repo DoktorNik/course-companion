@@ -75,6 +75,8 @@
                     $out.= $cc.": ".$ec."<br />";
                 }
                 $out = rtrim($out, "<br />");
+                if($out == "")
+                    $out = "None";
                 echo $out;
             @endphp</div>
         </p>

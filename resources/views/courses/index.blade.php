@@ -6,26 +6,32 @@
 </head>
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Courses') }}
-        </h2>
+        <div class="flex justify-between w-full">
+            <div class="w-full">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Courses') }}
+                </h2>
+            </div>
+            <div class = "flex w-full justify-end">
+                <form method="POST" action="{{ route('courses.findCourse') }}">
+                @csrf
+                @method('GET')
+                <div class="flex">
+                    <input
+                        type = "text"
+                        name="courseCode"
+                        placeholder="COSC 1P02"
+                        class="block w-56 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                    <x-primary-button class="ml-1">
+                        Lookup
+                    </x-primary-button>
+                </div>
+                </form>
+            </div>
+        </div>
     </x-slot>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form method="POST" action="{{ route('courses.findCourse') }}">
-            @csrf
-            @method('GET')
-            <div class="flex justify-between mb-3">
-                <input
-                    type = "text"
-                    name="courseCode"
-                    placeholder="COSC 1P02"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >
-                <x-primary-button class="ml-1">
-                    Lookup
-                </x-primary-button>
-            </div>
-        </form>
         @can('create', \App\Models\Course::class)
         <div class="font-bold text-lg mb-3">Add New Course</div>
         <form method="POST" action="{{ route('courses.store') }}">
