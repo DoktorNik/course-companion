@@ -230,7 +230,8 @@ class StudentController extends Controller
             }
 
             // skip if we don't meet required credit count
-            if ($student->creditsCompleted < $course->coursePrereqCredits) {
+
+            if ($student->creditsCompleted < $course->prereqCredits || $student->majorCreditsCompleted < $course->prereqMajorCredits) {
                 continue;
             }
 
@@ -241,6 +242,7 @@ class StudentController extends Controller
                 // go through the required prereqs
                 foreach ($course->coursePrereqs as $coursePrereq=>$coursePrereqName) {
 
+                    // override for a course most people aren't actually required to take
                     if ($coursePrereq == "MATH 1P20")
                         continue;
 

@@ -13,8 +13,8 @@ class Course extends Model
     protected $fillable = [
         'courseCode',
         'courseDuration',
-        'coursePrereqCredits',
-        'coursesMajorPrereqCredits',
+        'prereqCredits',
+        'prereqMajorCredits',
         'courseName',
         'coursePrereqs',
         'elective',

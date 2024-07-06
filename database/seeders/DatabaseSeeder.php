@@ -28,7 +28,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 1P02',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Introduction to Computer Science',
         ]);
 
@@ -38,7 +38,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 1P03',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Introduction to Data Structures',
             'coursePrereqs' => $prereq,
         ]);
@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 1P03',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Introduction to Data Structures',
             'coursePrereqs' => $prereq,
         ]);
@@ -54,21 +54,21 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 1P50',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Integrity & Literacy in the Information Age',
         ]);
 
         Course::factory()->create([
             'courseCode' => 'COSC 1P50',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Integrity & Literacy in the Information Age',
         ]);
 
         Course::factory()->create([
             'courseCode' => 'COSC 1P71',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Essentials of Artificial Intelligence',
         ]);
 
@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P66',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Mathematical Reasoning',
             'coursePrereqs' => $prereq,
         ]);
@@ -89,7 +89,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P66',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Mathematical Reasoning',
             'coursePrereqs' => $prereq,
         ]);
@@ -97,7 +97,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P67',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Mathematics for Computer Science',
         ]);
 
@@ -109,7 +109,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P03',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Advanced Data Structures',
             'coursePrereqs' => $prereq,
         ]);
@@ -120,7 +120,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P05',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Programming Languages',
             'coursePrereqs' => $prereq,
         ]);
@@ -131,7 +131,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P08',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Programming for Big Data',
             'coursePrereqs' => $prereq,
         ]);
@@ -142,7 +142,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P12',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Introduction to Computer Architecture',
             'coursePrereqs' => $prereq,
         ]);
@@ -153,7 +153,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P13',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Introduction to Operating Systems',
             'coursePrereqs' => $prereq,
         ]);
@@ -164,7 +164,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P89',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Internet Technologies',
             'coursePrereqs' => $prereq,
         ]);
@@ -175,7 +175,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 2P95',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Programming in C++ with Applications',
             'coursePrereqs' => $prereq,
         ]);
@@ -186,7 +186,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P12',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Applied Linear Algebra',
             'coursePrereqs' => $prereq,
         ]);
@@ -197,7 +197,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'STAT 1P98',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Practical Statistics',
             'coursePrereqs' => $prereq,
         ]);
@@ -205,7 +205,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'STAT 1P98',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Practical Statistics',
             'coursePrereqs' => $prereq,
         ]);
@@ -217,7 +217,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P01',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Computer Networking',
             'coursePrereqs' => $prereq,
         ]);
@@ -228,7 +228,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P03',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Algorithms',
             'coursePrereqs' => $prereq,
         ]);
@@ -239,7 +239,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P32',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Database Systems',
             'coursePrereqs' => $prereq,
         ]);
@@ -250,7 +250,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P71',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Artificial Intelligence',
             'coursePrereqs' => $prereq,
         ]);
@@ -258,7 +258,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P91',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 2,
+            'prereqCredits' => 2,
             'courseName' => 'Advanced Object-Oriented Programming',
         ]);
 
@@ -268,7 +268,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P93',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Parallel Computing',
             'coursePrereqs' => $prereq,
         ]);
@@ -276,7 +276,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P94',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 2,
+            'prereqCredits' => 2,
             'courseName' => 'Human Computer Interaction',
         ]);
 
@@ -286,7 +286,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P96',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Machine Learning',
             'coursePrereqs' => $prereq,
         ]);
@@ -298,7 +298,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P97',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Mobile Computing',
             'coursePrereqs' => $prereq,
         ]);
@@ -309,7 +309,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P99',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Computing Project',
             'coursePrereqs' => $prereq,
         ]);
@@ -317,7 +317,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P99',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Computing Project',
             'coursePrereqs' => $prereq,
         ]);
@@ -328,7 +328,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3Q95',
             'courseDuration' => 'D1',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Internship in Game Programming',
             'coursePrereqs' => $prereq,
         ]);
@@ -336,7 +336,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3Q95',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Internship in Game Programming',
             'coursePrereqs' => $prereq,
         ]);
@@ -347,7 +347,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P05',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Applied Calculus I',
             'coursePrereqs' => $prereq,
         ]);
@@ -355,7 +355,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P05',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Applied Calculus I',
             'coursePrereqs' => $prereq,
         ]);
@@ -366,7 +366,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'MATH 1P06',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Applied Calculus II',
             'coursePrereqs' => $prereq,
         ]);
@@ -377,7 +377,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4F90',
             'courseDuration' => 'D1',
-            'coursePrereqCredits' => 10,
+            'prereqCredits' => 10,
             'courseName' => 'Computing Project',
             'coursePrereqs' => $prereq,
         ]);
@@ -385,7 +385,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4F90',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 10,
+            'prereqCredits' => 10,
             'courseName' => 'Computing Project',
             'coursePrereqs' => $prereq,
         ]);
@@ -397,7 +397,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P01',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 14,
+            'prereqCredits' => 14,
             'courseName' => 'Software Engineering 1',
             'coursePrereqs' => $prereq,
         ]);
@@ -408,7 +408,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P02',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 14,
+            'prereqCredits' => 14,
             'courseName' => 'Software Engineering 2',
             'coursePrereqs' => $prereq,
         ]);
@@ -419,7 +419,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P03',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Advanced Algorithms',
             'coursePrereqs' => $prereq,
         ]);
@@ -427,7 +427,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P41',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 3.5,
+            'prereqMajorCredits' => 3.5,
             'courseName' => 'Functional Programming',
         ]);
 
@@ -437,7 +437,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P42',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 3.5,
+            'prereqMajorCredits' => 3.5,
             'courseName' => 'Formal Methods in Software Engineering',
             'coursePrereqs' => $prereq,
         ]);
@@ -445,7 +445,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P50',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 3.5,
+            'prereqMajorCredits' => 3.5,
             'courseName' => 'Introduction to Cyber Security',
         ]);
 
@@ -455,7 +455,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P61',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 3.5,
+            'prereqMajorCredits' => 3.5,
             'courseName' => 'Theory of Computation',
             'coursePrereqs' => $prereq,
         ]);
@@ -468,7 +468,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P78',
             'courseDuration' => 'D3',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Robotics',
             'coursePrereqs' => $prereq,
         ]);
@@ -479,7 +479,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 4P80',
             'courseDuration' => 'D2',
-            'coursePrereqCredits' => 0,
+            'prereqCredits' => 0,
             'courseName' => 'Artificial Neural Networks',
             'coursePrereqs' => $prereq,
         ]);

@@ -86,9 +86,9 @@
                     Required Credits
                     <input
                         type = "text"
-                        name = "coursePrereqCredits"
+                        name = "prereqCredits"
                         placeholder = "{{__('2') }}"
-                        value = "{{ old('coursePrereqCredits') }}"
+                        value = "{{ old('prereqCredits') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -97,9 +97,9 @@
                     Required Major Credits
                     <input
                         type = "text"
-                        name = "coursesMajorPrereqCredits"
+                        name = "prereqMajorCredits"
                         placeholder = "{{__('1') }}"
-                        value = "{{ old('coursesMajorPrereqCredits') }}"
+                        value = "{{ old('prereqMajorCredits') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >

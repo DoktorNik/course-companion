@@ -20,8 +20,8 @@
                         </div>
                     </div>
                     <div>
-                        <small class="ml-2 text-sm text-gray-600">{{ $course->coursePrereqCredits }} credits required</small>
-                        <small class="ml-2 text-sm text-gray-600">{{ $course->coursesMajorPrereqCredits }} major credits required</small>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCredits }} credits required</small>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqMajorCredits }} major credits required</small>
                     </div>
                 </div>
             </div>
@@ -31,8 +31,8 @@
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
+                $out = "";
                 if(!is_null($course->coursePrereqs)) {
-                    $out = "";
                     foreach($course->coursePrereqs as $cc=>$cn) {
                         $out.= $cc.": ".$cn."&#013;";
                     }
@@ -41,7 +41,7 @@
                 }
                 if($out == "")
                     echo "None";
-                @endphp</div>
+            @endphp</div>
         </p>
         @endif
         <div class="mt-4 space-x-2">
