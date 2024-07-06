@@ -46,7 +46,8 @@ class StudentController extends Controller
             'studentName' => 'required|string|max:255',
             'studentNumber' => 'required|numeric|digits:7',
             'major' => 'required|string|max:4',
-            'coursesCompleted' => 'nullable|string'
+            'coursesCompleted' => 'nullable|string',
+            'concentration' => 'string|nullable|max:255',
         ]);
 
         if ($validated['coursesCompleted']) {
@@ -147,6 +148,7 @@ class StudentController extends Controller
             'studentName' => 'required|string|max:255',
             'studentNumber' => 'required|numeric|digits:7',
             'major' => 'required|string|max:4',
+            'concentration' => 'string|nullable|max:255',
         ]);
         $student->update($validated);
 
@@ -211,19 +213,16 @@ class StudentController extends Controller
         $student->eligibleRequiredCourses = array();
         $student->eligibleElectiveMajorCourses = array();
         $student->eligibleElectiveNonMajorCourses = array();
+        $student->eligibleConcentrationCourses = array();
 
         $courses = Course::all();
 
         // go through each course
         foreach ($courses as $course) {
 
-//            if ($course->courseCode == "COSC 1P03")
-//                dd($course->coursePrereqs);
-
             // skip if course is already completed
             if ($student->coursesCompleted) {
                 foreach ($student->coursesCompleted as $courseCompleted) {
-                    //dd($course->courseName, $courseCompleted);
                     if ($course->courseCode == $courseCompleted)
                         continue 2;
                 }
@@ -238,7 +237,6 @@ class StudentController extends Controller
             // if there are prereqs
             //if ($course->coursePrereqs[0] != "") {  // why is this always an array instead of null like the others? *cries*
             if ($course->coursePrereqs) {
-                //dd($course->coursePrereqs);
                 // go through the required prereqs
                 foreach ($course->coursePrereqs as $coursePrereq=>$coursePrereqName) {
 
@@ -254,16 +252,11 @@ class StudentController extends Controller
                         foreach ($student->coursesCompleted as $courseCompleted) {
 
                             // set it to completed if there's a match
-//                            if($course->courseCode == "COSC 1P03")
-//                                dd($courseCompleted, $coursePrereq);
                             if ($courseCompleted == $coursePrereq) {
                                 $completed = true;
                                 break;
                             }
                         }
-
-                     //   dd($completed, $student->coursesCompleted);
-
                     }
                     // if it hasn't been completed, skip this course
                     if (!$completed) {
@@ -272,19 +265,32 @@ class StudentController extends Controller
                 }
             }
 
-            //dd($course->courseName);
             // all checks passed, so add it to as eligible
             // does the required major match the student major
             if ($course->requiredByMajor == $student->major) {
                 $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $course->courseName);
             }
             else {
-                //elective, but major or not?
-                if(substr($course->courseCode,0,4) == $student->major) {
-                    $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->courseCode, $course->courseName);
+                // is it a concentration course?
+                $concentration = false;
+
+                // loop through each concentration this course is a part of to check
+                if (is_array($course->concentration)) {
+                    foreach ($course->concentration as $concentration) {
+                        if ($student->concentration == $concentration)
+                            $concentration = true;
+                    }
                 }
+
+                // mark course as eligible as appropriate
+                if ($concentration)
+                    $student->eligibleConcentrationCourses = Arr::add($student->eligibleConcentrationCourses, $course->courseCode, $course->courseName);
                 else {
-                    $student->eligibleElectiveNonMajorCourses = Arr::add($student->eligibleElectiveNonMajorCourses, $course->courseCode, $course->courseName);
+                    if (substr($course->courseCode, 0, 4) == $student->major) {
+                        $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->courseCode, $course->courseName);
+                    } else {
+                        $student->eligibleElectiveNonMajorCourses = Arr::add($student->eligibleElectiveNonMajorCourses, $course->courseCode, $course->courseName);
+                    }
                 }
             }
         }

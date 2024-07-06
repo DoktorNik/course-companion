@@ -23,26 +23,39 @@
                         <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCredits }} credits required</small>
                         <small class="ml-2 text-sm text-gray-600">{{ $course->prereqMajorCredits }} major credits required</small>
                     </div>
+                    @if(is_array($course->concentration))
+                    <div>
+                        <small class="ml-2 text-sm text-gray-600">
+                            <b>{{ __('Concentrations: ') }}</b>
+                            @foreach($course->concentration as $conc)
+                                {{ $conc }}
+                                @if($loop->remaining > 0)
+                                    {{ __(', ')}}
+                                @endif
+                            @endforeach
+                        </small>
+                    </div>
+                    @endif
                 </div>
             </div>
         </div>
-        <p class = "mt-2">
+        <div class = "mt-2">
             Prerequisite Courses
-            <div
-                class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
                 $out = "";
                 if(!is_null($course->coursePrereqs)) {
                     foreach($course->coursePrereqs as $cc=>$cn) {
-                        $out.= $cc.": ".$cn."&#013;";
+                        $out.= $cc.": ".$cn."<br />";
                     }
                     $out = substr($out, 0, -1);
                     echo $out;
                 }
                 if($out == "")
                     echo "None";
-            @endphp</div>
-        </p>
+            @endphp
+            </div>
+        </div>
         @endif
         <div class="mt-4 space-x-2">
             <a href="{{ route('courses.index') }}">{{ __('< Courses') }}</a>

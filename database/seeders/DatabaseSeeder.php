@@ -258,7 +258,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P91',
             'courseDuration' => 'D3',
-            'prereqCredits' => 2,
+            'prereqMajorCredits' => 2,
             'courseName' => 'Advanced Object-Oriented Programming',
         ]);
 
@@ -276,7 +276,7 @@ class DatabaseSeeder extends Seeder
         Course::factory()->create([
             'courseCode' => 'COSC 3P94',
             'courseDuration' => 'D3',
-            'prereqCredits' => 2,
+            'prereqMajorCredits' => 2,
             'courseName' => 'Human Computer Interaction',
         ]);
 

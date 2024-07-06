@@ -17,7 +17,7 @@ class Course extends Model
         'prereqMajorCredits',
         'courseName',
         'coursePrereqs',
-        'elective',
+        'concentration',
         'requiredByMajor',
     ];
 
@@ -25,6 +25,7 @@ class Course extends Model
     {
         return [
             'coursePrereqs' => 'array',
+            'concentration' => 'array',
         ];
     }
 

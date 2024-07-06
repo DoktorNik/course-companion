@@ -57,7 +57,6 @@
                         placeholder = "{{__('COSC')}}"
                         value = "{{ old('requiredByMajor', $course->requiredByMajor) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                        required
                     >
                 </div>
             </div>
@@ -106,10 +105,10 @@
                         placeholder = "{{__('COSC 1P02')}}"
                         class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken', 'taArray')">
                         {{ __('Add') }}
                     </x-primary-button>
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken', 'taArray')">
                         {{ __('Remove') }}
                     </x-primary-button>
                 </div>
@@ -119,11 +118,33 @@
                       name="coursePrereqs"
                       class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >{{ old('coursePrereqs') }}@if(!old('coursePrereqs') && $course->coursePrereqs)@foreach($course->coursePrereqs as $cc=>$cp){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
-            <div class="mt-4 space-x-2">
-                <x-primary-button>{{ __('Update') }}</x-primary-button>
-                <a href="{{ route('courses.index') }}">{{ __('Cancel') }}</a>
+            <div class = "mt-2">
+                Concentrations
+                <div class="flex flex-nowrap w-full">
+                    <input
+                        id = "txtToken2"
+                        type = "text"
+                        name = "concentrationToken"
+                        placeholder = "{{__('Artificial Intelligence')}}"
+                        class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken2', 'taArray2')">
+                        {{ __('Add') }}
+                    </x-primary-button>
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken2', 'taArray2')">
+                        {{ __('Remove') }}
+                    </x-primary-button>
+                </div>
             </div>
+            <textarea readonly
+                      id="taArray2"
+                      name="concentration"
+                      class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >{{ old('concentration') }}@if(!old('concentration') && $course->concentration)@foreach($course->concentration as $cc){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
+        <div class="mt-4 space-x-2">
+            <x-primary-button>{{ __('Update') }}</x-primary-button>
+            <a href="{{ route('courses.index') }}">{{ __('Cancel') }}</a>
+        </div>
         </form>
-
     </div>
 </x-app-layout>

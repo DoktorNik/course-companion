@@ -58,6 +58,16 @@
                         required
                     >
                 </div>
+                <div class="pl-1 w-full">
+                    Concentration
+                    <input
+                        type = "text"
+                        name = "concentration"
+                        placeholder= "{{__('Artificial Intelligence') }}"
+                        value = "{{ old('concentration', $student->concentration) }}"
+                        class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
             </div>
             <div class = "mt-2">
                 Completed Courses
@@ -69,10 +79,10 @@
                         placeholder = "{{__('COSC 1P02')}}"
                         class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken', 'taArray')">
                         {{ __('Add') }}
                     </x-primary-button>
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken', 'taArray')">
                         {{ __('Remove') }}
                     </x-primary-button>
                 </div>

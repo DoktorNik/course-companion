@@ -18,6 +18,7 @@ class Student extends Model
         'coursesCompleted',
         'eligibleCourses',
         'creditsCompleted',
+        'concentration',
     ];
 
     protected $casts = [
@@ -25,6 +26,7 @@ class Student extends Model
         'eligibleRequiredCourses' => 'array',
         'eligibleElectiveMajorCourses' => 'array',
         'eligibleElectiveNonMajorCourses' => 'array',
+        'eligibleConcentrationCourses' =>'array',
     ];
 
     /*

@@ -17,9 +17,17 @@
                             <div>
                                 <span class="font-bold text-lg">{{ $student->studentName }}</a></span>
                                 <span class="ml-1.5 text-gray-700">{{ $student->studentNumber }}</span>
-                                <span class="ml-3.5 text-gray-700">{{ $student->major }} {{ __(' Major') }}</span>
+                                <span class="ml-3.5 text-gray-700">{{ $student->major }} {{ __('major') }}</span>
                             </div>
                         </div>
+                        <div class="flex justify-between items-center">
+                            @if(!is_null($student->concentration))
+                                <span class="ml-5 text-gray-700">{{ __('Concentration in ') }}{{ $student->concentration }}</span>
+                            @else
+                                <span class="ml-5 text-gray-700">{{ __('No concentration') }}</span>
+                            @endif
+                        </div>
+
                     </div>
                 </div>
         </div>
@@ -50,7 +58,7 @@
                 class="h-auto block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@foreach($student->coursesCompleted as $cc){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach</textarea>
         </p>
-        <p class = "mt-2">
+        <div class = "mt-2">
             Eligible Courses Required by Major
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
@@ -63,12 +71,27 @@
                 $out = rtrim($out, "<br />");
                 echo $out;
                 @endphp</div>
-        </p>
-        <p class = "mt-2">
+        </div>
+        @if(is_array($student->eligibleConcentrationCourses))
+        <div class = "mt-2">
+            Eligible Courses in Concentration
+            <div
+                class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >@php
+                    // concentration
+                    $out = "";
+                    foreach($student->eligibleConcentrationCourses as $cc=>$ec) {
+                        $out.= $cc.": ".$ec."<br />";
+                    }
+                    $out = rtrim($out, "<br />");
+                    echo $out;
+                @endphp</div>
+        </div>
+        @endif
+        <div class = "mt-2">
             Eligible Major Elective Courses
-        <div
-            class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-        >@php
+            <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >@php
                 // major electives
                 $out = "";
                 foreach($student->eligibleElectiveMajorCourses as $cc=>$ec) {
@@ -79,24 +102,23 @@
                     $out = "None";
                 echo $out;
             @endphp</div>
-        </p>
-            <p class = "mt-2">
-                Eligible Non-Major Elective Courses
-            <div
-                class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >@php
-                    // non-major electives
-                    $out = "";
-                    foreach($student->eligibleElectiveNonMajorCourses as $cc=>$ec) {
-                        $out.= $cc.": ".$ec."<br />";
-                    }
-                    $out = rtrim($out, "<br />");
-                    if($out == "")
-                        $out = "None";
-                    echo $out;
-                @endphp</div>
-            </p>
-
+        </div>
+        <div class = "mt-2">
+            Eligible Non-Major Elective Courses
+        <div
+            class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        >@php
+                // non-major electives
+                $out = "";
+                foreach($student->eligibleElectiveNonMajorCourses as $cc=>$ec) {
+                    $out.= $cc.": ".$ec."<br />";
+                }
+                $out = rtrim($out, "<br />");
+                if($out == "")
+                    $out = "None";
+                echo $out;
+            @endphp</div>
+        </div>
         @endif
         <div class="mt-4 space-x-2">
             <a href="{{ route('students.index') }}">{{ __('< Students') }}</a>
