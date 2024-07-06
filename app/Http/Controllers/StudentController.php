@@ -177,6 +177,7 @@ class StudentController extends Controller
     {
         // count completed credits
         $creditsCompleted = 0.0;
+        $majorCreditsCompleted = 0.00;
 
         if($student->coursesCompleted) {
             foreach ($student->coursesCompleted as $coursesCompleted) {
@@ -193,7 +194,7 @@ class StudentController extends Controller
 
                 if (!is_null($course)) {
                     if ($course->requiredByMajor == $student->major) {
-                        $student->majorCreditsCompleted += $count;
+                        $majorCreditsCompleted += $count;
                     }
                 }
                 $creditsCompleted += $count;
@@ -201,6 +202,7 @@ class StudentController extends Controller
         }
 
         $student->creditsCompleted = $creditsCompleted;
+        $student->majorCreditsCompleted = $majorCreditsCompleted;
     }
 
     private function updateEligibleCourses(Student $student): void
