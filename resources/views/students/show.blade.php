@@ -33,7 +33,7 @@
         </div>
         <div class="mt-2 flex justify-between w-full">
             <div class="w-full">
-                Credits Completed
+                <p class="font-bold">Credits Completed</p>
                 <input readonly
                    type="text"
                    name="creditsCompleted"
@@ -42,7 +42,7 @@
                 >
             </div>
             <div class="pl-1 w-full">
-                Major Credits Completed
+                <p class="font-bold">Major Credits Completed</p>
                 <input readonly
                    type="text"
                    name="majorCreditsCompleted"
@@ -51,15 +51,15 @@
                 >
             </div>
         </div>
-        <p class = "mt-2">
-            Completed Courses
+        <div class = "mt-2">
+            <p class="font-bold">Completed Courses</p>
             <textarea readonly
                 name="coursesCompleted"
                 class="h-auto block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@foreach($student->coursesCompleted as $cc){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach</textarea>
-        </p>
+        </div>
         <div class = "mt-2">
-            Eligible Courses Required by Major
+            <p class="font-bold">Eligible Courses Required by Major</p>
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
@@ -74,7 +74,7 @@
         </div>
         @if(is_array($student->eligibleConcentrationCourses))
         <div class = "mt-2">
-            Eligible Courses in Concentration
+            <p class="font-bold">Eligible Courses in Concentration</p>
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
@@ -84,12 +84,14 @@
                         $out.= $cc.": ".$ec."<br />";
                     }
                     $out = rtrim($out, "<br />");
+                    if ($out == "")
+                        $out = "None";
                     echo $out;
                 @endphp</div>
         </div>
         @endif
         <div class = "mt-2">
-            Eligible Major Elective Courses
+            <p class="font-bold">Eligible Major Elective Courses</p>
             <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
                 // major electives
@@ -104,7 +106,7 @@
             @endphp</div>
         </div>
         <div class = "mt-2">
-            Eligible Non-Major Elective Courses
+            <p class="font-bold">Eligible Non-Major Elective Courses</p>
         <div
             class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         >@php

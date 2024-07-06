@@ -25,8 +25,8 @@
                     </ul>
                 </div>
             @endif
-            <p class="mt-2">
-                Student Name
+            <div class="mt-2">
+                <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
                     name = "studentName"
@@ -34,10 +34,10 @@
                     value = "{{ old('studentName', $student->studentName) }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >
-            </p>
+            </div>
             <div class="mt-2 flex justify-between w-full">
                 <div class="w-full">
-                    Student Number
+                    <p class="font-bold">Student Number</p>
                     <input
                         type = "text"
                         name = "studentNumber"
@@ -48,7 +48,7 @@
                     >
                 </div>
                 <div class="pl-1 w-full">
-                    Major
+                    <p class="font-bold">Major</p>
                     <input
                         type = "text"
                         name = "major"
@@ -59,7 +59,7 @@
                     >
                 </div>
                 <div class="pl-1 w-full">
-                    Concentration
+                    <p class="font-bold">Concentration</p>
                     <input
                         type = "text"
                         name = "concentration"
@@ -70,7 +70,7 @@
                 </div>
             </div>
             <div class = "mt-2">
-                Completed Courses
+                <p class="font-bold">Completed Courses</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken"

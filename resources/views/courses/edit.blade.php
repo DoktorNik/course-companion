@@ -28,7 +28,7 @@
 
             <div class="mt-2 flex justify-between">
                 <div>
-                    Code
+                    <p class="font-bold">Code</p>
                     <input
                         type = "text"
                         name = "courseCode"
@@ -39,7 +39,7 @@
                     >
                 </div>
                 <div>
-                    Duration
+                    <p class="font-bold">Duration</p>
                     <input
                         type = "text"
                         name = "courseDuration"
@@ -50,7 +50,7 @@
                     >
                 </div>
                 <div>
-                    Required By Major
+                    <p class="font-bold">Required By Major</p>
                     <input
                         type = "text"
                         name = "requiredByMajor"
@@ -62,7 +62,7 @@
             </div>
             <div class="mt-2 flex justify-between w-full">
                 <div class="w-full">
-                    Required Credits
+                    <p class="font-bold">Required Credits</p>
                     <input
                         type = "text"
                         name = "prereqCredits"
@@ -73,7 +73,7 @@
                     >
                 </div>
                 <div class = "pl-1 w-full">
-                    Required Major Credits
+                    <p class="font-bold">Required Major Credits</p>
                     <input
                         type = "text"
                         name = "prereqMajorCredits"
@@ -84,8 +84,8 @@
                     >
                 </div>
             </div>
-            <p class="mt-2">
-            Course Name
+            <div class="mt-2">
+                <p class="font-bold">Course Name</p>
                 <input
                     type = "text"
                     name = "courseName"
@@ -94,9 +94,9 @@
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
-            </p>
+            </div>
             <div class = "mt-2">
-                Prerequisite Courses
+                <p class="font-bold">Prerequisite Courses</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken"
@@ -119,7 +119,7 @@
                       class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >{{ old('coursePrereqs') }}@if(!old('coursePrereqs') && $course->coursePrereqs)@foreach($course->coursePrereqs as $cc=>$cp){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
             <div class = "mt-2">
-                Concentrations
+                <p class="font-bold">Concentrations</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken2"

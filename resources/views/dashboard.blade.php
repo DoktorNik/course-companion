@@ -8,19 +8,20 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
+                <div class="p-6">
+                    <p class="font-bold text-xl">{{ __("Welcome to the course companion!") }}</p>
+                    <p class="italic ml-3">{{ __("Proudly brought to you by the Computer Science Club") }}</p>
                 </div>
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
-                    1) <a href="{{ route('students.index') }}">Add or update your student information on the <i>Students</i> page.</a><br />
-                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Don't worry it's private!
+                    <p>1) <a href="{{ route('students.index') }}">Add or update your student information on the <i>Students</i> page.</a></p>
+                    <p class="ml-4">Don't worry it's private!</p>
                 </div>
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
-                    2) Lookup your student number to see available courses.
+                    <p>2) Lookup your student number to see available courses.</p>
                     <form method="POST" action="{{ route('students.findStudent') }}">
                         @csrf
                         @method('GET')
@@ -41,7 +42,7 @@
             @can('create', \App\Models\Course::class)
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
-                    3) <a href="{{ route('courses.index') }}">Academic advisors can add, edit, and delete <i>courses</i> on the <i>courses</i> page.</a>
+                    <p>* <a href="{{ route('courses.index') }}">Academic advisors can add, edit, and delete <i>courses</i> on the <i>courses</i> page.</a></p>
                 </div>
             </div>
             @endcan

@@ -40,15 +40,15 @@
             </div>
         </div>
         <div class = "mt-2">
-            Prerequisite Courses
+            <p class="font-bold">Prerequisite Courses</p>
             <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
                 $out = "";
                 if(!is_null($course->coursePrereqs)) {
                     foreach($course->coursePrereqs as $cc=>$cn) {
-                        $out.= $cc.": ".$cn."<br />";
+                        $out.= $cn.", ";
                     }
-                    $out = substr($out, 0, -1);
+                    $out = substr($out, 0, -2);
                     echo $out;
                 }
                 if($out == "")

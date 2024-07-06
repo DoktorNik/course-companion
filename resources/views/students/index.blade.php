@@ -46,8 +46,8 @@
                     </ul>
                 </div>
             @endif
-            <p class = "mt-2">
-                Student Name
+            <div class = "mt-2">
+            <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
                     name = "studentName"
@@ -56,10 +56,10 @@
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
-            </p>
+            </div>
             <div class="mt-2 flex justify-between w-full">
                 <div class="w-full">
-                    Student Number
+                    <p class="font-bold">Student Number</p>
                     <input
                         type = "text"
                         name = "studentNumber"
@@ -70,7 +70,7 @@
                     >
                 </div>
                 <div class="pl-1 w-full">
-                    Major
+                    <p class="font-bold">Major</p>
                     <input
                         type = "text"
                         name = "major"
@@ -81,7 +81,7 @@
                     >
                 </div>
                 <div class="pl-1 w-full">
-                    Concentration
+                    <p class="font-bold">Concentration</p>
                     <input
                         type = "text"
                         name = "concentration"
@@ -92,7 +92,7 @@
                 </div>
             </div>
             <div class = "mt-2">
-                Completed Courses
+                <p class="font-bold">Completed Courses</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken"
@@ -126,7 +126,7 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="text-gray-900"><a href="{{ route('students.show', $student) }}">{{ $student->studentName }}</a></span>
+                                <span class="font-bold"><a href="{{ route('students.show', $student) }}">{{ $student->studentName }}</a></span>
                                 @can('update', $student)
                                     <small class="ml-2 text-sm text-gray-600"><a href="{{ route('students.show', $student) }}">{{ $student->studentNumber }}</a></small>
                                 @endcan
