@@ -62,6 +62,7 @@ class CourseController extends Controller
             'requiredByMajor' => 'nullable|string|min:4',
             'prereqMajorCredits' => 'numeric|max:20',
             'concentration' => 'string|nullable|max:255',
+            'minimumGrade' => 'numeric|nullable|min:50|max:100',
         ]);
 
         // explode in to array
@@ -116,6 +117,7 @@ class CourseController extends Controller
             'requiredByMajor' => 'nullable|string|min:4',
             'prereqMajorCredits' => 'numeric|max:20',
             'concentration' => 'string|nullable|max:255',
+            'minimumGrade' => 'numeric|nullable|min:50|max:100',
         ]);
 
         // explode in to array

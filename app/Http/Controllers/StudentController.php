@@ -229,10 +229,11 @@ class StudentController extends Controller
             }
 
             // skip if we don't meet required credit count
-
             if ($student->creditsCompleted < $course->prereqCredits || $student->majorCreditsCompleted < $course->prereqMajorCredits) {
                 continue;
             }
+
+
 
             // if there are prereqs
             //if ($course->coursePrereqs[0] != "") {  // why is this always an array instead of null like the others? *cries*
@@ -248,11 +249,15 @@ class StudentController extends Controller
                     $completed = false;
 
                     if ($student->coursesCompleted) {
+
                         // go through each course completed by the student
                         foreach ($student->coursesCompleted as $courseCompleted) {
 
+//                            if ($course->courseCode == "COSC 1P03")
+//                                dd($course, $courseCompleted, $coursePrereqName);
+
                             // set it to completed if there's a match
-                            if ($courseCompleted == $coursePrereq) {
+                            if ($courseCompleted == $coursePrereqName) {
                                 $completed = true;
                                 break;
                             }
@@ -265,10 +270,13 @@ class StudentController extends Controller
                 }
             }
 
+//            if ($course->courseCode == "COSC 1P03")
+//                dd($course);
+
             // all checks passed, so add it to as eligible
             // does the required major match the student major
             if ($course->requiredByMajor == $student->major) {
-                $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $course->courseName);
+                $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $this->addAsteriskToCourseWithMinimumGrade($course->courseName));
             }
             else {
                 // is it a concentration course?
@@ -300,5 +308,19 @@ class StudentController extends Controller
     {
         $this->updateCreditsCompleted($student);
         $this->updateEligibleCourses($student);
+    }
+
+    private function addAsteriskToCourseWithMinimumGrade($courseName): string
+    {
+        $course = Course::where('courseName', $courseName)->first();
+//        if ($course->courseCode == "COSC 1P03")
+//            dd($course);
+
+        if ($course->minimumGrade > 0) {
+            $courseName .= " *";
+            //dd($courseName);
+        }
+
+        return $courseName;
     }
 }

@@ -23,18 +23,25 @@
                         <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCredits }} credits required</small>
                         <small class="ml-2 text-sm text-gray-600">{{ $course->prereqMajorCredits }} major credits required</small>
                     </div>
-                    @if(is_array($course->concentration))
                     <div>
-                        <small class="ml-2 text-sm text-gray-600">
-                            <b>{{ __('Concentrations: ') }}</b>
-                            @foreach($course->concentration as $conc)
-                                {{ $conc }}
-                                @if($loop->remaining > 0)
-                                    {{ __(', ')}}
-                                @endif
-                            @endforeach
-                        </small>
+                        @if($course->minimumGrade)
+                            <small class="ml-2 mt-2 text-sm text-red-600">{{ __('A minimum grade of ')}}{{ $course->minimumGrade }}{{ __('% is required to continue the program')}}</small>
+                        @endif
                     </div>
+                    @if(is_array($course->concentration))
+                        @if($course->concentration[0] != "")
+                            <div>
+                                <small class="ml-2 text-sm text-gray-600">
+                                    <b>{{ __('Concentrations: ') }}</b>
+                                    @foreach($course->concentration as $conc)
+                                        {{ $conc }}
+                                        @if($loop->remaining > 0)
+                                            {{ __(', ')}}
+                                        @endif
+                                    @endforeach
+                                </small>
+                            </div>
+                        @endif
                     @endif
                 </div>
             </div>

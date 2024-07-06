@@ -71,6 +71,7 @@
                 $out = rtrim($out, "<br />");
                 echo $out;
                 @endphp</div>
+            <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
         @if(is_array($student->eligibleConcentrationCourses))
         <div class = "mt-2">

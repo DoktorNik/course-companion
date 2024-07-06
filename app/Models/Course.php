@@ -19,6 +19,7 @@ class Course extends Model
         'coursePrereqs',
         'concentration',
         'requiredByMajor',
+        'minimumGrade',
     ];
 
     protected function casts(): array

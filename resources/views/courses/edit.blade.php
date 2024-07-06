@@ -1,4 +1,5 @@
 <head>
+    <title></title>
     @push('scripts')
         @vite(['resources/js/updateArray.js'])
     @endpush
@@ -83,6 +84,17 @@
                         required
                     >
                 </div>
+                <div class = "pl-1 w-full">
+                    <p class="font-bold">Minimum Grade</p>
+                    <input
+                        type = "text"
+                        name = "minimumGrade"
+                        placeholder = "{{__('60') }}"
+                        value = "{{ old('minimumGrade', $course->minimumGrade) }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
             </div>
             <div class="mt-2">
                 <p class="font-bold">Course Name</p>
@@ -117,7 +129,7 @@
                       id="taArray"
                       name="coursePrereqs"
                       class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('coursePrereqs') }}@if(!old('coursePrereqs') && $course->coursePrereqs)@foreach($course->coursePrereqs as $cc=>$cp){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
+            >{{ old('coursePrereqs') }}@if(!old('coursePrereqs') && $course->coursePrereqs)@foreach($course->coursePrereqs as $cc=>$cp){{$cp}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
             <div class = "mt-2">
                 <p class="font-bold">Concentrations</p>
                 <div class="flex flex-nowrap w-full">

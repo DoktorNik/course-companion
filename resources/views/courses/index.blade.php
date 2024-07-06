@@ -1,4 +1,5 @@
 <head>
+    <title></title>
     @push('scripts')
         @vite(['resources/js/updateArray.js'])
     @endpush
@@ -101,6 +102,16 @@
                         value = "{{ old('prereqMajorCredits') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
+                    >
+                </div>
+                <div class = "pl-1 w-full">
+                    <p class="font-bold">Minimum Grade</p>
+                    <input
+                        type = "text"
+                        name = "minimumGrade"
+                        placeholder = "{{__('60') }}"
+                        value = "{{ old('minimumGrade') }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
                 </div>
             </div>
