@@ -234,11 +234,10 @@ class StudentController extends Controller
                 continue;
             }
 
-
-
             // if there are prereqs
             //if ($course->coursePrereqs[0] != "") {  // why is this always an array instead of null like the others? *cries*
             if ($course->coursePrereqs) {
+
                 // go through the required prereqs
                 foreach ($course->coursePrereqs as $coursePrereq=>$coursePrereqName) {
 
@@ -254,9 +253,6 @@ class StudentController extends Controller
                         // go through each course completed by the student
                         foreach ($student->coursesCompleted as $courseCompleted) {
 
-//                            if ($course->courseCode == "COSC 1P03")
-//                                dd($course, $courseCompleted, $coursePrereqName);
-
                             // set it to completed if there's a match
                             if ($courseCompleted == $coursePrereqName) {
                                 $completed = true;
@@ -264,6 +260,7 @@ class StudentController extends Controller
                             }
                         }
                     }
+
                     // if it hasn't been completed, skip this course
                     if (!$completed) {
                         continue 2;
@@ -271,29 +268,29 @@ class StudentController extends Controller
                 }
             }
 
-//            if ($course->courseCode == "COSC 1P03")
-//                dd($course);
-
             // all checks passed, so add it to as eligible
             // does the required major match the student major
             if ($course->requiredByMajor == $student->major) {
                 $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $this->addAsteriskToCourseWithMinimumGrade($course->courseName));
             }
             else {
+
                 // is it a concentration course?
                 $concentration = false;
 
                 // loop through each concentration this course is a part of to check
                 if (is_array($course->concentration)) {
-                    foreach ($course->concentration as $concentration) {
-                        if ($student->concentration == $concentration)
+                    foreach ($course->concentration as $courseConcentration) {
+                        if ($student->concentration == $courseConcentration) {
                             $concentration = true;
+                        }
                     }
                 }
 
                 // mark course as eligible as appropriate
-                if ($concentration)
+                if ($concentration) {
                     $student->eligibleConcentrationCourses = Arr::add($student->eligibleConcentrationCourses, $course->courseCode, $course->courseName);
+                }
                 else {
                     if (substr($course->courseCode, 0, 4) == $student->major) {
                         $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->courseCode, $course->courseName);
