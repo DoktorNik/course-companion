@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\uniqueStudentPerUser;
 
 class StudentController extends Controller
 {
@@ -44,7 +45,7 @@ class StudentController extends Controller
         // validate
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
-            'studentNumber' => 'required|numeric|digits:7',
+            'studentNumber' => ['required', 'numeric', 'digits:7', new uniqueStudentPerUser],
             'major' => 'required|string|max:4',
             'coursesCompleted' => 'nullable|string',
             'concentration' => 'string|nullable|max:255',
@@ -146,7 +147,7 @@ class StudentController extends Controller
 
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
-            'studentNumber' => 'required|numeric|digits:7',
+            'studentNumber' => ['required', 'numeric', 'digits:7', new uniqueStudentPerUser],
             'major' => 'required|string|max:4',
             'concentration' => 'string|nullable|max:255',
         ]);
