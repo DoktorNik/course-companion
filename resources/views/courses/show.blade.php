@@ -45,7 +45,7 @@
         </p>
         @endif
         <div class="mt-4 space-x-2">
-            <a href="{{ route('courses.index') }}">{{ __('Courses') }}</a>
+            <a href="{{ route('courses.index') }}">{{ __('< Courses') }}</a>
         </div>
     </div>
 </x-app-layout>
