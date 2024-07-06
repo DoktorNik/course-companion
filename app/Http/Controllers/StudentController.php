@@ -147,7 +147,7 @@ class StudentController extends Controller
 
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
-            'studentNumber' => ['required', 'numeric', 'digits:7', new uniqueStudentPerUser],
+            'studentNumber' => ['required', 'numeric', 'digits:7'],
             'major' => 'required|string|max:4',
             'concentration' => 'string|nullable|max:255',
         ]);
