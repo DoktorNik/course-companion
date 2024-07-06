@@ -272,11 +272,12 @@ class StudentController extends Controller
 
             //dd($course->courseName);
             // all checks passed, so add it to as eligible
-            // does the course major match the student major
+            // does the required major match the student major
             if ($course->requiredByMajor == $student->major) {
                 $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $course->courseName);
             }
             else {
+                //elective, but major or not?
                 if(substr($course->courseCode,0,4) == $student->major) {
                     $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->courseCode, $course->courseName);
                 }
