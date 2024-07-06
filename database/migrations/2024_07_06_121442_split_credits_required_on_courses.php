@@ -13,9 +13,6 @@ return new class extends Migration
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->renameColumn('coursePrereqCredits', 'prereqCredits');
-            $table->integer('prereqMajorCredits')
-                ->after('prereqCredits')
-                ->default(0);
         });
     }
 
@@ -26,7 +23,6 @@ return new class extends Migration
     {
         Schema::table('courses', function (Blueprint $table) {
             $table->renameColumn('prereqCredits', 'coursePrereqCredits');
-            $table->dropColumn('prereqMajorCredits');
         });
     }
 };
