@@ -13,14 +13,20 @@ class Student extends Model
     protected $fillable  = [
         'studentName',
         'studentNumber',
+        'major',
+        'majorCreditsCompleted',
         'coursesCompleted',
         'eligibleCourses',
         'creditsCompleted',
+        'concentration',
     ];
 
     protected $casts = [
         'coursesCompleted' => 'array',
-        'eligibleCourses' => 'array',
+        'eligibleRequiredCourses' => 'array',
+        'eligibleElectiveMajorCourses' => 'array',
+        'eligibleElectiveNonMajorCourses' => 'array',
+        'eligibleConcentrationCourses' =>'array',
     ];
 
     /*

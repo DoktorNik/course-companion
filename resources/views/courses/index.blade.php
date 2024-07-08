@@ -1,26 +1,38 @@
 <head>
+    <title></title>
     @push('scripts')
         @vite(['resources/js/updateArray.js'])
     @endpush
     @stack('scripts')
 </head>
 <x-app-layout>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form method="POST" action="{{ route('courses.findCourse') }}">
-            @csrf
-            @method('GET')
-            <div class="flex justify-between mb-3">
-                <input
-                    type = "text"
-                    name="courseCode"
-                    placeholder="COSC 1P02"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >
-                <x-primary-button class="ml-1">
-                    Lookup
-                </x-primary-button>
+    <x-slot name="header">
+        <div class="flex justify-between w-full">
+            <div class="w-full">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Courses') }}
+                </h2>
             </div>
-        </form>
+            <div class = "flex w-full justify-end">
+                <form method="POST" action="{{ route('courses.findCourse') }}">
+                @csrf
+                @method('GET')
+                <div class="flex">
+                    <input
+                        type = "text"
+                        name="courseCode"
+                        placeholder="COSC 1P02"
+                        class="block w-56 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                    <x-primary-button class="ml-1">
+                        Lookup
+                    </x-primary-button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </x-slot>
+    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
         @can('create', \App\Models\Course::class)
         <div class="font-bold text-lg mb-3">Add New Course</div>
         <form method="POST" action="{{ route('courses.store') }}">
@@ -37,7 +49,7 @@
             @endif
             <div class="mt-2 flex justify-between">
                 <div>
-                    Code
+                    <p class="font-bold">Code</p>
                     <input
                         type = "text"
                         name = "courseCode"
@@ -48,7 +60,7 @@
                     >
                 </div>
                 <div>
-                    Duration
+                    <p class="font-bold">Duration</p>
                     <input
                         type = "text"
                         name = "courseDuration"
@@ -59,19 +71,52 @@
                     >
                 </div>
                 <div>
-                    Required Credits
+                    <p class="font-bold">Required By Major</p>
                     <input
                         type = "text"
-                        name = "coursePrereqCredits"
+                        name = "requiredByMajor"
+                        placeholder = "{{__('COSC')}}"
+                        value = "{{ old('requiredByMajor') }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
+            </div>
+            <div class="mt-2 flex justify-between w-full">
+                <div class="w-full">
+                    <p class="font-bold">Required Credits</p>
+                    <input
+                        type = "text"
+                        name = "prereqCredits"
                         placeholder = "{{__('2') }}"
-                        value = "{{ old('coursePrereqCredits') }}"
+                        value = "{{ old('prereqCredits') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
                 </div>
+                <div class = "pl-1 w-full">
+                    <p class="font-bold">Required Major Credits</p>
+                    <input
+                        type = "text"
+                        name = "prereqMajorCredits"
+                        placeholder = "{{__('1') }}"
+                        value = "{{ old('prereqMajorCredits') }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class = "pl-1 w-full">
+                    <p class="font-bold">Minimum Grade</p>
+                    <input
+                        type = "text"
+                        name = "minimumGrade"
+                        placeholder = "{{__('60') }}"
+                        value = "{{ old('minimumGrade') }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
             </div>
-            <p class = "mt-2">
-                Course Name
+            <div class = "mt-2">
+                <p class="font-bold">Course Name</p>
                 <input
                     type = "text"
                     name = "courseName"
@@ -80,9 +125,9 @@
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
-            </p>
+            </div>
             <div class = "mt-2">
-                Prerequisites Courses
+                <p class="font-bold">Prerequisites Courses</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken"
@@ -91,19 +136,42 @@
                         placeholder = "{{__('COSC 1P02')}}"
                         class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken', 'taArray')">
                         {{ __('Add') }}
                     </x-primary-button>
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken', 'taArray')">
+                        {{ __('Remove') }}
+                    </x-primary-button>
+                </div>
+                <textarea readonly
+                          id="taArray"
+                          name="coursePrereqs"
+                          class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                >{{ old('coursePrereqs') }}</textarea>
+            </div>
+            <div class = "mt-2">
+                <p class="font-bold">Concentrations</p>
+                <div class="flex flex-nowrap w-full">
+                    <input
+                        id = "txtToken2"
+                        type = "text"
+                        name = "concentrationToken"
+                        placeholder = "{{__('Artificial Intelligence')}}"
+                        class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken2', 'taArray2')">
+                        {{ __('Add') }}
+                    </x-primary-button>
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken2', 'taArray2')">
                         {{ __('Remove') }}
                     </x-primary-button>
                 </div>
             </div>
             <textarea readonly
-                      id="taArray"
-                      name="coursePrereqs"
+                      id="taArray2"
+                      name="concentration"
                       class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('coursePrereqs') }}</textarea>
+            >{{ old('concentration') }}</textarea>
             <x-primary-button class="mt-2">{{ __('Save') }}</x-primary-button>
         </form>
         @endcan

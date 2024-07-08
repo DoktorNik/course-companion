@@ -13,15 +13,20 @@ class Course extends Model
     protected $fillable = [
         'courseCode',
         'courseDuration',
-        'coursePrereqCredits',
+        'prereqCredits',
+        'prereqMajorCredits',
         'courseName',
-        'coursePrereqs'
+        'coursePrereqs',
+        'concentration',
+        'requiredByMajor',
+        'minimumGrade',
     ];
 
     protected function casts(): array
     {
         return [
             'coursePrereqs' => 'array',
+            'concentration' => 'array',
         ];
     }
 

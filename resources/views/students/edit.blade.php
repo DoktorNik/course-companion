@@ -5,6 +5,11 @@
     @stack('scripts')
 </head>
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Students \ Edit') }}
+        </h2>
+    </x-slot>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
         <form method="POST" action="{{ route('students.update', $student) }}">
             @csrf
@@ -20,8 +25,8 @@
                     </ul>
                 </div>
             @endif
-            <p class="mt-2">
-                Student Name
+            <div class="mt-2">
+                <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
                     name = "studentName"
@@ -29,19 +34,43 @@
                     value = "{{ old('studentName', $student->studentName) }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >
-            </p>
-            <p class = "mt-2">
-                Student Number
-                <input
-                    type = "text"
-                    name = "studentNumber"
-                    placeholder = "{{__('1234567') }}"
-                    value = "{{ old('studentNumber', $student->studentNumber) }}"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >
-            </p>
+            </div>
+            <div class="mt-2 flex justify-between w-full">
+                <div class="w-full">
+                    <p class="font-bold">Student Number</p>
+                    <input
+                        type = "text"
+                        name = "studentNumber"
+                        placeholder = "{{__('1234567') }}"
+                        value = "{{ old('studentNumber', $student->studentNumber) }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class="pl-1 w-full">
+                    <p class="font-bold">Major</p>
+                    <input
+                        type = "text"
+                        name = "major"
+                        placeholder= "{{__('COSC') }}"
+                        value = "{{ old('major', $student->major) }}"
+                        class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class="pl-1 w-full">
+                    <p class="font-bold">Concentration</p>
+                    <input
+                        type = "text"
+                        name = "concentration"
+                        placeholder= "{{__('Artificial Intelligence') }}"
+                        value = "{{ old('concentration', $student->concentration) }}"
+                        class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
+            </div>
             <div class = "mt-2">
-                Completed Courses
+                <p class="font-bold">Completed Courses</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken"
@@ -50,10 +79,10 @@
                         placeholder = "{{__('COSC 1P02')}}"
                         class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken', 'taArray')">
                         {{ __('Add') }}
                     </x-primary-button>
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken', 'taArray')">
                         {{ __('Remove') }}
                     </x-primary-button>
                 </div>

@@ -1,4 +1,9 @@
 <x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            {{ __('Courses \ Show') }}
+        </h2>
+    </x-slot>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
         @if(is_null($course))
             <div class="bg-red-200 text-red-700 p-2.5 m-2">
@@ -12,32 +17,55 @@
                         <div>
                             <span class="font-bold text-lg">{{ $course->courseCode }}: {{$course->courseName}}</span>
                             <span class="ml-1.5 text-gray-700">{{ $course->courseDuration }}</span>
-                            <small class="ml-2 text-sm text-gray-600">{{ $course->coursePrereqCredits }} credits required</small>
                         </div>
                     </div>
+                    <div>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCredits }} credits required</small>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqMajorCredits }} major credits required</small>
+                    </div>
+                    <div>
+                        @if($course->minimumGrade)
+                            <small class="ml-2 mt-2 text-sm text-red-600">{{ __('A minimum grade of ')}}{{ $course->minimumGrade }}{{ __('% is required to continue the program')}}</small>
+                        @endif
+                    </div>
+                    @if(is_array($course->concentration))
+                        @if($course->concentration[0] != "")
+                            <div>
+                                <small class="ml-2 text-sm text-gray-600">
+                                    <b>{{ __('Concentrations: ') }}</b>
+                                    @foreach($course->concentration as $conc)
+                                        {{ $conc }}
+                                        @if($loop->remaining > 0)
+                                            {{ __(', ')}}
+                                        @endif
+                                    @endforeach
+                                </small>
+                            </div>
+                        @endif
+                    @endif
                 </div>
             </div>
         </div>
-        <p class = "mt-2">
-            Prerequisite Courses
-            <textarea readonly
-                      id="taArray"
-                      name="coursePrereqs"
-                      class="h-auto block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        <div class = "mt-2">
+            <p class="font-bold">Prerequisite Courses</p>
+            <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
+                $out = "";
                 if(!is_null($course->coursePrereqs)) {
-                    $out = "";
                     foreach($course->coursePrereqs as $cc=>$cn) {
-                        $out.= $cc.": ".$cn."&#013;";
+                        $out.= $cn.", ";
                     }
-                    $out = substr($out, 0, -1);
+                    $out = substr($out, 0, -2);
                     echo $out;
                 }
-                @endphp</textarea>
-        </p>
+                if($out == "")
+                    echo "None";
+            @endphp
+            </div>
+        </div>
         @endif
         <div class="mt-4 space-x-2">
-            <a href="{{ route('courses.index') }}">{{ __('Back') }}</a>
+            <a href="{{ route('courses.index') }}">{{ __('< Courses') }}</a>
         </div>
     </div>
 </x-app-layout>

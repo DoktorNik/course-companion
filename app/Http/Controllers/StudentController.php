@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
+use App\Rules\uniqueStudentPerUser;
 
 class StudentController extends Controller
 {
@@ -44,8 +45,10 @@ class StudentController extends Controller
         // validate
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
-            'studentNumber' => 'required|numeric|digits:7',
-            'coursesCompleted' => 'nullable|string'
+            'studentNumber' => ['required', 'numeric', 'digits:7', new uniqueStudentPerUser],
+            'major' => 'required|string|max:4',
+            'coursesCompleted' => 'nullable|string',
+            'concentration' => 'string|nullable|max:255',
         ]);
 
         if ($validated['coursesCompleted']) {
@@ -144,7 +147,9 @@ class StudentController extends Controller
 
         $validated = $request->validate([
             'studentName' => 'required|string|max:255',
-            'studentNumber' => 'required|numeric|digits:7',
+            'studentNumber' => ['required', 'numeric', 'digits:7'],
+            'major' => 'required|string|max:4',
+            'concentration' => 'string|nullable|max:255',
         ]);
         $student->update($validated);
 
@@ -175,54 +180,68 @@ class StudentController extends Controller
     {
         // count completed credits
         $creditsCompleted = 0.0;
+        $majorCreditsCompleted = 0.00;
 
         if($student->coursesCompleted) {
             foreach ($student->coursesCompleted as $coursesCompleted) {
+                $count = 0;
+
                 if (Str::substr($coursesCompleted, 6, 1) == "P") {
-                    $creditsCompleted += 0.5;
+                    $count += 0.5;
                 } elseif (Str::substr($coursesCompleted, 6, 1) == "F") {
-                    $creditsCompleted += 1;
+                    $count += 1;
                 }
+
+                // major?
+                $course = Course::where('courseCode', $coursesCompleted)->first();
+
+                if (!is_null($course)) {
+                    if ($course->requiredByMajor == $student->major || Str::substr($course->courseCode, 0,4) == $student->major) {
+                        $majorCreditsCompleted += $count;
+                    }
+                }
+                $creditsCompleted += $count;
             }
         }
 
         $student->creditsCompleted = $creditsCompleted;
+        $student->majorCreditsCompleted = $majorCreditsCompleted;
     }
 
     private function updateEligibleCourses(Student $student): void
     {
         // reset list of eligible courses
-        $student->eligibleCourses = array();
+        $student->eligibleRequiredCourses = array();
+        $student->eligibleElectiveMajorCourses = array();
+        $student->eligibleElectiveNonMajorCourses = array();
+        $student->eligibleConcentrationCourses = array();
 
         $courses = Course::all();
 
         // go through each course
         foreach ($courses as $course) {
 
-//            if ($course->courseCode == "COSC 1P03")
-//                dd($course->coursePrereqs);
-
             // skip if course is already completed
             if ($student->coursesCompleted) {
                 foreach ($student->coursesCompleted as $courseCompleted) {
-                    //dd($course->courseName, $courseCompleted);
                     if ($course->courseCode == $courseCompleted)
                         continue 2;
                 }
             }
 
             // skip if we don't meet required credit count
-            if ($student->creditsCompleted < $course->coursePrereqCredits) {
+            if ($student->creditsCompleted < $course->prereqCredits || $student->majorCreditsCompleted < $course->prereqMajorCredits) {
                 continue;
             }
 
             // if there are prereqs
             //if ($course->coursePrereqs[0] != "") {  // why is this always an array instead of null like the others? *cries*
             if ($course->coursePrereqs) {
-                //dd($course->coursePrereqs);
+
                 // go through the required prereqs
                 foreach ($course->coursePrereqs as $coursePrereq=>$coursePrereqName) {
 
+                    // override for a course most people aren't actually required to take
                     if ($coursePrereq == "MATH 1P20")
                         continue;
 
@@ -230,21 +249,18 @@ class StudentController extends Controller
                     $completed = false;
 
                     if ($student->coursesCompleted) {
+
                         // go through each course completed by the student
                         foreach ($student->coursesCompleted as $courseCompleted) {
 
                             // set it to completed if there's a match
-//                            if($course->courseCode == "COSC 1P03")
-//                                dd($courseCompleted, $coursePrereq);
-                            if ($courseCompleted == $coursePrereq) {
+                            if ($courseCompleted == $coursePrereqName) {
                                 $completed = true;
                                 break;
                             }
                         }
-
-                     //   dd($completed, $student->coursesCompleted);
-
                     }
+
                     // if it hasn't been completed, skip this course
                     if (!$completed) {
                         continue 2;
@@ -252,9 +268,37 @@ class StudentController extends Controller
                 }
             }
 
-            //dd($course->courseName);
             // all checks passed, so add it to as eligible
-            $student->eligibleCourses = Arr::add($student->eligibleCourses, $course->courseCode, $course->courseName);
+            // does the required major match the student major
+            if ($course->requiredByMajor == $student->major) {
+                $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->courseCode, $this->addAsteriskToCourseWithMinimumGrade($course->courseName));
+            }
+            else {
+
+                // is it a concentration course?
+                $concentration = false;
+
+                // loop through each concentration this course is a part of to check
+                if (is_array($course->concentration)) {
+                    foreach ($course->concentration as $courseConcentration) {
+                        if ($student->concentration == $courseConcentration) {
+                            $concentration = true;
+                        }
+                    }
+                }
+
+                // mark course as eligible as appropriate
+                if ($concentration) {
+                    $student->eligibleConcentrationCourses = Arr::add($student->eligibleConcentrationCourses, $course->courseCode, $course->courseName);
+                }
+                else {
+                    if (substr($course->courseCode, 0, 4) == $student->major) {
+                        $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->courseCode, $course->courseName);
+                    } else {
+                        $student->eligibleElectiveNonMajorCourses = Arr::add($student->eligibleElectiveNonMajorCourses, $course->courseCode, $course->courseName);
+                    }
+                }
+            }
         }
     }
 
@@ -262,5 +306,19 @@ class StudentController extends Controller
     {
         $this->updateCreditsCompleted($student);
         $this->updateEligibleCourses($student);
+    }
+
+    private function addAsteriskToCourseWithMinimumGrade($courseName): string
+    {
+        $course = Course::where('courseName', $courseName)->first();
+//        if ($course->courseCode == "COSC 1P03")
+//            dd($course);
+
+        if ($course->minimumGrade > 0) {
+            $courseName .= " *";
+            //dd($courseName);
+        }
+
+        return $courseName;
     }
 }

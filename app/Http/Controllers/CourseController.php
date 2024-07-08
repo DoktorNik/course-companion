@@ -57,15 +57,19 @@ class CourseController extends Controller
         $validated = $request->validate([
             'courseCode' => 'required|string|max:9',
             'courseDuration' => 'required|string|max:4',
-            'coursePrereqCredits' => 'nullable|numeric|max:20',
+            'prereqCredits' => 'nullable|numeric|max:20',
             'courseName' => 'required|string|max:255',
+            'requiredByMajor' => 'nullable|string|min:4',
+            'prereqMajorCredits' => 'numeric|max:20',
+            'concentration' => 'string|nullable|max:255',
+            'minimumGrade' => 'numeric|nullable|min:50|max:100',
         ]);
 
-        // explode prereqs in to array
-        $prereqs = $request->input('coursePrereqs');
-        $prereqs = explode(", ", $prereqs);
+        // explode in to array
+        $validated['coursePrereqs'] = explode(", ", $request->input('coursePrereqs'));
+        $validated['concentration'] = explode(", ", $request->input('concentration'));
 
-        $validated['coursePrereqs'] = $this->fillPreqeqs($prereqs);
+        // create the course
         $request->user()->courses()->create($validated);
 
         return redirect(route('courses.index'));
@@ -108,15 +112,19 @@ class CourseController extends Controller
         $validated = $request->validate([
             'courseCode' => 'required|string|max:9',
             'courseDuration' => 'required|string|max:4',
-            'coursePrereqCredits' => 'nullable|numeric|max:20',
+            'prereqCredits' => 'nullable|numeric|max:20',
             'courseName' => 'required|string|max:255',
+            'requiredByMajor' => 'nullable|string|min:4',
+            'prereqMajorCredits' => 'numeric|max:20',
+            'concentration' => 'string|nullable|max:255',
+            'minimumGrade' => 'numeric|nullable|min:50|max:100',
         ]);
 
-        // explode prereqs in to array
-        $prereqs = $request->input('coursePrereqs');
-        $prereqs = explode(", ", $prereqs);
+        // explode in to array
+        $validated['coursePrereqs'] = explode(", ", $request->input('coursePrereqs'));
+        $validated['concentration'] = explode(", ", $request->input('concentration'));
 
-        $validated['coursePrereqs'] = $this->fillPreqeqs($prereqs);
+        // update the course
         $course->update($validated);
 
         return redirect(route('courses.index'));

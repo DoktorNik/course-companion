@@ -5,22 +5,33 @@
     @stack('scripts')
 </head>
 <x-app-layout>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form method="POST" action="{{ route('students.findStudent') }}">
-            @csrf
-            @method('GET')
-            <div class="flex justify-between mb-3">
-                <input
-                    type = "text"
-                    name="studentNumber"
-                    placeholder="1234567"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >
-                <x-primary-button class="ml-1">
-                    Lookup
-                </x-primary-button>
+    <x-slot name="header">
+        <div class="flex justify-between w-full">
+            <div class="w-full">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Students') }}
+                </h2>
             </div>
-        </form>
+            <div class="flex justify-end w-full">
+                <form method="POST" action="{{ route('students.findStudent') }}">
+                    @csrf
+                    @method('GET')
+                    <div class="flex">
+                        <input
+                            type = "text"
+                            name="studentNumber"
+                            placeholder="1234567"
+                            class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        >
+                        <x-primary-button class="ml-1">
+                            Lookup
+                        </x-primary-button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </x-slot>
+    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
         <!-- add new student -->
         <div class="font-bold text-lg mt-8 mb-3">Add New Student</div>
         <form method="POST" action="{{ route('students.store') }}">
@@ -35,8 +46,8 @@
                     </ul>
                 </div>
             @endif
-            <p class = "mt-2">
-                Student Name
+            <div class = "mt-2">
+            <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
                     name = "studentName"
@@ -45,20 +56,43 @@
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
-            </p>
-            <p class = "mt-2">
-                Student Number
-                <input
-                    type = "text"
-                    name = "studentNumber"
-                    placeholder = "{{__('1234567') }}"
-                    value = "{{ old('studentNumber') }}"
-                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                    required
-                >
-            </p>
+            </div>
+            <div class="mt-2 flex justify-between w-full">
+                <div class="w-full">
+                    <p class="font-bold">Student Number</p>
+                    <input
+                        type = "text"
+                        name = "studentNumber"
+                        placeholder = "{{__('1234567') }}"
+                        value = "{{ old('studentNumber') }}"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class="pl-1 w-full">
+                    <p class="font-bold">Major</p>
+                    <input
+                        type = "text"
+                        name = "major"
+                        placeholder= "{{__('COSC') }}"
+                        value = "{{ old('major') }}"
+                        class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                        required
+                    >
+                </div>
+                <div class="pl-1 w-full">
+                    <p class="font-bold">Concentration</p>
+                    <input
+                        type = "text"
+                        name = "concentration"
+                        placeholder= "{{__('Artificial Intelligence') }}"
+                        value = "{{ old('concentration') }}"
+                        class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
+            </div>
             <div class = "mt-2">
-                Completed Courses
+                <p class="font-bold">Completed Courses</p>
                 <div class="flex flex-nowrap w-full">
                     <input
                         id = "txtToken"
@@ -67,10 +101,10 @@
                         placeholder = "{{__('COSC 1P02')}}"
                         class="w-full block border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(1, 'txtToken', 'taArray')">
                         {{ __('Add') }}
                     </x-primary-button>
-                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0)">
+                    <x-primary-button class="ml-1" onclick="event.preventDefault(); updateArray(0, 'txtToken', 'taArray')">
                         {{ __('Remove') }}
                     </x-primary-button>
                 </div>
@@ -92,7 +126,7 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="text-gray-900"><a href="{{ route('students.show', $student) }}">{{ $student->studentName }}</a></span>
+                                <span class="font-bold"><a href="{{ route('students.show', $student) }}">{{ $student->studentName }}</a></span>
                                 @can('update', $student)
                                     <small class="ml-2 text-sm text-gray-600"><a href="{{ route('students.show', $student) }}">{{ $student->studentNumber }}</a></small>
                                 @endcan
@@ -102,7 +136,10 @@
                             </div>
                         </div>
                         <p class="mt-2 ml-3 text-gray-700">
-                            Credits completed: {{ $student->creditsCompleted }}
+                            Credits Completed: {{ $student->creditsCompleted }}
+                        </p>
+                        <p class="mt-2 ml-3 text-gray-700">
+                            Major Credits Completed: {{ $student->majorCreditsCompleted }}
                         </p>
                     </div>
                     @if ($student->user->is(auth()->user()))

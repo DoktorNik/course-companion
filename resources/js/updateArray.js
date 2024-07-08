@@ -5,9 +5,14 @@
 // window.test = test;
 // alert('loaded');
 
-function updateArray(add)    {
-    let target = document.getElementById('txtToken').value.trim();
-    let text = document.getElementById('taArray').value.trim();
+function updateArray(add, tokenId, arrayId)    {
+    console.log('tid: ' + tokenId + ' aid: ' + arrayId);
+    let target = document.getElementById(tokenId).value.trim();
+    let text = document.getElementById(arrayId).value.trim();
+    console.log('target: ');
+    console.log(target);
+    console.log('text: ');
+    console.log(text);
 
     // add the course to the list
     if (add === 1) {
@@ -50,7 +55,7 @@ function updateArray(add)    {
         }
     }
 
-    document.getElementById('taArray').innerHTML = text;
-    document.getElementById('txtToken').value = '';
+    document.getElementById(tokenId).value = '';
+    document.getElementById(arrayId).innerHTML = text;
 }
 window.updateArray = updateArray;
