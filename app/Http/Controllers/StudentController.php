@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Course;
+use App\Models\StudentCoursesCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -153,8 +154,27 @@ class StudentController extends Controller
         ]);
         $student->update($validated);
 
-        // update courses taken manually because validator breaks casting
-        $student->coursesCompleted = explode(", ", $request->get("coursesCompleted"));
+        // update courses taken using proper database design
+        // create array from user input for parsing
+        $coursesCompleted = explode(", ", $request->get("coursesCompleted"));
+
+        // clear existing records
+        DB::table('student_courses_completeds')->where('student_id', '=', $student->id)->delete();
+
+        // add each entry in
+        foreach ($coursesCompleted as $courseCompleted) {
+            // get course for id
+            $course = Course::where('code', $courseCompleted)->first();
+
+            // new entry
+            if (!is_null($course)) {
+                 // save to database
+                 $studentCoursesCompleted = $student->StudentCoursesCompleted()->create([
+                     'code' => $course->code,
+                     'name' => $course->name,
+                 ]);
+            }
+        }
 
         // update computed student properties
         $this->updateStudent($student);
@@ -182,18 +202,19 @@ class StudentController extends Controller
         $creditsCompleted = 0.0;
         $creditsCompletedMajor = 0.00;
 
-        if($student->coursesCompleted) {
-            foreach ($student->coursesCompleted as $coursesCompleted) {
+        if($student->studentCoursesCompleted) {
+
+            foreach ($student->studentCoursesCompleted as $courseCompleted) {
                 $count = 0;
 
-                if (Str::substr($coursesCompleted, 6, 1) == "P") {
+                if (Str::substr($courseCompleted->code, 6, 1) == "P") {
                     $count += 0.5;
-                } elseif (Str::substr($coursesCompleted, 6, 1) == "F") {
+                } elseif (Str::substr($courseCompleted->code, 6, 1) == "F") {
                     $count += 1;
                 }
 
                 // major?
-                $course = Course::where('code', $coursesCompleted)->first();
+                $course = Course::where('code', $courseCompleted->code)->first();
 
                 if (!is_null($course)) {
                     if ($course->isRequiredByMajor == $student->major || Str::substr($course->code, 0,4) == $student->major) {
@@ -222,9 +243,9 @@ class StudentController extends Controller
         foreach ($courses as $course) {
 
             // skip if course is already completed
-            if ($student->coursesCompleted) {
-                foreach ($student->coursesCompleted as $courseCompleted) {
-                    if ($course->code == $courseCompleted)
+            if ($student->studentCoursesCompleted) {
+                foreach ($student->studentCoursesCompleted as $courseCompleted) {
+                    if ($course->code == $courseCompleted->code)
                         continue 2;
                 }
             }
@@ -248,13 +269,13 @@ class StudentController extends Controller
                     // default to not completed
                     $completed = false;
 
-                    if ($student->coursesCompleted) {
+                    if ($student->studentCoursesCompleted) {
 
                         // go through each course completed by the student
-                        foreach ($student->coursesCompleted as $courseCompleted) {
+                        foreach ($student->studentCoursesCompleted as $courseCompleted) {
 
                             // set it to completed if there's a match
-                            if ($courseCompleted == $coursePrereqCode) {
+                            if ($courseCompleted->code == $coursePrereqCode) {
                                 $completed = true;
                                 break;
                             }
@@ -275,17 +296,12 @@ class StudentController extends Controller
             }
             else {
 
-//                if ($course->code == 'COSC 3P99')
-//                    dd($course, $student, $course->concentration, $student->concentration, $courseConcentration == $student->concentration);
-
                 // is it a concentration course?
                 $concentration = false;
 
                 // loop through each concentration this course is a part of to check
                 if (is_array($course->concentration)) {
                     foreach ($course->concentration as $ccKey=>$courseConcentration) {
-//                        if ($course->code == 'COSC 3P99')
-//                            dd($course, $student, $course->concentration, $student->concentration, $courseConcentration == $student->concentration);
                         if ($student->concentration == $courseConcentration) {
                             $concentration = true;
                         }
@@ -316,12 +332,9 @@ class StudentController extends Controller
     private function addAsteriskToCourseWithMinimumGrade($name): string
     {
         $course = Course::where('name', $name)->first();
-//        if ($course->code == "COSC 1P03")
-//            dd($course);
 
         if ($course->minimumGrade > 0) {
-            $name .= " *";
-            //dd($name);
+            $name .= " *".$course->minimumGrade;
         }
 
         return $name;

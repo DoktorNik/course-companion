@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -20,7 +21,7 @@ return new class extends Migration
             $table->string('concentration')->nullable();
             $table->decimal('creditsCompleted', 3,1)->default(0);
             $table->decimal('creditsCompletedMajor', 3,1)->default(0);
-            $table->string('coursesCompleted',2046)->nullable();
+            $table->foreignId('student_courses_completed_id')->nullable();
             $table->string('eligibleRequiredCourses',2046)->nullable();
             $table->string('eligibleConcentrationCourses',2046)->nullable();
             $table->string('eligibleElectiveMajorCourses',2046)->nullable();

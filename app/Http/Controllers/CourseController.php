@@ -51,7 +51,6 @@ class CourseController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // save the course
-        //dd($request);
         Gate::authorize('create', Course::class);
 
         $validated = $request->validate([
@@ -153,7 +152,6 @@ class CourseController extends Controller
             foreach ($prereqs as $prereq) {
                 $pcourse = Course::where('code', $prereq)->get();
                 $pcourse = $pcourse[0];
-                //dd($pcourse[0]);
 
                 $prereqFull = Arr::add($prereqFull, $pcourse->code, $pcourse->name."   [".$pcourse->duration."]");
             }

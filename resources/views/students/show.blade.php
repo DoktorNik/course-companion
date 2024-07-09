@@ -51,13 +51,24 @@
                 >
             </div>
         </div>
-        <div class = "mt-2">
-            <p class="font-bold">Completed Courses</p>
-            <textarea readonly
-                name="coursesCompleted"
-                class="h-auto block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >@foreach($student->coursesCompleted as $cc){{$cc}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach</textarea>
-        </div>
+            <div class = "mt-2">
+                <p class="font-bold">Completed Courses</p>
+                <div class="p-2 h-20 overflow-y-auto bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                >@php
+                        $out = "";
+                        if(!is_null($student->studentCoursesCompleted)) {
+                            foreach($student->studentCoursesCompleted as $courseCompleted) {
+                                $out.= $courseCompleted->code.": ".$courseCompleted->name."<br />";
+                            }
+                            $out = substr($out, 0, -2);
+                            echo $out;
+                        }
+                        if($out == "")
+                            echo "None";
+                    @endphp
+                </div>
+            </div>
+
         <div class = "mt-2">
             <p class="font-bold">Eligible Courses Required by Major</p>
             <div

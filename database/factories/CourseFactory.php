@@ -26,7 +26,6 @@ class CourseFactory extends Factory
             'duration' => 'D0',
             'prereqCreditCount' => 0,
             'prereqCreditCountMajor' => 0,
-            'concentration' => Str::random(10),
         ];
     }
 }

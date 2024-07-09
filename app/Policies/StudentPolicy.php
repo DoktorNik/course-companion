@@ -14,6 +14,7 @@ class StudentPolicy
     public function viewAny(User $user): bool
     {
         //
+        return false;
     }
 
     /**
@@ -21,8 +22,6 @@ class StudentPolicy
      */
     public function view(User $user, Student $student): Response
     {
-
-        //dd($student->user(), $user);
         return $student->user()->is($user)
             ? Response::allow()
             : Response::deny('You do not have permission to view this student\'s information');
@@ -34,6 +33,7 @@ class StudentPolicy
     public function create(User $user): bool
     {
         //
+        return true;
     }
 
     /**
@@ -60,6 +60,7 @@ class StudentPolicy
      */
     public function restore(User $user, Student $student): bool
     {
+        return true;
         //
     }
 
@@ -68,6 +69,7 @@ class StudentPolicy
      */
     public function forceDelete(User $user, Student $student): bool
     {
+        return false;
         //
     }
 }

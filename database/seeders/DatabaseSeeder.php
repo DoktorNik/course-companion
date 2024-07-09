@@ -317,6 +317,7 @@ class DatabaseSeeder extends Seeder
             'duration' => 'D2',
             'prereqCreditCount' => 0,
             'name' => 'Parallel Computing',
+            'prereqs' => $prereq,
         ]);
 
         Course::factory()->create([
@@ -568,8 +569,9 @@ class DatabaseSeeder extends Seeder
             'number' => 1234567,
             'major' => 'COSC',
             'concentration' => 'Artificial Intelligence',
-            'coursesCompleted' => $coursesCompleted,
         ]);
 
     }
 }
+
+//'coursesCompleted' => $coursesCompleted,
