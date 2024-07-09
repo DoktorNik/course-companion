@@ -15,8 +15,8 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="font-bold text-lg">{{ $student->studentName }}</a></span>
-                                <span class="ml-1.5 text-gray-700">{{ $student->studentNumber }}</span>
+                                <span class="font-bold text-lg">{{ $student->name }}</a></span>
+                                <span class="ml-1.5 text-gray-700">{{ $student->number }}</span>
                                 <span class="ml-3.5 text-gray-700">{{ $student->major }} {{ __('major') }}</span>
                             </div>
                         </div>
@@ -45,8 +45,8 @@
                 <p class="font-bold">Major Credits Completed</p>
                 <input readonly
                    type="text"
-                   name="majorCreditsCompleted"
-                   value="{{$student->majorCreditsCompleted}}"
+                   name="creditsCompletedMajor"
+                   value="{{$student->creditsCompletedMajor}}"
                    class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >
             </div>

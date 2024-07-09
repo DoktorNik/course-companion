@@ -15,7 +15,7 @@ class uniqueStudentPerUser implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $student = Student::where('studentNumber', $value)->first();
+        $student = Student::where('number', $value)->first();
         if (!is_null($student)) {
             $fail('Student with this number ' . $value . ' already exists.');
         }

@@ -1,4 +1,5 @@
 <head>
+    <title></title>
     @push('scripts')
         @vite(['resources/js/updateArray.js'])
     @endpush
@@ -19,7 +20,7 @@
                     <div class="flex">
                         <input
                             type = "text"
-                            name="studentNumber"
+                            name="number"
                             placeholder="1234567"
                             class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         >
@@ -50,9 +51,9 @@
             <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
-                    name = "studentName"
+                    name = "name"
                     placeholder = "{{__('Thomas Anderson') }}"
-                    value = "{{ old('studentName') }}"
+                    value = "{{ old('name') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
@@ -62,9 +63,9 @@
                     <p class="font-bold">Student Number</p>
                     <input
                         type = "text"
-                        name = "studentNumber"
+                        name = "number"
                         placeholder = "{{__('1234567') }}"
-                        value = "{{ old('studentNumber') }}"
+                        value = "{{ old('number') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -126,12 +127,12 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="font-bold"><a href="{{ route('students.show', $student) }}">{{ $student->studentName }}</a></span>
+                                <span class="font-bold"><a href="{{ route('students.show', $student) }}">{{ $student->name }}</a></span>
                                 @can('update', $student)
-                                    <small class="ml-2 text-sm text-gray-600"><a href="{{ route('students.show', $student) }}">{{ $student->studentNumber }}</a></small>
+                                    <small class="ml-2 text-sm text-gray-600"><a href="{{ route('students.show', $student) }}">{{ $student->number }}</a></small>
                                 @endcan
                                 @cannot('update', $student)
-                                    <small class="ml-1.5 text-red-300">{{ $student->studentNumber }}</small>
+                                    <small class="ml-1.5 text-red-300">{{ $student->number }}</small>
                                 @endcannot
                             </div>
                         </div>
@@ -139,7 +140,7 @@
                             Credits Completed: {{ $student->creditsCompleted }}
                         </p>
                         <p class="mt-2 ml-3 text-gray-700">
-                            Major Credits Completed: {{ $student->majorCreditsCompleted }}
+                            Major Credits Completed: {{ $student->creditsCompletedMajor }}
                         </p>
                     </div>
                     @if ($student->user->is(auth()->user()))

@@ -15,13 +15,13 @@
                 <div class="flex-1">
                     <div class="flex justify-between items-center">
                         <div>
-                            <span class="font-bold text-lg">{{ $course->courseCode }}: {{$course->courseName}}</span>
-                            <span class="ml-1.5 text-gray-700">{{ $course->courseDuration }}</span>
+                            <span class="font-bold text-lg">{{ $course->code }}: {{$course->name}}</span>
+                            <span class="ml-1.5 text-gray-700">{{ $course->duration }}</span>
                         </div>
                     </div>
                     <div>
-                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCredits }} credits required</small>
-                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqMajorCredits }} major credits required</small>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCreditCount }} credits required</small>
+                        <small class="ml-2 text-sm text-gray-600">{{ $course->prereqCreditCountMajor }} major credits required</small>
                     </div>
                     <div>
                         @if($course->minimumGrade)
@@ -51,8 +51,8 @@
             <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
                 $out = "";
-                if(!is_null($course->coursePrereqs)) {
-                    foreach($course->coursePrereqs as $cc=>$cn) {
+                if(!is_null($course->prereqs)) {
+                    foreach($course->prereqs as $cc=>$cn) {
                         $out.= $cn.", ";
                     }
                     $out = substr($out, 0, -2);

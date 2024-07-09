@@ -11,22 +11,21 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable  = [
-        'studentName',
-        'studentNumber',
+        'name',
+        'number',
         'major',
-        'majorCreditsCompleted',
-        'coursesCompleted',
-        'eligibleCourses',
-        'creditsCompleted',
         'concentration',
+        'creditsCompleted',
+        'creditsCompletedMajor',
+        'coursesCompleted',
     ];
 
     protected $casts = [
         'coursesCompleted' => 'array',
         'eligibleRequiredCourses' => 'array',
+        'eligibleConcentrationCourses' =>'array',
         'eligibleElectiveMajorCourses' => 'array',
         'eligibleElectiveNonMajorCourses' => 'array',
-        'eligibleConcentrationCourses' =>'array',
     ];
 
     /*

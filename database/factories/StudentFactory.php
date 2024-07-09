@@ -20,10 +20,11 @@ class StudentFactory extends Factory
     {
         return [
             'user_id' => 1,
-            'studentName' => $this->faker->name(),
-            'studentNumber' => $this->faker->unique()->randomNumber([7]),
-            'coursesCompleted' => str::random(10),
-            'eligibleCourses' => str::random(10),
+            'name' => $this->faker->name(),
+            'number' => $this->faker->unique()->randomNumber(7),
+            'major' => "COSC",
+            'creditsCompleted' => 0,
+            'creditsCompletedMajor' => 0,
         ];
     }
 }

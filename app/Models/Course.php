@@ -11,21 +11,21 @@ class Course extends Model
     use HasFactory;
 
     protected $fillable = [
-        'courseCode',
-        'courseDuration',
-        'prereqCredits',
-        'prereqMajorCredits',
-        'courseName',
-        'coursePrereqs',
+        'code',
+        'duration',
+        'prereqCreditCount',
+        'prereqCreditCountMajor',
+        'name',
+        'prereqs',
         'concentration',
-        'requiredByMajor',
+        'isisRequiredByMajor',
         'minimumGrade',
     ];
 
     protected function casts(): array
     {
         return [
-            'coursePrereqs' => 'array',
+            'prereqs' => 'array',
             'concentration' => 'array',
         ];
     }

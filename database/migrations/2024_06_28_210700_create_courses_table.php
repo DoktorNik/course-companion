@@ -14,11 +14,15 @@ return new class extends Migration
         Schema::create('courses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('courseCode');
-            $table->string('courseDuration');
-            $table->integer('coursePrereqCredits');
-            $table->string('courseName');
-            $table->string('coursePrereqs')->nullable();
+            $table->string('code');
+            $table->string('name');
+            $table->string('duration');
+            $table->string('isRequiredByMajor')->nullable();
+            $table->string('concentration')->nullable();
+            $table->integer('minimumGrade')->nullable();
+            $table->integer('prereqCreditCount')->default(0);
+            $table->integer('prereqCreditCountMajor')->default(0);
+            $table->string('prereqs')->nullable();
             $table->timestamps();
         });
     }

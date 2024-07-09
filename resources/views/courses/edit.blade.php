@@ -32,9 +32,9 @@
                     <p class="font-bold">Code</p>
                     <input
                         type = "text"
-                        name = "courseCode"
+                        name = "code"
                         placeholder = "{{__('COSC 1P02') }}"
-                        value = "{{ old('courseCode', $course->courseCode) }}"
+                        value = "{{ old('code', $course->code) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -43,9 +43,9 @@
                     <p class="font-bold">Duration</p>
                     <input
                         type = "text"
-                        name = "courseDuration"
+                        name = "duration"
                         placeholder = "{{__('D1') }}"
-                        value = "{{ old('courseDuration', $course->courseDuration) }}"
+                        value = "{{ old('duration', $course->duration) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -54,9 +54,9 @@
                     <p class="font-bold">Required By Major</p>
                     <input
                         type = "text"
-                        name = "requiredByMajor"
+                        name = "isRequiredByMajor"
                         placeholder = "{{__('COSC')}}"
-                        value = "{{ old('requiredByMajor', $course->requiredByMajor) }}"
+                        value = "{{ old('isRequiredByMajor', $course->isRequiredByMajor) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
                 </div>
@@ -66,9 +66,9 @@
                     <p class="font-bold">Required Credits</p>
                     <input
                         type = "text"
-                        name = "prereqCredits"
+                        name = "prereqCreditCount"
                         placeholder = "{{__('2') }}"
-                        value = "{{ old('prereqCredits', $course->prereqCredits) }}"
+                        value = "{{ old('prereqCreditCount', $course->prereqCreditCount) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -77,9 +77,9 @@
                     <p class="font-bold">Required Major Credits</p>
                     <input
                         type = "text"
-                        name = "prereqMajorCredits"
+                        name = "prereqCreditCountMajor"
                         placeholder = "{{__('1') }}"
-                        value = "{{ old('prereqMajorCredits', $course->prereqMajorCredits) }}"
+                        value = "{{ old('prereqCreditCountMajor', $course->prereqCreditCountMajor) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -99,9 +99,9 @@
                 <p class="font-bold">Course Name</p>
                 <input
                     type = "text"
-                    name = "courseName"
+                    name = "name"
                     placeholder = "{{__('Introduction to Computer Science') }}"
-                    value = "{{ old('courseName', $course->courseName) }}"
+                    value = "{{ old('name', $course->name) }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
@@ -126,9 +126,9 @@
             </div>
             <textarea readonly
                       id="taArray"
-                      name="coursePrereqs"
+                      name="prereqs"
                       class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('coursePrereqs') }}@if(!old('coursePrereqs') && $course->coursePrereqs)@foreach($course->coursePrereqs as $cc=>$cp){{$cp}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
+            >{{ old('prereqs') }}@if(!old('prereqs') && $course->prereqs)@foreach($course->prereqs as $cc=>$cp){{$cp}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
             <div class = "mt-2">
                 <p class="font-bold">Concentrations</p>
                 <div class="flex flex-nowrap w-full">

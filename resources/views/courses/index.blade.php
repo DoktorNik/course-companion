@@ -20,7 +20,7 @@
                 <div class="flex">
                     <input
                         type = "text"
-                        name="courseCode"
+                        name="code"
                         placeholder="COSC 1P02"
                         class="block w-56 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
@@ -52,9 +52,9 @@
                     <p class="font-bold">Code</p>
                     <input
                         type = "text"
-                        name = "courseCode"
+                        name = "code"
                         placeholder = "{{__('COSC 1P02') }}"
-                        value = "{{ old('courseCode') }}"
+                        value = "{{ old('code') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -63,9 +63,9 @@
                     <p class="font-bold">Duration</p>
                     <input
                         type = "text"
-                        name = "courseDuration"
+                        name = "duration"
                         placeholder = "{{__('D1') }}"
-                        value = "{{ old('courseDuration') }}"
+                        value = "{{ old('duration') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -74,9 +74,9 @@
                     <p class="font-bold">Required By Major</p>
                     <input
                         type = "text"
-                        name = "requiredByMajor"
+                        name = "isRequiredByMajor"
                         placeholder = "{{__('COSC')}}"
-                        value = "{{ old('requiredByMajor') }}"
+                        value = "{{ old('isRequiredByMajor') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
                 </div>
@@ -86,9 +86,9 @@
                     <p class="font-bold">Required Credits</p>
                     <input
                         type = "text"
-                        name = "prereqCredits"
+                        name = "prereqCreditCount"
                         placeholder = "{{__('2') }}"
-                        value = "{{ old('prereqCredits') }}"
+                        value = "{{ old('prereqCreditCount') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -97,9 +97,9 @@
                     <p class="font-bold">Required Major Credits</p>
                     <input
                         type = "text"
-                        name = "prereqMajorCredits"
+                        name = "prereqCreditCountMajor"
                         placeholder = "{{__('1') }}"
-                        value = "{{ old('prereqMajorCredits') }}"
+                        value = "{{ old('prereqCreditCountMajor') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -119,9 +119,9 @@
                 <p class="font-bold">Course Name</p>
                 <input
                     type = "text"
-                    name = "courseName"
+                    name = "name"
                     placeholder = "{{__('Introduction to Computer Science') }}"
-                    value = "{{ old('courseName') }}"
+                    value = "{{ old('name') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
@@ -145,9 +145,9 @@
                 </div>
                 <textarea readonly
                           id="taArray"
-                          name="coursePrereqs"
+                          name="prereqs"
                           class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >{{ old('coursePrereqs') }}</textarea>
+                >{{ old('prereqs') }}</textarea>
             </div>
             <div class = "mt-2">
                 <p class="font-bold">Concentrations</p>
@@ -184,8 +184,8 @@
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
                             <div>
-                                <span class="text-gray-800"><a href="{{ route('courses.show', $course) }}">{{ $course->courseCode }}</a></span>
-                                <small class="ml-2 text-sm text-gray-600">{{ $course->courseDuration }}</small>
+                                <span class="text-gray-800"><a href="{{ route('courses.show', $course) }}">{{ $course->code }}</a></span>
+                                <small class="ml-2 text-sm text-gray-600">{{ $course->duration }}</small>
                             </div>
                             @if ($course->user->is(auth()->user()))
                                 <x-dropdown>
@@ -211,7 +211,7 @@
                                 </x-dropdown>
                             @endif
                         </div>
-                        <p class="mt-1.5 text-lg text-gray-900"><a href="{{ route('courses.show', $course) }}">{{ $course->courseName }}</a></p>
+                        <p class="mt-1.5 text-lg text-gray-900"><a href="{{ route('courses.show', $course) }}">{{ $course->name }}</a></p>
                     </div>
                 </div>
             @endforeach

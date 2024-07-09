@@ -14,11 +14,17 @@ return new class extends Migration
         Schema::create('students', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
-            $table->string('studentName');
-            $table->integer('studentNumber',false, true);
+            $table->string('name');
+            $table->integer('number',false, true);
+            $table->string('major');
+            $table->string('concentration')->nullable();
             $table->decimal('creditsCompleted', 3,1)->default(0);
-            $table->string('coursesCompleted')->nullable();
-            $table->string('eligibleCourses')->nullable();
+            $table->decimal('creditsCompletedMajor', 3,1)->default(0);
+            $table->string('coursesCompleted',2046)->nullable();
+            $table->string('eligibleRequiredCourses',2046)->nullable();
+            $table->string('eligibleConcentrationCourses',2046)->nullable();
+            $table->string('eligibleElectiveMajorCourses',2046)->nullable();
+            $table->string('eligibleElectiveNonMajorCourses',2046)->nullable();
             $table->timestamps();
         });
     }

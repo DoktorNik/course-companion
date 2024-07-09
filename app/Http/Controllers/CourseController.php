@@ -28,8 +28,8 @@ class CourseController extends Controller
     public function findCourse(Request $request) :View
     {
         // get the course from database
-        $courseCode = $request->input('courseCode');
-        $course = Course::where('courseCode', $courseCode)->first();
+        $code = $request->input('code');
+        $course = Course::where('code', $code)->first();
 
         // return the student view
         return view('courses.show', [
@@ -55,18 +55,18 @@ class CourseController extends Controller
         Gate::authorize('create', Course::class);
 
         $validated = $request->validate([
-            'courseCode' => 'required|string|max:9',
-            'courseDuration' => 'required|string|max:4',
-            'prereqCredits' => 'nullable|numeric|max:20',
-            'courseName' => 'required|string|max:255',
-            'requiredByMajor' => 'nullable|string|min:4',
-            'prereqMajorCredits' => 'numeric|max:20',
+            'code' => 'required|string|max:9',
+            'duration' => 'required|string|max:4',
+            'prereqCreditCount' => 'nullable|numeric|max:20',
+            'name' => 'required|string|max:255',
+            'isRequiredByMajor' => 'nullable|string|min:4',
+            'prereqCreditCountMajor' => 'numeric|max:20',
             'concentration' => 'string|nullable|max:255',
             'minimumGrade' => 'numeric|nullable|min:50|max:100',
         ]);
 
         // explode in to array
-        $validated['coursePrereqs'] = explode(", ", $request->input('coursePrereqs'));
+        $validated['prereqs'] = explode(", ", $request->input('prereqs'));
         $validated['concentration'] = explode(", ", $request->input('concentration'));
 
         // create the course
@@ -110,18 +110,18 @@ class CourseController extends Controller
 
 
         $validated = $request->validate([
-            'courseCode' => 'required|string|max:9',
-            'courseDuration' => 'required|string|max:4',
-            'prereqCredits' => 'nullable|numeric|max:20',
-            'courseName' => 'required|string|max:255',
-            'requiredByMajor' => 'nullable|string|min:4',
-            'prereqMajorCredits' => 'numeric|max:20',
+            'code' => 'required|string|max:9',
+            'duration' => 'required|string|max:4',
+            'prereqCreditCount' => 'nullable|numeric|max:20',
+            'name' => 'required|string|max:255',
+            'isRequiredByMajor' => 'nullable|string|min:4',
+            'prereqCreditCountMajor' => 'numeric|max:20',
             'concentration' => 'string|nullable|max:255',
             'minimumGrade' => 'numeric|nullable|min:50|max:100',
         ]);
 
         // explode in to array
-        $validated['coursePrereqs'] = explode(", ", $request->input('coursePrereqs'));
+        $validated['prereqs'] = explode(", ", $request->input('prereqs'));
         $validated['concentration'] = explode(", ", $request->input('concentration'));
 
         // update the course
@@ -151,11 +151,11 @@ class CourseController extends Controller
 
             // get data for each prereq and place in to new array
             foreach ($prereqs as $prereq) {
-                $pcourse = Course::where('courseCode', $prereq)->get();
+                $pcourse = Course::where('code', $prereq)->get();
                 $pcourse = $pcourse[0];
                 //dd($pcourse[0]);
 
-                $prereqFull = Arr::add($prereqFull, $pcourse->courseCode, $pcourse->courseName."   [".$pcourse->courseDuration."]");
+                $prereqFull = Arr::add($prereqFull, $pcourse->code, $pcourse->name."   [".$pcourse->duration."]");
             }
         }
         return $prereqFull;

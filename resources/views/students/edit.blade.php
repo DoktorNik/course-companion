@@ -1,4 +1,5 @@
 <head>
+    <title></title>
     @push('scripts')
         @vite(['resources/js/updateArray.js'])
     @endpush
@@ -29,9 +30,9 @@
                 <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
-                    name = "studentName"
+                    name = "name"
                     placeholder = "{{__('Thomas Anderson') }}"
-                    value = "{{ old('studentName', $student->studentName) }}"
+                    value = "{{ old('name', $student->name) }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >
             </div>
@@ -40,9 +41,9 @@
                     <p class="font-bold">Student Number</p>
                     <input
                         type = "text"
-                        name = "studentNumber"
+                        name = "number"
                         placeholder = "{{__('1234567') }}"
-                        value = "{{ old('studentNumber', $student->studentNumber) }}"
+                        value = "{{ old('number', $student->number) }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
