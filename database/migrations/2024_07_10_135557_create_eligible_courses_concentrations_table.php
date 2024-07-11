@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Course;
-use App\Models\Student;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('student_courses_completeds', function (Blueprint $table) {
+        Schema::create('eligible_courses_concentrations', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Student::class);
-            $table->string('code');
-            $table->string('name');
             $table->timestamps();
         });
     }
@@ -27,6 +22,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('student_courses_completeds');
+        Schema::dropIfExists('eligible_courses_concentrations');
     }
 };
