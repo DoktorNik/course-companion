@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOneThrough;
 
 class Student extends Model
 {
@@ -17,36 +16,40 @@ class Student extends Model
         'number',
         'major',
         'concentration',
-        'creditsCompleted',
-        'creditsCompletedMajor',
-        'coursesCompleted',
     ];
-
-    protected $casts = [
-        'eligibleRequiredCourses' => 'array',
-        'eligibleConcentrationCourses' =>'array',
-        'eligibleElectiveMajorCourses' => 'array',
-        'eligibleElectiveNonMajorCourses' => 'array',
-    ];
-    // 'coursesCompleted' => 'array',
-
-    /*
-    protected function casts(): array
-    {
-        return [
-            'coursesCompleted' => 'array',
-            'eligibleCourses' => 'array',
-        ];
-    }
-    */
 
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-   public function studentcoursescompleted(): HasMany
+   public function CoursesCompleted(): HasMany
    {
-       return $this->hasMany(StudentCoursescompleted::class);
+       return $this->hasMany(CoursesCompleted::class);
    }
+
+    public function EligibleCoursesMajor(): HasMany
+    {
+        return $this->hasMany(EligibleCoursesMajor::class);
+    }
+
+    public function EligibleCoursesConcentration(): HasMany
+    {
+        return $this->hasMany(EligibleCoursesConcentration::class);
+    }
+
+    public function EligibleCoursesElectiveMajor(): HasMany
+    {
+        return $this->hasMany(EligibleCoursesElectiveMajor::class);
+    }
+
+    public function EligibleCoursesContext(): HasMany
+    {
+        return $this->hasMany(EligibleCoursesContext::class);
+    }
+
+    public function EligibleCoursesNonMajor(): HasMany
+    {
+        return $this->hasMany(EligibleCoursesNonMajor::class);
+    }
 }

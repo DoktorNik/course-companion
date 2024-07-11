@@ -56,8 +56,8 @@
                 <div class="p-2 h-20 overflow-y-auto bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >@php
                         $out = "";
-                        if(!is_null($student->studentCoursesCompleted)) {
-                            foreach($student->studentCoursesCompleted as $courseCompleted) {
+                        if(!is_null($student->CoursesCompleted)) {
+                            foreach($student->CoursesCompleted as $courseCompleted) {
                                 $out.= $courseCompleted->code.": ".$courseCompleted->name."<br />";
                             }
                             $out = substr($out, 0, -2);

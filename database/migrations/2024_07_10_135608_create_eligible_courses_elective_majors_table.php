@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Student;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,6 +14,9 @@ return new class extends Migration
     {
         Schema::create('eligible_courses_elective_majors', function (Blueprint $table) {
             $table->id();
+            $table->foreignIdFor(Student::class);
+            $table->string('code');
+            $table->string('name');
             $table->timestamps();
         });
     }

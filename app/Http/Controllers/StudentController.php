@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use App\Models\Course;
-use App\Models\StudentCoursesCompleted;
+use App\Models\CoursesCompleted;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Arr;
@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Rules\uniqueStudentPerUser;
+use function PHPUnit\Framework\isEmpty;
 
 class StudentController extends Controller
 {
@@ -48,16 +49,14 @@ class StudentController extends Controller
             'name' => 'required|string|max:255',
             'number' => ['required', 'numeric', 'digits:7', new uniqueStudentPerUser],
             'major' => 'required|string|max:4',
-            'coursesCompleted' => 'nullable|string',
             'concentration' => 'string|nullable|max:255',
         ]);
 
-        if ($validated['coursesCompleted']) {
-            $validated['coursesCompleted'] = explode(', ', $validated['coursesCompleted']);
-        }
-
         // create
         $student = $request->user()->students()->create($validated);
+
+        // update courses taken
+        $this->updateCoursesTaken($request, $student);
 
         // update computed properties
         $this->updateStudent($student);
@@ -111,11 +110,9 @@ class StudentController extends Controller
     public function show(Student $student): View
     {
         // update computed student properties
-        //if ($student->user()->is(auth()->user())) {
         Gate::authorize('view', $student);
             $this->updateStudent($student);
             $student->save();
-        //}
 
         // view the student
         return view('students.show', [
@@ -128,15 +125,10 @@ class StudentController extends Controller
      */
     public function edit(Student $student): View
     {
-        //Gate::authorize('update', $student);
-        if ($student->user()->is(auth()->user())) {
+        Gate::authorize('update', $student);
             return view('students.edit', [
                 'student' => $student,
             ]);
-        }
-        return view('students.index', [
-            'students' => Student::with('user')->latest()->get(),
-        ]);
     }
 
     /**
@@ -154,27 +146,8 @@ class StudentController extends Controller
         ]);
         $student->update($validated);
 
-        // update courses taken using proper database design
-        // create array from user input for parsing
-        $coursesCompleted = explode(", ", $request->get("coursesCompleted"));
-
-        // clear existing records
-        DB::table('student_courses_completeds')->where('student_id', '=', $student->id)->delete();
-
-        // add each entry in
-        foreach ($coursesCompleted as $courseCompleted) {
-            // get course for id
-            $course = Course::where('code', $courseCompleted)->first();
-
-            // new entry
-            if (!is_null($course)) {
-                 // save to database
-                 $studentCoursesCompleted = $student->StudentCoursesCompleted()->create([
-                     'code' => $course->code,
-                     'name' => $course->name,
-                 ]);
-            }
-        }
+        // update courses taken
+        $this->updateCoursesTaken($request, $student);
 
         // update computed student properties
         $this->updateStudent($student);
@@ -202,9 +175,9 @@ class StudentController extends Controller
         $creditsCompleted = 0.0;
         $creditsCompletedMajor = 0.00;
 
-        if($student->studentCoursesCompleted) {
+        if($student->CoursesCompleted) {
 
-            foreach ($student->studentCoursesCompleted as $courseCompleted) {
+            foreach ($student->CoursesCompleted as $courseCompleted) {
                 $count = 0;
 
                 if (Str::substr($courseCompleted->code, 6, 1) == "P") {
@@ -231,20 +204,14 @@ class StudentController extends Controller
 
     private function updateEligibleCourses(Student $student): void
     {
-        // reset list of eligible courses
-        $student->eligibleRequiredCourses = array();
-        $student->eligibleConcentrationCourses = array();
-        $student->eligibleElectiveMajorCourses = array();
-        $student->eligibleElectiveNonMajorCourses = array();
-
         $courses = Course::all();
 
         // go through each course
         foreach ($courses as $course) {
 
             // skip if course is already completed
-            if ($student->studentCoursesCompleted) {
-                foreach ($student->studentCoursesCompleted as $courseCompleted) {
+            if ($student->CoursesCompleted) {
+                foreach ($student->CoursesCompleted as $courseCompleted) {
                     if ($course->code == $courseCompleted->code)
                         continue 2;
                 }
@@ -269,10 +236,10 @@ class StudentController extends Controller
                     // default to not completed
                     $completed = false;
 
-                    if ($student->studentCoursesCompleted) {
+                    if ($student->CoursesCompleted) {
 
                         // go through each course completed by the student
-                        foreach ($student->studentCoursesCompleted as $courseCompleted) {
+                        foreach ($student->CoursesCompleted as $courseCompleted) {
 
                             // set it to completed if there's a match
                             if ($courseCompleted->code == $coursePrereqCode) {
@@ -292,7 +259,7 @@ class StudentController extends Controller
             // all checks passed, so add it to as eligible
             // does the required major match the student major
             if ($course->isRequiredByMajor == $student->major) {
-                $student->eligibleRequiredCourses = Arr::add($student->eligibleRequiredCourses, $course->code, $this->addAsteriskToCourseWithMinimumGrade($course->name));
+                $this->createRelatedCourseRecord($student, "Major", $course->code, $course->name);
             }
             else {
 
@@ -310,13 +277,13 @@ class StudentController extends Controller
 
                 // mark course as eligible as appropriate
                 if ($concentration) {
-                    $student->eligibleConcentrationCourses = Arr::add($student->eligibleConcentrationCourses, $course->code, $course->name);
+                    $this->createRelatedCourseRecord($student, "Concentration", $course->code, $course->name);
                 }
                 else {
                     if (substr($course->code, 0, 4) == $student->major) {
-                        $student->eligibleElectiveMajorCourses = Arr::add($student->eligibleElectiveMajorCourses, $course->code, $course->name);
+                        $this->createRelatedCourseRecord($student, "ElectiveMajor", $course->code, $course->name);
                     } else {
-                        $student->eligibleElectiveNonMajorCourses = Arr::add($student->eligibleElectiveNonMajorCourses, $course->code, $course->name);
+                        $this->createRelatedCourseRecord($student, "NonMajor", $course->code, $course->name);
                     }
                 }
             }
@@ -338,5 +305,78 @@ class StudentController extends Controller
         }
 
         return $name;
+    }
+
+    private function updateCoursesTaken($request, $student)
+    {
+        // update courses taken using proper database design
+        // create array from user input for parsing
+        $coursesCompleted = explode(", ", $request->get("coursesCompleted"));
+
+        // clear existing records
+        DB::table('courses_completeds')->where('student_id', '=', $student->id)->delete();
+
+        // add each entry in
+        foreach ($coursesCompleted as $courseCompleted) {
+            // get course for id
+            $course = Course::where('code', $courseCompleted)->first();
+
+            // new entry
+            if (!is_null($course)) {
+                // save to database
+                $CoursesCompleted = $student->CoursesCompleted()->create([
+                    'code' => $course->code,
+                    'name' => $course->name,
+                ]);
+            }
+        }
+    }
+
+    private function relatedCourseRecordExists($student, $code) : boolean
+    {
+
+    }
+
+    private function createRelatedCourseRecord($student, $type, $code, $name)
+    {
+        2do:
+        // needs to be this student though
+        if ($type == "Major") {
+            $exists = Student::whereHas('EligibleCoursesMajor', function ($query) use($code) {
+                $query->where('code', $code);
+            })->get();
+
+            if (isEmpty($exists)) {
+                $student->EligibleCoursesMajor()->create([
+                    'code' => $code,
+                    'name' => $name,
+                ]);
+            }
+        }
+        elseif ($type == "Concentration") {
+            $student->EligibleCoursesConcentration()->create([
+                'code' => $code,
+                'name' => $name,
+            ]);
+        }
+        elseif ($type == "ElectiveMajor") {
+            $student->EligibleCoursesElectiveMajor()->create([
+                'code' => $code,
+                'name' => $name,
+            ]);
+        }
+        elseif ($type == "Context") {
+            $student->EligibleCoursesContext()->create([
+                'code' => $code,
+                'name' => $name,
+            ]);
+        }
+        elseif ($type == "NonMajor") {
+            $student->EligibleCoursesNonMajor()->create([
+                'code' => $code,
+                'name' => $name,
+            ]);
+        }
+
     }
 }

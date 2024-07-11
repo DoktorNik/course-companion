@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class EligibleCoursesElectiveMajor extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'code',
+        'name',
+    ];
 }
