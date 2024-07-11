@@ -15,8 +15,6 @@ return new class extends Migration
         Schema::create('eligible_courses_concentrations', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Student::class);
-            $table->string('code');
-            $table->string('name');
             $table->timestamps();
         });
     }

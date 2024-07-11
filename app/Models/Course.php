@@ -30,4 +30,27 @@ class Course extends Model
             'concentration' => 'array',
         ];
     }
+
+    public function CompletedCourses(): BelongsToMany
+    {
+        return $this->belongsToMany(CompletedCourses::class, 'completed_courses_courses');
+    }
+    public function EligibleCoursesMajor(): BelongsToMany
+    {
+        return $this->BelongsToMany(EligibleCoursesMajor::class, 'eligible_courses_major_courses');
+    }
+    public function EligibleCoursesConcentration(): BelongsToMany
+    {
+        return $this->BelongsToMany(EligibleCoursesConcentration::class, 'eligible_courses_concentration_courses');
+    }
+    public function EligibleCoursesElectiveMajor(): BelongsToMany
+    {
+        return $this->BelongsToMany(EligibleCoursesElectiveMajor::class, 'eligible_courses_elective_major_courses');
+    }
+
+    public function EligibleCoursesElective(): BelongsToMany
+    {
+        return $this->BelongsToMany(EligibleCoursesElective::class, 'eligible_courses_elective_courses');
+    }
+
 }

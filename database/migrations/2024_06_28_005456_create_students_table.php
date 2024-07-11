@@ -21,12 +21,6 @@ return new class extends Migration
             $table->string('concentration')->nullable();
             $table->decimal('creditsCompleted', 3,1)->default(0);
             $table->decimal('creditsCompletedMajor', 3,1)->default(0);
-            $table->foreignId('courses_completed_id')->nullable();
-            $table->foreignId('eligible_courses_major_id')->nullable();
-            $table->foreignId('eligible_courses_concentration_id')->nullable();
-            $table->foreignId('eligible_courses_elective_major_id')->nullable();
-            $table->foreignId('eligible_courses_context_id')->nullable();
-            $table->foreignId('eligible_courses_non_major_id')->nullable();
             $table->timestamps();
         });
     }

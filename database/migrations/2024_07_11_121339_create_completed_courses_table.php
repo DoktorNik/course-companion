@@ -12,11 +12,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('eligible_courses_contexts', function (Blueprint $table) {
+        Schema::create('completed_courses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Student::class);
-            $table->string('code');
-            $table->string('name');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('eligible_courses_contexts');
+        Schema::dropIfExists('completed_courses');
     }
 };

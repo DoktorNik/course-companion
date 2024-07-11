@@ -56,8 +56,8 @@
                 <div class="p-2 h-20 overflow-y-auto bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                 >@php
                         $out = "";
-                        if(!is_null($student->CoursesCompleted)) {
-                            foreach($student->CoursesCompleted as $courseCompleted) {
+                        if(isset($student->CompletedCourses->course)) {
+                            foreach($student->CompletedCourses->course as $courseCompleted) {
                                 $out.= $courseCompleted->code.": ".$courseCompleted->name."<br />";
                             }
                             $out = substr($out, 0, -2);
@@ -76,15 +76,22 @@
             >@php
                 // required by major
                 $out = "";
-                foreach($student->eligibleRequiredCourses as $cc=>$ec) {
-                    $out.= $cc.": ".$ec."<br />";
+                if(isset($student->eligibleCoursesMajor->course)) {
+                    foreach($student->eligibleCoursesMajor->course as $ec) {
+                         $out.= $ec->code.": ".$ec->name;
+                        if($ec->minimumGrade)
+                            $out.="<span class=\"text-red-500\"> *".$ec->minimumGrade."% required</span>";
+                        $out.="<br />";
+                    }
+                    $out = substr($out, 0, -2);
+                    echo $out;
                 }
-                $out = rtrim($out, "<br />");
-                echo $out;
+                if($out == "")
+                    echo "None";
                 @endphp</div>
             <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
-        @if(is_array($student->eligibleConcentrationCourses))
+        @if(isset($student->concentration))
         <div class = "mt-2">
             <p class="font-bold">Eligible Courses in Concentration</p>
             <div
@@ -92,14 +99,22 @@
             >@php
                     // concentration
                     $out = "";
-                    foreach($student->eligibleConcentrationCourses as $cc=>$ec) {
-                        $out.= $cc.": ".$ec."<br />";
+                    if(isset($student->eligibleCoursesConcentration->course)) {
+                        foreach($student->eligibleCoursesConcentration->course as $ec) {
+                              $out.= $ec->code.": ".$ec->name;
+                        if($ec->minimumGrade)
+                            $out.="<span class=\"text-red-500\"> *".$ec->minimumGrade."% required</span>";
+                        $out.="<br />";
+                        }
+                        $out = substr($out, 0, -2);
+                        if ($out == "")
+                            $out = "None";
+                        echo $out;
                     }
-                    $out = rtrim($out, "<br />");
-                    if ($out == "")
-                        $out = "None";
-                    echo $out;
+                    if($out == "")
+                        echo "None";
                 @endphp</div>
+            <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
         @endif
         <div class = "mt-2">
@@ -108,14 +123,22 @@
             >@php
                 // major electives
                 $out = "";
-                foreach($student->eligibleElectiveMajorCourses as $cc=>$ec) {
-                    $out.= $cc.": ".$ec."<br />";
+                if(isset($student->eligibleCoursesElectiveMajor->course)) {
+                    foreach($student->eligibleCoursesElectiveMajor->course as $ec) {
+                         $out.= $ec->code.": ".$ec->name;
+                        if($ec->minimumGrade)
+                            $out.="<span class=\"text-red-500\"> *".$ec->minimumGrade."% required</span>";
+                        $out.="<br />";
+                    }
+                    $out = substr($out, 0, -2);
+                    if($out == "")
+                        $out = "None";
+                    echo $out;
                 }
-                $out = rtrim($out, "<br />");
                 if($out == "")
-                    $out = "None";
-                echo $out;
+                    echo "None";
             @endphp</div>
+            <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
         <div class = "mt-2">
             <p class="font-bold">Eligible Non-Major Elective Courses</p>
@@ -124,14 +147,21 @@
         >@php
                 // non-major electives
                 $out = "";
-                foreach($student->eligibleElectiveNonMajorCourses as $cc=>$ec) {
-                    $out.= $cc.": ".$ec."<br />";
+                if(isset($student->eligibleCoursesElective->course)) {
+                    foreach($student->eligibleCoursesElective->course as $ec) {
+                        $out.= $ec->code.": ".$ec->name;
+                        if($ec->minimumGrade)
+                            $out.="<span class=\"text-red-500\"> *".$ec->minimumGrade."% required</span>";
+                        $out.="<br />";
+                    }
+                    $out = substr($out, 0, -2);
+                    if($out == "")
+                        $out = "None";
+                    echo $out;
                 }
-                $out = rtrim($out, "<br />");
                 if($out == "")
-                    $out = "None";
-                echo $out;
-            @endphp</div>
+                    echo "None";
+            @endphp<p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p></div>
         </div>
         @endif
         <div class="mt-4 space-x-2">

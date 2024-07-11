@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\CompletedCourses;
+use App\Models\Course;
+use App\Models\EligibleCoursesConcentration;
+use App\Models\EligibleCoursesMajor;
 use App\Models\Student;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,11 +16,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses_completeds', function (Blueprint $table) {
+        Schema::create('eligible_courses_concentration_courses', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Student::class);
-            $table->string('code');
-            $table->string('name');
+            $table->foreignIdFor(Course::class);
+            $table->foreignIdFor(EligibleCoursesConcentration::class);
             $table->timestamps();
         });
     }
@@ -26,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses_completeds');
+        Schema::dropIfExists('eligible_courses_concentration_courses');
     }
 };

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Student extends Model
 {
@@ -23,33 +24,34 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-   public function CoursesCompleted(): HasMany
+   public function CompletedCourses(): HasOne
    {
-       return $this->hasMany(CoursesCompleted::class);
+       return $this->hasOne(CompletedCourses::class);
    }
 
-    public function EligibleCoursesMajor(): HasMany
+    public function EligibleCoursesMajor(): HasOne
     {
-        return $this->hasMany(EligibleCoursesMajor::class);
+        return $this->hasOne(EligibleCoursesMajor::class);
     }
 
-    public function EligibleCoursesConcentration(): HasMany
+    public function EligibleCoursesConcentration(): hasOne
     {
-        return $this->hasMany(EligibleCoursesConcentration::class);
+        return $this->hasOne(EligibleCoursesConcentration::class);
     }
 
-    public function EligibleCoursesElectiveMajor(): HasMany
+    public function EligibleCoursesElectiveMajor(): hasOne
     {
-        return $this->hasMany(EligibleCoursesElectiveMajor::class);
+        return $this->hasOne(EligibleCoursesElectiveMajor::class);
     }
 
-    public function EligibleCoursesContext(): HasMany
+    public function EligibleCoursesContext(): hasOne
     {
-        return $this->hasMany(EligibleCoursesContext::class);
+        return $this->hasOne(EligibleCoursesContext::class);
     }
 
-    public function EligibleCoursesNonMajor(): HasMany
+    public function EligibleCoursesElective(): hasOne
     {
-        return $this->hasMany(EligibleCoursesNonMajor::class);
+        return $this->hasOne(EligibleCoursesElective::class);
     }
+
 }
