@@ -1,3 +1,41 @@
+## Development Guide
+### Requirement(s)
+- [PHP](https://www.php.net/)
+- [Node.js](https://nodejs.org)
+
+### 1. Install Dependencies
+```sh
+$ php composer.phar install
+$ npm install
+```
+
+### 2. Copy `.env.example` file to `.env` file
+```sh
+$ cp .env.example .env
+```
+
+### 3. Generate `APP_KEY` environment variable in `.env`
+```sh
+$ php artisan key:generate
+```
+
+### 4. Apply database migrations
+```sh
+$ php artisan migrate
+```
+
+### 5. Start the application
+```sh
+$ php artisan serve
+```
+
+To see the list of `php artisan` commands:
+```sh
+$ php artisan list
+```
+
+---
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
