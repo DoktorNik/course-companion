@@ -29,6 +29,11 @@ $ php artisan migrate
 $ php artisan serve
 ```
 
+### 6. Run vite in dev mode for real time .js and .css compilation
+```sh
+$ npm run dev
+```
+
 To see the list of `php artisan` commands:
 ```sh
 $ php artisan list
