@@ -1,6 +1,6 @@
 ## Development Guide
 ### Requirement(s)
-- [PHP](https://www.php.net/)
+- [PHP](https://www.php.net/manual/en/install.php)
 - [Node.js](https://nodejs.org)
 
 ### 1. Install Dependencies
