@@ -1,13 +1,22 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-C1oHCFwv.css",
+    "file": "assets/app-BKYqXXjO.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/js/app.js": {
-    "file": "assets/app-Cs0QkU1O.js",
+    "file": "assets/app-Dt-7x2m6.js",
     "name": "app",
     "src": "resources/js/app.js",
+    "isEntry": true,
+    "imports": [
+      "resources/js/updateArray.js"
+    ]
+  },
+  "resources/js/updateArray.js": {
+    "file": "assets/updateArray-vxxKGEf9.js",
+    "name": "updateArray",
+    "src": "resources/js/updateArray.js",
     "isEntry": true
   }
 }
