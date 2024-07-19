@@ -51,6 +51,26 @@
                 >
             </div>
         </div>
+            <div class="mt-2 flex justify-between w-full">
+                <div class="w-full">
+                    <p class="font-bold">Maximum First Year Electives</p>
+                    <input readonly
+                           type="text"
+                           name="creditsCompleted"
+                           value="{{$student->electivesCompletedFirstYear}} / 8.0"
+                           class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
+                <div class="pl-1 w-full">
+                    <p class="font-bold">Minimum Second Year Electives</p>
+                    <input readonly
+                           type="text"
+                           name="creditsCompletedMajor"
+                           value="{{$student->electivesCompletedSecondYear}} / 3.0"
+                           class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                </div>
+            </div>
             <div class = "mt-2">
                 <p class="font-bold">Completed Courses</p>
                 <div class="p-2 h-20 overflow-y-auto bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"

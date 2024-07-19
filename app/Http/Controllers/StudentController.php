@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CompletedCourses;
 use App\Models\Student;
 use App\Models\Course;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
 use App\Rules\uniqueStudentPerUser;
-use function PHPUnit\Framework\isEmpty;
 
 class StudentController extends Controller
 {
@@ -193,13 +188,18 @@ class StudentController extends Controller
     {
         // count completed credits
         $creditsCompleted = 0.0;
-        $creditsCompletedMajor = 0.00;
+        $creditsCompletedMajor = 0.0;
+        $electivesCompletedFirstYear = 0.0;
+        $electivesCompletedSecondYear = 0.0;
 
+        // if any courses are completed
         if($student->CompletedCourses && $student->CompletedCourses->course) {
 
+            // each course completed
             foreach ($student->CompletedCourses->course as $courseCompleted) {
                 $count = 0;
 
+                // half or full credit?
                 if (Str::substr($courseCompleted->code, 6, 1) == "P") {
                     $count += 0.5;
                 } elseif (Str::substr($courseCompleted->code, 6, 1) == "F") {
@@ -209,17 +209,32 @@ class StudentController extends Controller
                 // major?
                 $course = Course::where('code', $courseCompleted->code)->first();
 
+                // do math
                 if (!is_null($course)) {
+                    // major or elective
                     if ($course->isRequiredByMajor == $student->major || Str::substr($course->code, 0,4) == $student->major) {
                         $creditsCompletedMajor += $count;
                     }
+                    else {
+                        // count first year elective course
+                        if (Str::substr($courseCompleted->code, 5, 1) == "1") {
+                            $electivesCompletedFirstYear += $count;
+                        }
+                        elseif (Str::substr($courseCompleted->code, 5, 1) == "2") {
+                            $electivesCompletedSecondYear += $count;
+                        }
+                    }
                 }
+                // regardless, add to total completed
                 $creditsCompleted += $count;
             }
         }
 
+        // update student record
         $student->creditsCompleted = $creditsCompleted;
         $student->creditsCompletedMajor = $creditsCompletedMajor;
+        $student->electivesCompletedFirstYear = $electivesCompletedFirstYear;
+        $student->electivesCompletedSecondYear = $electivesCompletedSecondYear;
     }
 
     private function updateEligibleCourses(Student $student): void
