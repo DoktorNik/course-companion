@@ -15,13 +15,13 @@
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
-                    <p>1) <a href="{{ route('students.index') }}">Add or update your student information on the <i>Students</i> page.</a></p>
+                    <p class="font-semibold">1) <a href="{{ route('students.index') }}">Add or update your student information on the <i>Students</i> page.</a></p>
                     <p class="ml-4">Don't worry it's private!</p>
                 </div>
             </div>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
-                    <p>2) Lookup your student number to see available courses.</p>
+                    <p class="font-semibold">2) Lookup your student number to see available courses.</p>
                     <form method="POST" action="{{ route('students.findStudent') }}">
                         @csrf
                         @method('GET')
@@ -42,7 +42,8 @@
             @can('create', \App\Models\Course::class)
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
-                    <p>* <a href="{{ route('courses.index') }}">Academic advisors can add, edit, and delete <i>courses</i> on the <i>courses</i> page.</a></p>
+                    <p class="font-semibold">Academic Advisors</p>
+                    <p class="ml-4">* <a href="{{ route('courses.index') }}">Academic advisors can add, edit, and delete <i>courses</i> on the <i>courses</i> page.</a></p>
                 </div>
             </div>
             @endcan

@@ -31,7 +31,7 @@ class CourseController extends Controller
         $code = $request->input('code');
         $course = Course::where('code', $code)->first();
 
-        // return the student view
+        // return the course view
         return view('courses.show', [
             'course' => $course,
         ]);

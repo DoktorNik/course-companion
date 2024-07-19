@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseFeedbackController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -27,12 +28,20 @@ Route::get('/findCourse', [CourseController::class, 'findCourse'])
     ->name('courses.findCourse')
     ->middleware(['auth', 'verified']);
 
+Route::get('/findCourseFeedback', [CourseFeedbackController::class, 'findCourseFeedback'])
+    ->name('courseFeedback.findCourseFeedback')
+    ->middleware(['auth', 'verified']);
+
 Route::resource('students', StudentController::class)
     ->only(['index', 'show', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
 Route::resource('courses', CourseController::class)
     ->only(['index', 'show', 'store', 'edit', 'update', 'destroy'])
+    ->middleware(['auth', 'verified']);
+
+Route::resource('courseFeedback', CourseFeedbackController::class)
+    ->only(['index', 'show', 'create', 'store', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Course extends Model
 {
@@ -31,6 +32,11 @@ class Course extends Model
         ];
     }
 
+    public function User(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function CompletedCourses(): BelongsToMany
     {
         return $this->belongsToMany(CompletedCourses::class, 'completed_courses_courses');
@@ -53,4 +59,8 @@ class Course extends Model
         return $this->BelongsToMany(EligibleCoursesElective::class, 'eligible_courses_elective_courses');
     }
 
+    public function CourseFeedback(): HasMany
+    {
+        return $this->hasMany(CourseFeedback::class);
+    }
 }
