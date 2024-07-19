@@ -18,7 +18,7 @@
     <body class="font-sans antialiased dark:bg-black dark:text-white/50">
         <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50">
             <!-- <img id="background" class="absolute -left-20 top-0 max-w-[877px]" src="https://laravel.com/assets/img/welcome/background.svg" /> -->
-            <img id="background" class="absolute w-full top-40" style="top:8rem" src="{{URL::asset('/img/confetti.png')}}">  <!-- stupid tailwind -->
+            <img id="background" class="absolute w-full" style="top:8rem" src="{{URL::asset('/img/confetti.png')}}">  <!-- stupid tailwind -->
 
             <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                 <div class="relative w-full max-w-2xl px-6 lg:max-w-7xl">
@@ -135,8 +135,8 @@
                         </div>
                     </main>
 
-                    <footer class="my-16 bg-amber-200 text-center text-sm text-black dark:text-white/70" style="background-color: rgba(24, 24, 27, 1); margin-top:4rem; padding:1rem;">
-                        <!-- Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }}) -->
+                    <footer class="my-16 bg-amber-200 text-center text-sm text-black dark:text-white/70 dark:bg-zinc-900" style="margin-top:2rem; padding:1rem;">
+{{--                    <footer class="mt-8 p-4 bg-amber-200 text-center text-sm text-black dark:text-white/70 dark:bg-zinc-900">--}}
                         Brock University Computer Science Club
                     </footer>
                 </div>
