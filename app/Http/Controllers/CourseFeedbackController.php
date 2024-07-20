@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
 use App\Models\CourseFeedback;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use function PHPUnit\Framework\isEmpty;
 
 class CourseFeedbackController extends Controller
 {
@@ -21,23 +22,21 @@ class CourseFeedbackController extends Controller
     /**
      * find a course for displaying reviews
      */
-    public function findCourseFeedback(Request $request) :View
+    public function find(Request $request) :View
     {
-        // look up feedback by course code
+        // return feedback, or course if there is no feedback yet
         $code = $request->input('code');
-
-        // return the course feedback view
-        return view('courseFeedback.show', [
-            'courseFeedback' => CourseFeedback::where('code', $code)->get(),
-        ]);
+        return $this->getView($code, 'show');
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create(): View
+    public function create(Request $request): View
     {
-        return view('courseFeedback.create');
+        // return feedback, or course if there is no feedback yet
+        $code = $request->input('code');
+        return $this->getView($code, 'create');
     }
 
     /**
@@ -80,5 +79,25 @@ class CourseFeedbackController extends Controller
     public function destroy(CourseFeedback $courseFeedback)
     {
         //
+    }
+
+    private function getView($code, $type): View
+    {
+        // look up feedback by course code
+        $courseFeedback = CourseFeedback::where('code', $code)->get();
+        $viewName = 'courseFeedback.'.$type;
+
+        // pass feedback if we have it
+        if($courseFeedback->isEmpty()) {
+            return view($viewName, [
+                'course' => Course::where('code', $code)->first(),
+            ]);
+        }
+        // otherwise, pass the course
+        else {
+            return view($viewName, [
+                'courseFeedback' => CourseFeedback::where('code', $code)->get(),
+            ]);
+        }
     }
 }

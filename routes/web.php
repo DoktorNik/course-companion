@@ -28,8 +28,8 @@ Route::get('/findCourse', [CourseController::class, 'findCourse'])
     ->name('courses.findCourse')
     ->middleware(['auth', 'verified']);
 
-Route::get('/findCourseFeedback', [CourseFeedbackController::class, 'findCourseFeedback'])
-    ->name('courseFeedback.findCourseFeedback')
+Route::get('/findCourseFeedback', [CourseFeedbackController::class, 'find'])
+    ->name('courseFeedback.find')
     ->middleware(['auth', 'verified']);
 
 Route::resource('students', StudentController::class)

@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="flex justify-end w-full">
-            <form method="POST" action="{{ route('courseFeedback.findCourseFeedback') }}">
+            <form method="POST" action="{{ route('courseFeedback.find') }}">
                 @csrf
                 @method('GET')
                 <div class="flex">
@@ -37,13 +37,13 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-dashboard-text heading="Course Feedback" text="Course feedback is anonymously provided by students, for students."></x-dashboard-text>
-            <x-dashboard-text heading="Anonymity" text="Absolutely no data is collected during submitting course feedback, besides that which is manually entered."></x-dashboard-text>
+            <x-dashboard-text heading="Anonymity" text="Only what you enter is included when providing course feedback. Your student number, login, and other identifying information is not saved."></x-dashboard-text>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4">
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl">Course Code</p>
                     <p class="italic ml-3">Lookup a course code to add or view feedback</p>
                     <br/>
-                    <form method="POST" action="{{ route('courseFeedback.findCourseFeedback') }}">
+                    <form method="POST" action="{{ route('courseFeedback.find') }}">
                         @csrf
                         @method('GET')
                         <div class="flex justify-between mb-3">
