@@ -125,11 +125,6 @@ class CourseFeedbackController extends Controller
         $course = Course::where('code', $code)->first();
         $courseFeedback = CourseFeedback::where('course_id', $course->id)->orderBy('created_at', 'DESC')->paginate(1);
         $courseFeedback->appends(['code' => $code]);
-
-        // testing
-        //$courseFeedback = CourseFeedback::where('course_id', $course->id)->first();
-        //return view('courseFeedback.'.$type, ['courseFeedback' => $courseFeedback, ]);
-
         $viewName = 'courseFeedback.'.$type;
 
         // pass feedback if we have it

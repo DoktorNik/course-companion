@@ -136,7 +136,7 @@ if(is_null($course))
                             </div>
                             <div class = "mt-2">
                                 <p class="font-bold">Comments</p>
-                                <p class="mt-1">{{ $courseFeedback->comment }}</p>
+                                {!!$courseFeedback->comment!!}
                             </div>
                         </div>
                 @endif

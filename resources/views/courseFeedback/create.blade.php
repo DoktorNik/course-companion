@@ -118,19 +118,84 @@ if(!isset($course))
             </div>
             <div class = "mt-2">
                 <p class="font-bold">Comments</p>
-                <textarea
-                    id="comment"
-                    name="comment"
-                    class="mt-1 block w-full h-40 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+                <link
+                    rel="stylesheet"
+                    href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css"
+                />
+                <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" />
 
-                >{{ old('comments')}}</textarea>
+                <div id="toolbar-container">
+                  <span class="ql-formats">
+                    <select class="ql-font"></select>
+                    <select class="ql-size"></select>
+                  </span>
+                                    <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                  </span>
+                                    <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                  </span>
+                                    <span class="ql-formats">
+                    <button class="ql-script" value="sub"></button>
+                    <button class="ql-script" value="super"></button>
+                  </span>
+                                    <span class="ql-formats">
+                    <button class="ql-header" value="1"></button>
+                    <button class="ql-header" value="2"></button>
+                    <button class="ql-blockquote"></button>
+                    <button class="ql-code-block"></button>
+                  </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                    <button class="ql-indent" value="-1"></button>
+                    <button class="ql-indent" value="+1"></button>
+                  </span>
+                    <span class="ql-formats">
+                    <button class="ql-clean"></button>
+                  </span>
+                </div>
+                <div style="background:#FFFFFF; height:20em;" id="editor">
+                </div>
             </div>
+            <textarea rows="3" class="invisible" name="comment" id="quill-editor-area"></textarea>
             <x-primary-button class="mt-2" onclick="event.preventDefault(); validateCourseFeedback();">{{ __('Submit Feedback') }}</x-primary-button>
             <input
                 type = "hidden"
                 name = "code"
                 value = "{{$course->code}}"
             >
+
+            <!-- Initialize Quill editor -->
+            <script>
+                const quill = new Quill('#editor', {
+                    modules: {
+                        syntax: true,
+                        toolbar: '#toolbar-container',
+                    },
+                    placeholder: 'What did you think of this course?',
+                    theme: 'snow',
+                });
+
+                // put the quill text in hidden input
+                let quillEditor = document.getElementById('quill-editor-area');
+                quill.on('text-change', function() {
+                    quillEditor.value = quill.root.innerHTML;
+                });
+
+                quillEditor.addEventListener('input', function() {
+                    quill.root.innerHTML = quillEditor.value;
+                });
+            </script>
+
         </form>
         @if(isset($courseFeedback))
             <p class="italic text-center pt-3">Your feedback is entry #{{count($courseFeedback)+1}}</p>
