@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseFeedback;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-use function PHPUnit\Framework\isEmpty;
 
 class CourseFeedbackController extends Controller
 {
@@ -126,8 +123,13 @@ class CourseFeedbackController extends Controller
     {
         // look up feedback by course code
         $course = Course::where('code', $code)->first();
-        $courseFeedback = CourseFeedback::where('course_id', $course->id)->paginate(1);
+        $courseFeedback = CourseFeedback::where('course_id', $course->id)->orderBy('created_at', 'DESC')->paginate(1);
         $courseFeedback->appends(['code' => $code]);
+
+        // testing
+        //$courseFeedback = CourseFeedback::where('course_id', $course->id)->first();
+        //return view('courseFeedback.'.$type, ['courseFeedback' => $courseFeedback, ]);
+
         $viewName = 'courseFeedback.'.$type;
 
         // pass feedback if we have it

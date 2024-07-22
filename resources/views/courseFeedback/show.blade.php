@@ -93,13 +93,7 @@ if(is_null($course))
                         @endif
                         <p class="text-sm">{{$courseFeedback->created_at}}</p>
                         <div class = "">
-    {{--                    buggy framework! --}}
-                            @if($courseFeedback->Lecturer)
-                                <p class="font-bold text-lg mt-12">Lecturer: <i>{{ $courseFeedback->Lecturer }}</i></p>
-                            @else
                                 <p class="font-bold text-lg mt-12">Lecturer: <i>{{ $courseFeedback->lecturer }}</i></p>
-                            @endif
-
                             <div class="mt-2 flex justify-between w-full">
                                 <div class="w-full">
                                     <p class="font-bold">Difficulty</p>
@@ -142,12 +136,7 @@ if(is_null($course))
                             </div>
                             <div class = "mt-2">
                                 <p class="font-bold">Comments</p>
-    {{--                        buggy framework! --}}
-                                @if($courseFeedback->Comment)
-                                    <p class="mt-1">{{ $courseFeedback->Comment }}</p>
-                                @else
-                                    <p class="mt-1">{{ $courseFeedback->comment }}</p>
-                                @endif
+                                <p class="mt-1">{{ $courseFeedback->comment }}</p>
                             </div>
                         </div>
                 @endif
