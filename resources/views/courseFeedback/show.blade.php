@@ -70,14 +70,14 @@ if(is_null($course))
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl">{{ $course->code }}: {{$course->name}}</p>
                     <div class="flex justify-start w-full"></div>
-                        <div class="ml-3 w-full" title="Difficulty">&#128547 {{$course->ratingDifficulty}}</div>
-                        <div title="Workload">&#128338 {{$course->ratingWorkload}}</div>
-                        <div title="Clarity">&#128302 {{$course->ratingClarity}}</div>
-                        <div title="Relevance">&#128175 {{$course->ratingRelevance}}</div>
-                        <div title="Interest">&#128373 {{$course->ratingInterest}}</div>
-                        <div title="Helpfulness">&#129309 {{$course->ratingHelpfulness}}</div>
-                        <div title="Experiential">&#127970 {{$course->ratingExperiential}}</div>
-                        <div title="Affect">&#128151 {{$course->ratingAffect}}</div>
+                        <div class="cursor-default ml-3 w-full" title="Difficulty">&#128547 {{$course->ratingDifficulty}}</div>
+                        <div class="cursor-default" title="Workload">&#128338 {{$course->ratingWorkload}}</div>
+                        <div class="cursor-default" title="Clarity">&#128302 {{$course->ratingClarity}}</div>
+                        <div class="cursor-default" title="Relevance">&#128175 {{$course->ratingRelevance}}</div>
+                        <div class="cursor-default" title="Interest">&#128373 {{$course->ratingInterest}}</div>
+                        <div class="cursor-default" title="Helpfulness">&#129309 {{$course->ratingHelpfulness}}</div>
+                        <div class="cursor-default" title="Experiential">&#127970 {{$course->ratingExperiential}}</div>
+                        <div class="cursor-default" title="Affect">&#128151 {{$course->ratingAffect}}</div>
                     </div>
 {{--                no feedback yet--}}
                     @if(!isset($courseFeedback))
