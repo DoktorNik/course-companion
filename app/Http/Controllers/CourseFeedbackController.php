@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Course;
 use App\Models\CourseFeedback;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 use function PHPUnit\Framework\isEmpty;
 
@@ -42,9 +44,48 @@ class CourseFeedbackController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request): View
     {
-        //
+        // 2do: validate while keeping the passed courseFeedback/course properly
+
+//        $validated = $request->validate([
+//            'lecturer' => 'string|max:128',
+//            'ratingDifficulty' => 'required|numeric|min:1|max:5',
+//            'ratingWorkload' => 'required|numeric|min:1|max:5',
+//            'ratingClarity' => 'required|numeric|min:1|max:5',
+//            'ratingRelevance' => 'required|numeric|min:1|max:5',
+//            'ratingInterest' => 'required|numeric|min:1|max:5',
+//            'ratingHelpfulness' => 'required|numeric|min:1|max:5',
+//            'ratingExperiential' => 'required|numeric|min:1|max:5',
+//            'ratingAffect' => 'required|numeric|min:1|max:5',
+//            'comments' => 'string|max:8096',
+//        ]);
+
+        // get the course for this feedback
+        $course = Course::where('code', $request->code)->first();
+
+        // save feedback to course
+        // 2do: why doesn't passing $validated work?!  =\
+        $courseFeedback = $course->CourseFeedback()->create([
+            'lecturer' => $request->input('lecturer'),
+            'comment' => $request->input('comment'),
+            'ratingDifficulty' => $request->input('ratingDifficulty'),
+            'ratingWorkload' => $request->input('ratingWorkload'),
+            'ratingClarity' => $request->input('ratingClarity'),
+            'ratingRelevance' => $request->input('ratingRelevance'),
+            'ratingInterest' => $request->input('ratingInterest'),
+            'ratingHelpfulness' => $request->input('ratingHelpfulness'),
+            'ratingExperiential' => $request->input('ratingExperiential'),
+            'ratingAffect' => $request->input('ratingAffect'),
+        ]);
+
+        // update average for course
+        $this->updateCourseAverage($course);
+
+        // show what we've just entered
+        return view('courseFeedback.show', [
+            'courseFeedback' => $courseFeedback,
+        ]);
     }
 
     /**
@@ -84,20 +125,53 @@ class CourseFeedbackController extends Controller
     private function getView($code, $type): View
     {
         // look up feedback by course code
-        $courseFeedback = CourseFeedback::where('code', $code)->get();
+        $course = Course::where('code', $code)->first();
+        $courseFeedback = CourseFeedback::where('course_id', $course->id)->paginate(1);
+        $courseFeedback->appends(['code' => $code]);
         $viewName = 'courseFeedback.'.$type;
 
         // pass feedback if we have it
-        if($courseFeedback->isEmpty()) {
+        if(!$courseFeedback->isEmpty()) {
             return view($viewName, [
-                'course' => Course::where('code', $code)->first(),
+                'courseFeedback' => $courseFeedback,
             ]);
         }
         // otherwise, pass the course
         else {
             return view($viewName, [
-                'courseFeedback' => CourseFeedback::where('code', $code)->get(),
+                'course' => Course::where('code', $code)->first(),
             ]);
         }
+    }
+
+    // updates average for a course
+    private function updateCourseAverage(Course $course) :void
+    {
+        // calculate new averages
+        $count = 0;
+        $totals = array(0,0,0,0,0,0,0,0);
+
+        $courseFeedback = CourseFeedback::whereBelongsTo($course)->get();
+        foreach ($courseFeedback as $feedback) {
+            $count++;
+            $totals[0] += $feedback->ratingDifficulty;
+            $totals[1] += $feedback->ratingWorkload;
+            $totals[2] += $feedback->ratingClarity;
+            $totals[3] += $feedback->ratingRelevance;
+            $totals[4] += $feedback->ratingInterest;
+            $totals[5] += $feedback->ratingHelpfulness;
+            $totals[6] += $feedback->ratingExperiential;
+            $totals[7] += $feedback->ratingAffect;
+        }
+
+        $course->ratingDifficulty = round($totals[0] / $count);
+        $course->ratingWorkload = round($totals[1] / $count);
+        $course->ratingClarity = round($totals[2] / $count);
+        $course->ratingRelevance = round($totals[3] / $count);
+        $course->ratingInterest = round($totals[4] / $count);
+        $course->ratingHelpfulness = round($totals[5] / $count);
+        $course->ratingExperiential = round($totals[6] / $count);
+        $course->ratingAffect = round($totals[7] / $count);
+        $course->save();
     }
 }

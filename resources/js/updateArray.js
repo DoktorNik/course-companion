@@ -1,18 +1,6 @@
-// function test() {
-//     alert('test');
-// }
-//
-// window.test = test;
-// alert('loaded');
-
 function updateArray(add, tokenId, arrayId)    {
-    console.log('tid: ' + tokenId + ' aid: ' + arrayId);
     let target = document.getElementById(tokenId).value.trim();
     let text = document.getElementById(arrayId).value.trim();
-    console.log('target: ');
-    console.log(target);
-    console.log('text: ');
-    console.log(text);
 
     // add the course to the list
     if (add === 1) {

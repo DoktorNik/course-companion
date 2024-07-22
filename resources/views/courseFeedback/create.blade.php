@@ -1,16 +1,23 @@
 <head>
     <title></title>
     @push('scripts')
-        @vite(['resources/js/updateArray.js'])
+        @vite(['resources/js/validateCourseFeedback.js'])
+
     @endpush
     @stack('scripts')
 </head>
+@php
+if(!isset($course))
+    $course = null;
+@endphp
 <x-app-layout>
-    @if(!isset($course))
-        @if(isset($courseReview[0]))
-            $course = $courseReview[0]->$course;
+    @if(is_null($course))
+        @if(isset($courseFeedback))
+            @php
+                $course = $courseFeedback[0]->course;
+            @endphp
         @else
-{{--//            bailout--}}
+{{--        // 2do: bail out--}}
         @endif
     @endif
     <x-slot name="header">
@@ -46,22 +53,23 @@
             <p class="ml-3">{{$course->code}}: {{$course->name}}</p>
         </div>
 
-        <form method="POST" action="{{ route('courseFeedback.store') }}">
+        <form method="POST" id ="courseFeedbackForm" action="{{ route('courseFeedback.store') }}">
             @csrf
-            @if ($errors->any())
-                <div class="bg-red-200 text-red-700 p-2.5 m-2">
+                <div id="errorList" class="hidden bg-red-200 text-red-700 p-2.5 m-2">
+                @if ($errors->any())
                     <strong>Oh no, The supplied course feedback is invalid!</strong>
                     <ul class="list-disc list-inside">
                         @foreach ($errors->all() as $error)
                             <li>{{ $error }}</li>
                         @endforeach
                     </ul>
+                @endif
                 </div>
-            @endif
             <div class = "mt-2">
                 <p class="font-bold">Lecturer</p>
                 <input
                     type = "text"
+                    id = "lecturer"
                     name = "lecturer"
                     value = "{{ old('lecturer') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
@@ -109,17 +117,23 @@
                 </div>
             </div>
             <div class = "mt-2">
-                <p class="font-bold">Comments:</p>
+                <p class="font-bold">Comments</p>
                 <textarea
                     id="comment"
                     name="comment"
-                    class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >{{ old('comment')}}</textarea>
+                    class="mt-1 block w-full h-40 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+
+                >{{ old('comments')}}</textarea>
             </div>
-            <x-primary-button class="mt-2">{{ __('Submit Feedback') }}</x-primary-button>
+            <x-primary-button class="mt-2" onclick="event.preventDefault(); validateCourseFeedback();">{{ __('Submit Feedback') }}</x-primary-button>
+            <input
+                type = "hidden"
+                name = "code"
+                value = "{{$course->code}}"
+            >
         </form>
         @if(isset($courseFeedback))
-            <p class="italic text-center pt-3">Your feedback is entry #" {{count($courseFeedback)}}</p>
+            <p class="italic text-center pt-3">Your feedback is entry #{{count($courseFeedback)+1}}</p>
         @else
             <p class="italic text-center pt-3 text-green-700 ">Thank you for contributing the first feedback entry for this course!</p>
         @endif
