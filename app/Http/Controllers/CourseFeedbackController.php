@@ -123,6 +123,12 @@ class CourseFeedbackController extends Controller
     {
         // look up feedback by course code
         $course = Course::where('code', $code)->first();
+
+        // bail out if we didn't get a proper course code
+        if (is_null($course)) {
+            return view('courseFeedback.index', []);
+        }
+
         $courseFeedback = CourseFeedback::where('course_id', $course->id)->orderBy('created_at', 'DESC')->paginate(1);
         $courseFeedback->appends(['code' => $code]);
         $viewName = 'courseFeedback.'.$type;
