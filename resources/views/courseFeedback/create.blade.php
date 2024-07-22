@@ -197,8 +197,8 @@ if(!isset($course))
             </script>
 
         </form>
-        @if(isset($courseFeedback))
-            <p class="italic text-center pt-3">Your feedback is entry #{{count($courseFeedback)+1}}</p>
+        @if(isset($course->courseFeedback))
+            <p class="italic text-center pt-3">Your feedback is entry #{{count($course->courseFeedback)+1}}</p>
         @else
             <p class="italic text-center pt-3 text-green-700 ">Thank you for contributing the first feedback entry for this course!</p>
         @endif

@@ -167,14 +167,14 @@ class CourseFeedbackController extends Controller
             $totals[7] += $feedback->ratingAffect;
         }
 
-        $course->ratingDifficulty = round($totals[0] / $count);
-        $course->ratingWorkload = round($totals[1] / $count);
-        $course->ratingClarity = round($totals[2] / $count);
-        $course->ratingRelevance = round($totals[3] / $count);
-        $course->ratingInterest = round($totals[4] / $count);
-        $course->ratingHelpfulness = round($totals[5] / $count);
-        $course->ratingExperiential = round($totals[6] / $count);
-        $course->ratingAffect = round($totals[7] / $count);
+        $course->ratingDifficulty = round($totals[0] / $count, 1);
+        $course->ratingWorkload = round($totals[1] / $count, 1);
+        $course->ratingClarity = round($totals[2] / $count, 1);
+        $course->ratingRelevance = round($totals[3] / $count, 1);
+        $course->ratingInterest = round($totals[4] / $count, 1);
+        $course->ratingHelpfulness = round($totals[5] / $count, 1);
+        $course->ratingExperiential = round($totals[6] / $count, 1);
+        $course->ratingAffect = round($totals[7] / $count, 1);
         $course->save();
     }
 }
