@@ -42,7 +42,7 @@
         $code .= '127775';  // glowing star
 @endphp
 {{--display rating div--}}
-<div class = "flex flex-row-reverse justify-end">
+<div class = "flex flex-row-reverse justify-center">
     <input class="hidden peer peer-checked:opacity-100" type="radio" id="{{$id}}5" name="rating{{ucfirst($id)}}" value="5">
     <label class="text-3xl cursor-pointer opacity-25 hover:opacity-100 peer peer-hover:opacity-100 peer-checked:opacity-100" for="{{$id}}5" title="{{$tooltip}} 5/5">{!!$code!!}</label>
     <input class="hidden peer peer-checked:opacity-100" type="radio" id="{{$id}}4" name="rating{{ucfirst($id)}}" value="4">

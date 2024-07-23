@@ -70,14 +70,14 @@ if(is_null($course))
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl ml-5">{{ $course->code }}: {{$course->name}}</p>
                     <div class="flex justify-start w-full mb-8">
-                        <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;{{$course->ratingDifficulty}}</div>
-                        <div class="cursor-default" title="Workload">&#128338&nbsp;{{$course->ratingWorkload}}</div>
-                        <div class="cursor-default" title="Clarity">&#128302&nbsp;{{$course->ratingClarity}}</div>
-                        <div class="cursor-default" title="Relevance">&#128175&nbsp;{{$course->ratingRelevance}}</div>
-                        <div class="cursor-default" title="Interest">&#128373&nbsp;{{$course->ratingInterest}}</div>
-                        <div class="cursor-default" title="Helpfulness">&#129309&nbsp;{{$course->ratingHelpfulness}}</div>
-                        <div class="cursor-default" title="Experiential">&#127970&nbsp;{{$course->ratingExperiential}}</div>
-                        <div class="cursor-default" title="Affect">&#128151&nbsp;{{$course->ratingAffect}}</div>
+                        <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;<span class="-ml-1">{{$course->ratingDifficulty}}</span></div>
+                        <div class="cursor-default ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">{{$course->ratingWorkload}}</span></div>
+                        <div class="cursor-default ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">{{$course->ratingClarity}}</span></div>
+                        <div class="cursor-default ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">{{$course->ratingRelevance}}</span></div>
+                        <div class="cursor-default ml-2" title="Interest">&#128373&nbsp;<span class="-ml-1">{{$course->ratingInterest}}</span></div>
+                        <div class="cursor-default ml-2" title="Helpfulness">&#129309&nbsp;<span class="-ml-1">{{$course->ratingHelpfulness}}</span></div>
+                        <div class="cursor-default ml-2" title="Experiential">&#127970&nbsp;<span class="-ml-1">{{$course->ratingExperiential}}</span></div>
+                        <div class="cursor-default ml-2" title="Affect">&#128151&nbsp;<span class="-ml-1">{{$course->ratingAffect}}</span></div>
                         <div class="grow"></div>
                     </div>
 {{--                no feedback yet--}}
@@ -89,58 +89,58 @@ if(is_null($course))
                         @else
                             <div class = "flex justify-center items-center w-full">
                                 @if(isset($courseFeedbackCollection))
-                                    <p class="font-bold text-xl mt-4 mb-4">Lecturer: <i>{{ $courseFeedback->lecturer }}</i><br/><span class="text-sm font-normal italic ml-3">{{$courseFeedback->created_at}}</span></p>
+                                    <div class = "flex flex-col items-center">
+                                        <p class="font-bold text-xl mt-4">Lecturer: <i>{{ $courseFeedback->lecturer }}</i></p>
+                                        <p class="text-sm font-normal italic">{{$courseFeedback->created_at}}</p>
+                                    </div>
                                 @else
                                 <p class="text-xl font-bold">New Feedback Entry</p>
                                 @endif
                             </div>
-                            <div class = "m-auto">
-                                <div class="mt-4 flex justify-between w-full">
-                                    <div class="w-full">
+                            <div class = "m-auto px-16 pt-2 mt-6">
+                                <div class="flex justify-between">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Difficulty</p>
                                         <x-five-star id="difficulty"></x-five-star>
                                     </div>
-                                    <div class="pl-1 w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Workload</p>
                                         <x-five-star id="workload"></x-five-star>
                                     </div>
                                 </div>
                                 <div class="mt-3 flex justify-between w-full">
-                                    <div class="w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Clarity</p>
                                         <x-five-star id="clarity"></x-five-star>
                                     </div>
-                                    <div class="pl-1 w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Relevance</p>
                                         <x-five-star id="relevance"></x-five-star>
                                     </div>
                                 </div>
                                 <div class="mt-3 flex justify-between w-full">
-                                    <div class="w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Interest</p>
                                         <x-five-star id="interest"></x-five-star>
                                     </div>
-                                    <div class="pl-1 w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Helpfulness</p>
                                         <x-five-star id="helpfulness"></x-five-star>
                                     </div>
                                 </div>
                                 <div class="mt-3 flex justify-between w-full">
-                                    <div class="w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Experiential</p>
                                         <x-five-star id="experiential"></x-five-star>
                                     </div>
-                                    <div class="pl-1 w-full">
+                                    <div class="w-full flex flex-col items-center">
                                         <p class="font-bold">Affect</p>
                                         <x-five-star id="affect"></x-five-star>
                                     </div>
                                 </div>
                             </div>
-                            <div class = "mt-6">
-                                <p class="ml-4 text-lg font-bold">Comments</p>
-                                <div class="mx-8 my-2">
-                                    {!!$courseFeedback->comment!!}
-                                </div>
+                            <div class="mx-8 mt-8 mb-2">
+                                {!!$courseFeedback->comment!!}
                             </div>
                     </div>
                     @endif
