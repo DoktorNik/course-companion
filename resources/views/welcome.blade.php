@@ -95,7 +95,6 @@
 
                                 <div class="pt-3 sm:pt-5">
                                         <h2 class="text-xl font-semibold text-black dark:text-white">Eligibility</h2>
-
                                     <p class="mt-4 text-sm/relaxed">
                                         See exactly which courses you're eligible for based on your current credit count and completed courses!
                                     </p>
@@ -111,27 +110,27 @@
 
                                 <div class="pt-3 sm:pt-5">
                                     <h2 class="text-xl font-semibold text-black dark:text-white">Course Scheduler   (Coming Soon)</h2>
-
                                     <p class="mt-4 text-sm/relaxed">
-                                        Visually plan your course schedule to ensure you have no scheduling conflicts.
+                                        Visually plan your course schedule to ensure you have no scheduling conflicts during your upcoming term.
                                     </p>
                                 </div>
 
                             </div>
 
+                            <a href="{{ route('courseFeedback.index') }}">
                             <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
                                 <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
                                     <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                                 </div>
 
                                 <div class="pt-3 sm:pt-5">
-                                    <h2 class="text-xl font-semibold text-black dark:text-white">Anonymous Reviews   (Coming Soon)</h2>
-
+                                    <h2 class="text-xl font-semibold text-black dark:text-white">Anonymous Reviews</h2>
                                     <p class="mt-4 text-sm/relaxed">
                                         View anonymous reviews by students on courses, so that you know what you're getting in to. Come back to leave your own course reviews to help future students!
                                     </p>
                                 </div>
                             </div>
+                            </a>
                         </div>
                     </main>
 

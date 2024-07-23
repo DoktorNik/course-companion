@@ -81,12 +81,13 @@ if(is_null($course))
                         <div class="grow"></div>
                     </div>
 {{--                no feedback yet--}}
-                    <div class="border-2 border-gray-300 rounded-lg p-2 w-10/12 m-auto">
-                        @if(!isset($courseFeedback))
+                    @if(!isset($courseFeedback))
+                    <div class="p-2 w-10/12 m-auto">
                             <p class="font-bold text-red-500">There is no feedback available for this course yet!</p>
                             <p class="text-sm ml-3">Please be the first to add feedback</p>
                             {{--                otherwise show the feedback--}}
                         @else
+                        <div class = "border-2 border-gray-300 rounded-lg p-2 w-10/12 m-auto">
                             <div class = "flex justify-center items-center w-full">
                                 @if(isset($courseFeedbackCollection))
                                     <div class = "flex flex-col items-center">

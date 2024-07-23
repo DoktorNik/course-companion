@@ -46,7 +46,7 @@ if(!isset($course))
             </div>
         </div>
     </x-slot>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         <!-- add new feedback -->
         <div>
             <p class="font-bold text-lg mt-4">New Course Feedback</p>
@@ -65,59 +65,58 @@ if(!isset($course))
                     </ul>
                 @endif
                 </div>
-            <div class = "mt-2">
-                <p class="font-bold">Lecturer</p>
+            <div class = "mt-4 font-bold mt-2">
                 <input
                     type = "text"
                     id = "lecturer"
                     name = "lecturer"
+                    placeholder = "Lecturer"
                     value = "{{ old('lecturer') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     required
                 >
             </div>
-            <div class="mt-2 flex justify-between w-full">
-                <div class="w-full">
+            <div class="mt-6 flex justify-between w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Difficulty</p>
                     <x-five-star id="difficulty"></x-five-star>
                 </div>
-                <div class="pl-1 w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Workload</p>
                     <x-five-star id="workload"></x-five-star>
                 </div>
             </div>
             <div class="mt-2 flex justify-between w-full">
-                <div class="w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Clarity</p>
                     <x-five-star id="clarity"></x-five-star>
                 </div>
-                <div class="pl-1 w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Relevance</p>
                     <x-five-star id="relevance"></x-five-star>
                 </div>
             </div>
             <div class="mt-2 flex justify-between w-full">
-                <div class="w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Interest</p>
                     <x-five-star id="interest"></x-five-star>
                 </div>
-                <div class="pl-1 w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Helpfulness</p>
                     <x-five-star id="helpfulness"></x-five-star>
                 </div>
             </div>
             <div class="mt-2 flex justify-between w-full">
-                <div class="w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Experiential</p>
                     <x-five-star id="experiential"></x-five-star>
                 </div>
-                <div class="pl-1 w-full">
+                <div class="w-full flex flex-col items-center">
                     <p class="font-bold">Affect</p>
                     <x-five-star id="affect"></x-five-star>
                 </div>
             </div>
-            <div class = "mt-2">
-                <p class="font-bold">Comments</p>
+            <div class = "mt-8">
                 <link href="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.snow.css" rel="stylesheet" />
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
                 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
@@ -165,9 +164,14 @@ if(!isset($course))
                 </div>
                 <div style="background:#FFFFFF; height:20em;" id="editor">
                 </div>
-            </div>
-            <textarea rows="3" class="invisible" name="comment" id="quill-editor-area"></textarea>
             <x-primary-button class="mt-2" onclick="event.preventDefault(); validateCourseFeedback();">{{ __('Submit Feedback') }}</x-primary-button>
+                @if(isset($course->courseFeedback) && count($course->courseFeedback) > 1)
+                    <p class="italic text-center pt-8">Your feedback is entry #{{count($course->courseFeedback)+1}}</p>
+                @else
+                    <p class="italic text-center pt-8 text-green-700 ">Thank you for contributing the first feedback entry for this course!</p>
+                @endif
+            </div>
+            <input type = "hidden" name="comment" id="quill-editor-area">
             <input
                 type = "hidden"
                 name = "code"
@@ -181,7 +185,7 @@ if(!isset($course))
                         syntax: true,
                         toolbar: '#toolbar-container',
                     },
-                    placeholder: 'What did you think of this course?',
+                    placeholder: 'Please leave your detailed comments on this course for your fellow students.',
                     theme: 'snow',
                 });
 
@@ -197,10 +201,5 @@ if(!isset($course))
             </script>
 
         </form>
-        @if(isset($course->courseFeedback))
-            <p class="italic text-center pt-3">Your feedback is entry #{{count($course->courseFeedback)+1}}</p>
-        @else
-            <p class="italic text-center pt-3 text-green-700 ">Thank you for contributing the first feedback entry for this course!</p>
-        @endif
     </div>
 </x-app-layout>
