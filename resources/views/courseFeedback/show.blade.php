@@ -87,16 +87,15 @@ if(is_null($course))
                             <p class="text-sm ml-3">Please be the first to add feedback</p>
                             {{--                otherwise show the feedback--}}
                         @else
-                            <div class = "m-auto flex justify-between items-center w-4/5">
+                            <div class = "flex justify-center items-center w-full">
                                 @if(isset($courseFeedbackCollection))
-                                    <p class="text-xl font-bold">Feedback Entry #{{$courseFeedbackCollection->currentPage()}} <br/><span class="text-sm font-normal italic ml-3">{{$courseFeedback->created_at}}</span></p>
+                                    <p class="font-bold text-xl mt-4 mb-4">Lecturer: <i>{{ $courseFeedback->lecturer }}</i><br/><span class="text-sm font-normal italic ml-3">{{$courseFeedback->created_at}}</span></p>
                                 @else
                                 <p class="text-xl font-bold">New Feedback Entry</p>
                                 @endif
-                                <p class="font-bold text-lg mt-6 mb-4">Lecturer: <i>{{ $courseFeedback->lecturer }}</i></p>
                             </div>
-                            <div class = "">
-                                <div class="mt-2 flex justify-between w-full">
+                            <div class = "m-auto">
+                                <div class="mt-4 flex justify-between w-full">
                                     <div class="w-full">
                                         <p class="font-bold">Difficulty</p>
                                         <x-five-star id="difficulty"></x-five-star>
@@ -136,11 +135,11 @@ if(is_null($course))
                                         <x-five-star id="affect"></x-five-star>
                                     </div>
                                 </div>
-                                <div class = "mt-6">
-                                    <p class="ml-4 text-lg font-bold">Comments</p>
-                                    <div class="mx-7 pt-1">
-                                        {!!$courseFeedback->comment!!}
-                                    </div>
+                            </div>
+                            <div class = "mt-6">
+                                <p class="ml-4 text-lg font-bold">Comments</p>
+                                <div class="mx-8 my-2">
+                                    {!!$courseFeedback->comment!!}
                                 </div>
                             </div>
                     </div>
