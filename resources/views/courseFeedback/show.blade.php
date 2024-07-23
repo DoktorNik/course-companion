@@ -69,7 +69,7 @@ if(is_null($course))
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4 mx-auto">
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl ml-5">{{ $course->code }}: {{$course->name}}</p>
-                    <div class="flex justify-start w-full mb-12">
+                    <div class="flex justify-start w-full mb-8">
                         <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;{{$course->ratingDifficulty}}</div>
                         <div class="cursor-default" title="Workload">&#128338&nbsp;{{$course->ratingWorkload}}</div>
                         <div class="cursor-default" title="Clarity">&#128302&nbsp;{{$course->ratingClarity}}</div>
@@ -87,7 +87,7 @@ if(is_null($course))
                             <p class="text-sm ml-3">Please be the first to add feedback</p>
                             {{--                otherwise show the feedback--}}
                         @else
-                            <div class = "flex justify-between items-center w-4/5">
+                            <div class = "m-auto flex justify-between items-center w-4/5">
                                 @if(isset($courseFeedbackCollection))
                                     <p class="text-xl font-bold">Feedback Entry #{{$courseFeedbackCollection->currentPage()}} <br/><span class="text-sm font-normal italic ml-3">{{$courseFeedback->created_at}}</span></p>
                                 @else
@@ -106,7 +106,7 @@ if(is_null($course))
                                         <x-five-star id="workload"></x-five-star>
                                     </div>
                                 </div>
-                                <div class="mt-2 flex justify-between w-full">
+                                <div class="mt-3 flex justify-between w-full">
                                     <div class="w-full">
                                         <p class="font-bold">Clarity</p>
                                         <x-five-star id="clarity"></x-five-star>
@@ -116,7 +116,7 @@ if(is_null($course))
                                         <x-five-star id="relevance"></x-five-star>
                                     </div>
                                 </div>
-                                <div class="mt-2 flex justify-between w-full">
+                                <div class="mt-3 flex justify-between w-full">
                                     <div class="w-full">
                                         <p class="font-bold">Interest</p>
                                         <x-five-star id="interest"></x-five-star>
@@ -126,7 +126,7 @@ if(is_null($course))
                                         <x-five-star id="helpfulness"></x-five-star>
                                     </div>
                                 </div>
-                                <div class="mt-2 flex justify-between w-full">
+                                <div class="mt-3 flex justify-between w-full">
                                     <div class="w-full">
                                         <p class="font-bold">Experiential</p>
                                         <x-five-star id="experiential"></x-five-star>
@@ -137,8 +137,10 @@ if(is_null($course))
                                     </div>
                                 </div>
                                 <div class = "mt-6">
-                                    <p class="text-lg font-bold">Comments</p>
-                                    {!!$courseFeedback->comment!!}
+                                    <p class="ml-4 text-lg font-bold">Comments</p>
+                                    <div class="mx-7 pt-1">
+                                        {!!$courseFeedback->comment!!}
+                                    </div>
                                 </div>
                             </div>
                     </div>
