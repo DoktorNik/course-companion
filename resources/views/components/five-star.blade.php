@@ -8,11 +8,11 @@
     $tooltip = '';
     if($id == "difficulty") {
        $code .= '128547';   // persevering face
-       $tooltip = "How challenging the course is";
+       $tooltip = "How challenging you found the course";
    }
     elseif($id == "workload") {
         $code .= '128338';  // clock
-        $tooltip = "How much work this course took";
+        $tooltip = "How much work you did in this course";
     }
     elseif($id == "clarity") {
         $code .= '128302';   // crystal ball

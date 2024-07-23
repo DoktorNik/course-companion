@@ -65,7 +65,7 @@ if(!isset($course))
                     </ul>
                 @endif
                 </div>
-            <div class = "mt-4 font-bold mt-2">
+            <div class = "mt-4 font-bold">
                 <input
                     type = "text"
                     id = "lecturer"
@@ -78,41 +78,41 @@ if(!isset($course))
             </div>
             <div class="mt-6 flex justify-between w-full">
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Difficulty</p>
+                    <p class="font-bold" title="How challenging you found the course">Difficulty</p>
                     <x-five-star id="difficulty"></x-five-star>
                 </div>
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Workload</p>
+                    <p class="font-bold" title="How much work you did in this course">Workload</p>
                     <x-five-star id="workload"></x-five-star>
                 </div>
             </div>
             <div class="mt-2 flex justify-between w-full">
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Clarity</p>
+                    <p class="font-bold" title="How clear the course material is">Clarity</p>
                     <x-five-star id="clarity"></x-five-star>
                 </div>
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Relevance</p>
+                    <p class="font-bold" title="How relevant the course material is">Relevance</p>
                     <x-five-star id="relevance"></x-five-star>
                 </div>
             </div>
             <div class="mt-2 flex justify-between w-full">
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Interest</p>
+                    <p class="font-bold" title="How interesting the course is">Interest</p>
                     <x-five-star id="interest"></x-five-star>
                 </div>
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Helpfulness</p>
+                    <p class="font-bold" title="How helpful the course is">Helpfulness</p>
                     <x-five-star id="helpfulness"></x-five-star>
                 </div>
             </div>
             <div class="mt-2 flex justify-between w-full">
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Experiential</p>
+                    <p class="font-bold" title="How much experience you gained in the course">Experiential</p>
                     <x-five-star id="experiential"></x-five-star>
                 </div>
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold">Affect</p>
+                    <p class="font-bold" title="How positive you felt during the course">Affect</p>
                     <x-five-star id="affect"></x-five-star>
                 </div>
             </div>

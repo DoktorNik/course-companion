@@ -70,14 +70,26 @@ if(is_null($course))
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl ml-5">{{ $course->code }}: {{$course->name}}</p>
                     <div class="flex justify-start w-full mb-8">
-                        <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;<span class="-ml-1">{{$course->ratingDifficulty}}</span></div>
-                        <div class="cursor-default ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">{{$course->ratingWorkload}}</span></div>
-                        <div class="cursor-default ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">{{$course->ratingClarity}}</span></div>
-                        <div class="cursor-default ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">{{$course->ratingRelevance}}</span></div>
-                        <div class="cursor-default ml-2" title="Interest">&#128373&nbsp;<span class="-ml-1">{{$course->ratingInterest}}</span></div>
-                        <div class="cursor-default ml-2" title="Helpfulness">&#129309&nbsp;<span class="-ml-1">{{$course->ratingHelpfulness}}</span></div>
-                        <div class="cursor-default ml-2" title="Experiential">&#127970&nbsp;<span class="-ml-1">{{$course->ratingExperiential}}</span></div>
-                        <div class="cursor-default ml-2" title="Affect">&#128151&nbsp;<span class="-ml-1">{{$course->ratingAffect}}</span></div>
+{{--                    show ?s to more accurately represent no data, when we don't have it --}}
+                        @if($course->ratingDifficulty == 0)
+                            <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Interest">&#128373&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Helpfulness">&#129309&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Experiential">&#127970&nbsp;<span class="-ml-1">?</span></div>
+                            <div class="cursor-default ml-2" title="Affect">&#128151&nbsp;<span class="-ml-1">?</span></div>
+                        @else
+                            <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;<span class="-ml-1">{{$course->ratingDifficulty}}</span></div>
+                            <div class="cursor-default ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">{{$course->ratingWorkload}}</span></div>
+                            <div class="cursor-default ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">{{$course->ratingClarity}}</span></div>
+                            <div class="cursor-default ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">{{$course->ratingRelevance}}</span></div>
+                            <div class="cursor-default ml-2" title="Interest">&#128373&nbsp;<span class="-ml-1">{{$course->ratingInterest}}</span></div>
+                            <div class="cursor-default ml-2" title="Helpfulness">&#129309&nbsp;<span class="-ml-1">{{$course->ratingHelpfulness}}</span></div>
+                            <div class="cursor-default ml-2" title="Experiential">&#127970&nbsp;<span class="-ml-1">{{$course->ratingExperiential}}</span></div>
+                            <div class="cursor-default ml-2" title="Affect">&#128151&nbsp;<span class="-ml-1">{{$course->ratingAffect}}</span></div>
+                        @endif
                         <div class="grow"></div>
                     </div>
 {{--                no feedback yet--}}
@@ -101,41 +113,41 @@ if(is_null($course))
                             <div class = "m-auto px-16 pt-2 mt-6">
                                 <div class="flex justify-between">
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Difficulty</p>
+                                        <p class="font-bold" title="How challenging you found the course">Difficulty</p>
                                         <x-five-star id="difficulty"></x-five-star>
                                     </div>
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Workload</p>
+                                        <p class="font-bold" title="How much work you did in this course">Workload</p>
                                         <x-five-star id="workload"></x-five-star>
                                     </div>
                                 </div>
                                 <div class="mt-3 flex justify-between w-full">
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Clarity</p>
+                                        <p class="font-bold" title="How clear the course material is">Clarity</p>
                                         <x-five-star id="clarity"></x-five-star>
                                     </div>
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Relevance</p>
+                                        <p class="font-bold" title="How relevant the course material is">Relevance</p>
                                         <x-five-star id="relevance"></x-five-star>
                                     </div>
                                 </div>
                                 <div class="mt-3 flex justify-between w-full">
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Interest</p>
+                                        <p class="font-bold" title="How interesting the course is">Interest</p>
                                         <x-five-star id="interest"></x-five-star>
                                     </div>
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Helpfulness</p>
+                                        <p class="font-bold" title="How helpful the course is">Helpfulness</p>
                                         <x-five-star id="helpfulness"></x-five-star>
                                     </div>
                                 </div>
                                 <div class="mt-3 flex justify-between w-full">
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Experiential</p>
+                                        <p class="font-bold" title="How much experience you gained in the course">Experiential</p>
                                         <x-five-star id="experiential"></x-five-star>
                                     </div>
                                     <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold">Affect</p>
+                                        <p class="font-bold" title="How positive you felt during the course">Affect</p>
                                         <x-five-star id="affect"></x-five-star>
                                     </div>
                                 </div>
