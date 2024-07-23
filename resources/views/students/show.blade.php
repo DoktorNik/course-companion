@@ -16,8 +16,8 @@
                         <div class="flex justify-between items-center">
                             <div>
                                 <span class="font-bold text-lg">{{ $student->name }}</a></span>
-                                <span class="ml-1.5 text-gray-700">{{ $student->number }}</span>
-                                <span class="ml-3.5 text-gray-700">{{ $student->major }} {{ __('major') }}</span>
+                                <span class="ml-1.5 text-gray-700 italic">{{ $student->number }}</span>
+                                <span class="ml-3.5 text-gray-700">{{ $student->major }} {{ __('Major') }}</span>
                             </div>
                         </div>
                         <div class="flex justify-between items-center">
@@ -51,45 +51,44 @@
                 >
             </div>
         </div>
-            <div class="mt-2 flex justify-between w-full">
-                <div class="w-full">
-                    <p class="font-bold">Maximum First Year Electives</p>
-                    <input readonly
-                           type="text"
-                           name="creditsCompleted"
-                           value="{{$student->electivesCompletedFirstYear}} / 8.0"
-                           class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                    >
-                </div>
-                <div class="pl-1 w-full">
-                    <p class="font-bold">Minimum Second Year Electives</p>
-                    <input readonly
-                           type="text"
-                           name="creditsCompletedMajor"
-                           value="{{$student->electivesCompletedSecondYear}} / 3.0"
-                           class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                    >
-                </div>
+        <div class="mt-2 flex justify-between w-full">
+            <div class="w-full">
+                <p class="font-bold">Maximum First Year Electives</p>
+                <input readonly
+                       type="text"
+                       name="creditsCompleted"
+                       value="{{$student->electivesCompletedFirstYear}} / 8.0"
+                       class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                >
             </div>
-            <div class = "mt-2">
-                <p class="font-bold">Completed Courses</p>
-                <div class="p-2 h-20 overflow-y-auto bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                >@php
-                        $out = "";
-                        if(isset($student->CompletedCourses->course)) {
-                            foreach($student->CompletedCourses->course as $courseCompleted) {
-                                $out.= $courseCompleted->code.": ".$courseCompleted->name."<br />";
-                            }
-                            $out = substr($out, 0, -2);
-                            echo $out;
+            <div class="pl-1 w-full">
+                <p class="font-bold">Minimum Second Year Electives</p>
+                <input readonly
+                       type="text"
+                       name="creditsCompletedMajor"
+                       value="{{$student->electivesCompletedSecondYear}} / 3.0"
+                       class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                >
+            </div>
+        </div>
+        <div class = "mt-4">
+            <p class="font-bold">Completed Courses</p>
+            <div class="p-2 h-20 overflow-y-auto bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >@php
+                    $out = "";
+                    if(isset($student->CompletedCourses->course)) {
+                        foreach($student->CompletedCourses->course as $courseCompleted) {
+                            $out.= $courseCompleted->code.": ".$courseCompleted->name."<br />";
                         }
-                        if($out == "")
-                            echo "None";
-                    @endphp
-                </div>
+                        $out = substr($out, 0, -2);
+                        echo $out;
+                    }
+                    if($out == "")
+                        echo "None";
+                @endphp
             </div>
-
-        <div class = "mt-2">
+        </div>
+        <div class = "mt-4">
             <p class="font-bold">Eligible Courses Required by Major</p>
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
@@ -109,10 +108,10 @@
                 if($out == "")
                     echo "None";
                 @endphp</div>
-            <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
+        <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         @if(isset($student->concentration))
-        <div class = "mt-2">
+        <div class = "mt-4">
             <p class="font-bold">Eligible Courses in Concentration</p>
             <div
                 class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
@@ -134,10 +133,10 @@
                     if($out == "")
                         echo "None";
                 @endphp</div>
-            <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
+        <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         @endif
-        <div class = "mt-2">
+        <div class = "mt-4">
             <p class="font-bold">Eligible Major Elective Courses</p>
             <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
             >@php
@@ -158,12 +157,10 @@
                 if($out == "")
                     echo "None";
             @endphp</div>
-            <p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p>
         </div>
-        <div class = "mt-2">
+        <div class = "mt-4">
             <p class="font-bold">Eligible Non-Major Elective Courses</p>
-        <div
-            class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+        <div class="p-2 bg-white border border-gray-300 block w-full focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
         >@php
                 // non-major electives
                 $out = "";
@@ -181,11 +178,12 @@
                 }
                 if($out == "")
                     echo "None";
-            @endphp<p class = "mt-1 text-red-500">{{ __('* Minimum grade required to continue major')}}</p></div>
+            @endphp
         </div>
         @endif
         <div class="mt-4 space-x-2">
             <a href="{{ route('students.index') }}">{{ __('< Students') }}</a>
         </div>
+    </div>
     </div>
 </x-app-layout>
