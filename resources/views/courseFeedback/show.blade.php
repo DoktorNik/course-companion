@@ -68,29 +68,9 @@ if(is_null($course))
         <div class="max-w-5xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4 mx-auto">
                 <div class="p-6 text-gray-900">
-                    <p class="font-bold text-xl ml-5">{{ $course->code }}: {{$course->name}}</p>
+                    <a class="font-bold text-xl ml-5" href="{{ route('courses.findCourse', ['code' => $course->code]) }}">{{ $course->code }}: {{$course->name}}</a>
                     <div class="flex justify-start w-full mb-8">
-{{--                    show ?s to more accurately represent no data, when we don't have it --}}
-                        @if($course->ratingDifficulty == 0)
-                            <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Interest">&#128373&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Helpfulness">&#129309&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Experiential">&#127970&nbsp;<span class="-ml-1">?</span></div>
-                            <div class="cursor-default ml-2" title="Affect">&#128151&nbsp;<span class="-ml-1">?</span></div>
-                        @else
-                            <div class="cursor-default ml-8" title="Difficulty">&#128547&nbsp;<span class="-ml-1">{{$course->ratingDifficulty}}</span></div>
-                            <div class="cursor-default ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">{{$course->ratingWorkload}}</span></div>
-                            <div class="cursor-default ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">{{$course->ratingClarity}}</span></div>
-                            <div class="cursor-default ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">{{$course->ratingRelevance}}</span></div>
-                            <div class="cursor-default ml-2" title="Interest">&#128373&nbsp;<span class="-ml-1">{{$course->ratingInterest}}</span></div>
-                            <div class="cursor-default ml-2" title="Helpfulness">&#129309&nbsp;<span class="-ml-1">{{$course->ratingHelpfulness}}</span></div>
-                            <div class="cursor-default ml-2" title="Experiential">&#127970&nbsp;<span class="-ml-1">{{$course->ratingExperiential}}</span></div>
-                            <div class="cursor-default ml-2" title="Affect">&#128151&nbsp;<span class="-ml-1">{{$course->ratingAffect}}</span></div>
-                        @endif
-                        <div class="grow"></div>
+                        <x-show-ratings :course="$course" ml="8"></x-show-ratings>
                     </div>
 {{--                no feedback yet--}}
                     @if(!isset($courseFeedback))
@@ -182,6 +162,3 @@ if(is_null($course))
     }, false);
 </script>
 @endif
-
-{{-- paginator auto capitilizing property names?!?!?! --}}
-{{-- https://laracasts.com/discuss/channels/laravel/paginator-automatically-changing-variable-case --}}

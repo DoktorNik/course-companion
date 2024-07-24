@@ -180,12 +180,15 @@
         <div class="font-bold text-lg mt-6 mb-3">Course Listing</div>
         <div class="bg-white shadow-sm rounded-lg divide-y">
             @foreach ($courses as $course)
-                <div class="p-4 flex space-x-1.5">
+                <div class="p-4 flex space-x-2">
                     <div class="flex-1">
                         <div class="flex justify-between items-center">
-                            <div>
-                                <span class="text-gray-800"><a href="{{ route('courses.show', $course) }}">{{ $course->code }}</a></span>
+                            <div class="my-1.5">
+                                <span class="font-bold"><a href="{{ route('courses.show', $course) }}">{{ $course->code }}</a></span><span class="ml-1"><a href="{{ route('courses.show', $course) }}">{{$course->name}}</a></span>
                                 <small class="ml-2 text-sm text-gray-600">{{ $course->duration }}</small>
+                                <div class="flex justify-start w-full">
+                                    <x-show-ratings :course="$course" ml="2"></x-show-ratings>
+                                </div>
                             </div>
                             @if ($course->user->is(auth()->user()))
                                 <x-dropdown>
@@ -211,7 +214,7 @@
                                 </x-dropdown>
                             @endif
                         </div>
-                        <p class="mt-1.5 text-lg text-gray-900"><a href="{{ route('courses.show', $course) }}">{{ $course->name }}</a></p>
+{{--                        <p class="mt-1.5 text-lg text-gray-900"><a href="{{ route('courses.show', $course) }}">{{ $course->name }}</a></p>--}}
                     </div>
                 </div>
             @endforeach

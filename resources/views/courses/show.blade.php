@@ -13,7 +13,8 @@
         <div class="divide-y">
             <div class="p-6 flex space-x-2">
                 <div class="flex-1">
-                    <div class="flex justify-between items-center">
+                    <x-show-ratings :course="$course" ml="0"></x-show-ratings>
+                    <div class="flex justify-between items-center mt-1">
                         <div>
                             <span class="font-bold text-lg">{{ $course->code }}: {{$course->name}}</span>
                             <span class="ml-1.5 text-gray-700">{{ $course->duration }}</span>
