@@ -112,7 +112,7 @@ if(!isset($course))
                     <x-five-star id="experiential"></x-five-star>
                 </div>
                 <div class="w-full flex flex-col items-center">
-                    <p class="font-bold" title="How positive you felt during the course">Affect</p>
+                    <p class="font-bold" title="How positive you felt during the course">Positive Affect</p>
                     <x-five-star id="affect"></x-five-star>
                 </div>
             </div>
