@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseFeedbackController;
+use App\Http\Controllers\SearchController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// search the app for all the things
+Route::get('/search', [SearchController::class, 'find'])
+    ->name('search.find')
+    ->middleware(['auth', 'verified']);
 
 Route::get('/findStudent', [StudentController::class, 'findStudent'])
     ->name('students.findStudent')

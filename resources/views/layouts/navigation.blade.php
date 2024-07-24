@@ -27,6 +27,23 @@
                 </div>
             </div>
 
+            <form class = "mb-0 flex items-center" method="GET" action="{{ route('search.find') }}">
+                @csrf
+                @method('GET')
+                <div class="flex flex-nowrap items-center">
+                    <input
+                        type = "text"
+                        name="searchString"
+                        placeholder="Search"
+                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    >
+                    <x-primary-button class="ml-1">
+                        Lookup
+                    </x-primary-button>
+                </div>
+            </form>
+
+
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">

@@ -14,25 +14,7 @@
                 </h2>
             </div>
         </div>
-        <div class="flex justify-end w-full">
-            <form method="POST" action="{{ route('courseFeedback.find') }}">
-                @csrf
-                @method('GET')
-                <div class="flex">
-                    <input
-                        type = "text"
-                        name="code"
-                        placeholder="COSC 1P02"
-                        class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                    >
-                    <x-primary-button class="ml-1">
-                        Lookup
-                    </x-primary-button>
-                </div>
-            </form>
-        </div>
     </x-slot>
-
 {{--    main div--}}
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

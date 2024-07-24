@@ -24,42 +24,24 @@ if(is_null($course))
 @endphp
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between w-full">
-            <div class="w-full">
+        <div class="flex justify-between items-center w-full">
+            <div class = "w-full">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('View Course Feedback') }}
+                    {{ __('Course Feedback \ Show') }}
                 </h2>
             </div>
-            <div class="flex justify-between w-full">
-                <div class="w-full">
-                    <form method="POST" action="{{ route('courseFeedback.create') }}">
-                        @csrf
-                        @method('GET')
-                        <input type = "hidden" value="{{$course->code}}" name="code">
-                        <div class="flex">
-                            <x-primary-button class="ml-1">
-                                Add Feedback
-                            </x-primary-button>
-                        </div>
-                    </form>
-                </div>
-                <div class="w-full">
-                    <form method="POST" action="{{ route('courseFeedback.find') }}">
-                        @csrf
-                        @method('GET')
-                        <div class="flex">
-                            <input
-                                type = "text"
-                                name="code"
-                                placeholder="COSC 1P02"
-                                class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                            >
-                            <x-primary-button class="ml-1">
-                                Lookup
-                            </x-primary-button>
-                        </div>
-                    </form>
-                </div>
+
+            <div class="flex w-full justify-end">
+                <form class="m-0" method="POST" action="{{ route('courseFeedback.create') }}">
+                    @csrf
+                    @method('GET')
+                    <input type = "hidden" value="{{$course->code}}" name="code">
+                    <div class="flex">
+                        <x-primary-button class="ml-1">
+                            Add Feedback
+                        </x-primary-button>
+                    </div>
+                </form>
             </div>
         </div>
     </x-slot>

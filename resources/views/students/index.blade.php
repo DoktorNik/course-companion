@@ -13,23 +13,6 @@
                     {{ __('Students') }}
                 </h2>
             </div>
-            <div class="flex justify-end w-full">
-                <form method="POST" action="{{ route('students.findStudent') }}">
-                    @csrf
-                    @method('GET')
-                    <div class="flex">
-                        <input
-                            type = "text"
-                            name="number"
-                            placeholder="1234567"
-                            class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                        >
-                        <x-primary-button class="ml-1">
-                            Lookup
-                        </x-primary-button>
-                    </div>
-                </form>
-            </div>
         </div>
     </x-slot>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">

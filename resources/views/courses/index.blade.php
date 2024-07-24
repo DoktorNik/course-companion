@@ -13,23 +13,6 @@
                     {{ __('Courses') }}
                 </h2>
             </div>
-            <div class = "flex w-full justify-end">
-                <form method="POST" action="{{ route('courses.findCourse') }}">
-                @csrf
-                @method('GET')
-                <div class="flex">
-                    <input
-                        type = "text"
-                        name="code"
-                        placeholder="COSC 1P02"
-                        class="block w-56 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-                    >
-                    <x-primary-button class="ml-1">
-                        Lookup
-                    </x-primary-button>
-                </div>
-                </form>
-            </div>
         </div>
     </x-slot>
     <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
