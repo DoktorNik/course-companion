@@ -24,7 +24,7 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-   public function CompletedCourses(): HasOne
+   public function completedCourses(): HasOne
    {
        return $this->hasOne(CompletedCourses::class);
    }

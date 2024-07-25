@@ -39,11 +39,11 @@ Route::get('/findCourseFeedback', [CourseFeedbackController::class, 'find'])
     ->middleware(['auth', 'verified']);
 
 Route::resource('students', StudentController::class)
-    ->only(['index', 'show', 'store', 'edit', 'update', 'destroy'])
+    ->only(['index', 'show', 'store', 'create', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
 Route::resource('courses', CourseController::class)
-    ->only(['index', 'show', 'store', 'edit', 'update', 'destroy'])
+    ->only(['index', 'show', 'store', 'create', 'edit', 'update', 'destroy'])
     ->middleware(['auth', 'verified']);
 
 Route::resource('courseFeedback', CourseFeedbackController::class)

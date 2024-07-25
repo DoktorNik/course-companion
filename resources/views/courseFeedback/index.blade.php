@@ -7,7 +7,7 @@
 </head>
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex justify-between w-full">
+        <div class="flex justify-between items-center w-full">
             <div class="w-full">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
                     {{ __('Course Feedback') }}
@@ -19,7 +19,7 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-dashboard-text heading="Course Feedback" text="Course feedback is anonymously provided by students, for students."></x-dashboard-text>
-            <x-dashboard-text heading="Anonymity" text="Only what you enter is included when providing course feedback. Your student number, login, and other identifying information is not saved."></x-dashboard-text>
+            <x-dashboard-text heading="Anonymity" text="Only a timestamp and what you enter is included when providing course feedback. Your student number, login, and other identifying information is not saved."></x-dashboard-text>
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4">
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl">Course Code</p>

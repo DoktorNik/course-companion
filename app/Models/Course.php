@@ -37,7 +37,7 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function CompletedCourses(): BelongsToMany
+    public function completedCourses(): BelongsToMany
     {
         return $this->belongsToMany(CompletedCourses::class, 'completed_courses_courses');
     }

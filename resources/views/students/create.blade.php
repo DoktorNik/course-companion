@@ -1,5 +1,5 @@
 <head>
-    <title></title>
+<title></title>
     @push('scripts')
         @vite(['resources/js/updateArray.js'])
     @endpush
@@ -7,15 +7,20 @@
 </head>
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Students \ Edit') }}
-        </h2>
+        <div class="flex justify-between items-center w-full">
+            <div class="w-full">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Student \ New') }}
+                </h2>
+            </div>
+        </div>
     </x-slot>
-    <div class="max-w-2xl mx-auto p-4 sm:p-6 lg:p-8">
-        <form method="POST" action="{{ route('students.update', $student) }}">
+    <div class="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
+        <!-- add new student -->
+        <div class="font-bold text-lg mt-8 mb-3">Add New Student</div>
+        <form method="POST" action="{{ route('students.store') }}">
             @csrf
-            @method('patch')
-            <div class="font-bold text-lg mb-3">Edit Student</div>
+            @method('POST')
             @if ($errors->any())
                 <div class="bg-red-200 text-red-700 p-2.5 m-2">
                     <strong>Oh no, The supplied student data is invalid!</strong>
@@ -26,14 +31,15 @@
                     </ul>
                 </div>
             @endif
-            <div class="mt-2">
+            <div class = "mt-2">
                 <p class="font-bold">Student Name</p>
                 <input
                     type = "text"
                     name = "name"
                     placeholder = "{{__('Thomas Anderson') }}"
-                    value = "{{ old('name', $student->name) }}"
+                    value = "{{ old('name') }}"
                     class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    required
                 >
             </div>
             <div class="mt-2 flex justify-between w-full">
@@ -43,7 +49,7 @@
                         type = "text"
                         name = "number"
                         placeholder = "{{__('1234567') }}"
-                        value = "{{ old('number', $student->number) }}"
+                        value = "{{ old('number') }}"
                         class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -54,7 +60,7 @@
                         type = "text"
                         name = "major"
                         placeholder= "{{__('COSC') }}"
-                        value = "{{ old('major', $student->major) }}"
+                        value = "{{ old('major') }}"
                         class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         required
                     >
@@ -65,7 +71,7 @@
                         type = "text"
                         name = "concentration"
                         placeholder= "{{__('Artificial Intelligence') }}"
-                        value = "{{ old('concentration', $student->concentration) }}"
+                        value = "{{ old('concentration') }}"
                         class = "block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                     >
                 </div>
@@ -88,15 +94,13 @@
                     </x-primary-button>
                 </div>
             </div>
+
             <textarea readonly
-                id="taArray"
-                name="coursesCompleted"
-                class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('coursesCompleted') }}@if(!old('coursesCompleted') && !is_null($student->completedCourses))@foreach($student->completedCourses->course as $cc){{$cc->code}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
-            <div class="mt-4 space-x-2">
-                <x-primary-button class="mt-4">{{ __('Update') }}</x-primary-button>
-                    <a href="{{ route('students.index') }}">{{ __('Cancel') }}</a>
-            </div>
+                      id="taArray"
+                      name="coursesCompleted"
+                      class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+            >{{ old('coursesCompleted') }}</textarea>
+            <x-primary-button class="mt-2">{{ __('Save') }}</x-primary-button>
         </form>
     </div>
 </x-app-layout>

@@ -40,9 +40,9 @@ class CourseController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('courses.create');
     }
 
     /**
@@ -69,9 +69,11 @@ class CourseController extends Controller
         $validated['concentration'] = explode(", ", $request->input('concentration'));
 
         // create the course
-        $request->user()->courses()->create($validated);
+        $course = $request->user()->courses()->create($validated);
 
-        return redirect(route('courses.index'));
+        return redirect(route('courses.show', [
+            'course' => $course,
+        ]));
     }
 
     /**

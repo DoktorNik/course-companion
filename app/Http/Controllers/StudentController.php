@@ -7,6 +7,7 @@ use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -28,17 +29,16 @@ class StudentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(): View
     {
-        //
+        return view('students.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): View
+    public function store(Request $request): RedirectResponse
     {
-
         // validate
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -49,15 +49,9 @@ class StudentController extends Controller
 
         // create
         $student = $request->user()->students()->create($validated);
-
-        // update computed properties
-        $this->updateStudent($student, $request);
-        $student->save();
-
-        // show student entry
-        return view('students.show', [
-            'student' => $student,
-        ]);
+        $this->fillChildren($student);
+        $student->refresh(); // force the model to refresh *flips desk*
+        return $this->update($request, $student);
     }
 
     /**
@@ -103,7 +97,6 @@ class StudentController extends Controller
     {
         // update computed student properties
         Gate::authorize('view', $student);
-        $this->fillChildren($student);
         //$this->updateStudent($student);
         //$student->save();
 
@@ -129,6 +122,7 @@ class StudentController extends Controller
      */
     public function update(Request $request, Student $student): RedirectResponse
     {
+
         Gate::authorize('update', $student);
 
         $validated = $request->validate([
@@ -142,6 +136,7 @@ class StudentController extends Controller
         // update computed student properties
         $this->updateStudent($student, $request);
         $student->save();
+
 
         return redirect(route('students.show', [
             'student' => $student,
@@ -162,9 +157,10 @@ class StudentController extends Controller
     }
 
     private function fillChildren($student): void{
+
         // setup children if necessary
-        if(!isset($student->CompletedCourses)) {
-            $student->CompletedCourses()->create();
+        if(!isset($student->completedCourses)) {
+            $student->completedCourses()->create();
         }
         if(!isset($student->eligibleCoursesMajor)) {
             $student->eligibleCoursesMajor()->create();
@@ -182,6 +178,7 @@ class StudentController extends Controller
             $student->eligibleCoursesElective()->create();
         }
         $student->save();
+        //dd($student);
     }
 
     private function updateCreditsCompleted(student $student): void
@@ -193,10 +190,10 @@ class StudentController extends Controller
         $electivesCompletedSecondYear = 0.0;
 
         // if any courses are completed
-        if($student->CompletedCourses && $student->CompletedCourses->course) {
+        if($student->completedCourses && $student->completedCourses->course) {
 
             // each course completed
-            foreach ($student->CompletedCourses->course as $courseCompleted) {
+            foreach ($student->completedCourses->course as $courseCompleted) {
                 $count = 0;
 
                 // half or full credit?
@@ -235,6 +232,7 @@ class StudentController extends Controller
         $student->creditsCompletedMajor = $creditsCompletedMajor;
         $student->electivesCompletedFirstYear = $electivesCompletedFirstYear;
         $student->electivesCompletedSecondYear = $electivesCompletedSecondYear;
+        $student->save();
     }
 
     private function updateEligibleCourses(Student $student): void
@@ -245,8 +243,8 @@ class StudentController extends Controller
         foreach ($courses as $course) {
 
             // skip if course is already completed
-            if (isset($student->CompletedCourses->course)) {
-                foreach ($student->CompletedCourses->course as $courseCompleted) {
+            if (isset($student->completedCourses->course)) {
+                foreach ($student->completedCourses->course as $courseCompleted) {
                     if ($course->code == $courseCompleted->code) {
                         continue 2;
                     }
@@ -272,10 +270,10 @@ class StudentController extends Controller
                     // default to not completed
                     $completed = false;
 
-                    if (isset($student->CompletedCourses->course)) {
+                    if (isset($student->completedCourses->course)) {
 
                         // go through each course completed by the student
-                        foreach ($student->CompletedCourses->course as $courseCompleted) {
+                        foreach ($student->completedCourses->course as $courseCompleted) {
 
                             // set it to completed if there's a match
                             if ($courseCompleted->code == $coursePrereqCode) {
@@ -327,11 +325,14 @@ class StudentController extends Controller
 
     private function updateStudent(Student $student, $request = null): void
     {
+
         // update computed student info
         if(!is_null($request)) {
             $this->updateCoursesTaken($request, $student);
         }
 
+        //dd($student, $request);
+        $student->refresh(); // force the model to refresh *flips desk*
         $this->updateCreditsCompleted($student);
         $this->updateEligibleCourses($student);
     }
@@ -391,12 +392,12 @@ class StudentController extends Controller
 
     private function createRelatedCourseRecord($student, $type, $code): void
     {
-
+        $this->fillChildren($student);
         $sc = null; // student course of this type
         $course = Course::where('code', $code)->first(); // the course
-
         if ($type == "Completed") {
             $sc = $student->completedCourses;
+            //dd($student, $type, $sc);
         }
         elseif ($type == "Major") {
             $sc = $student->eligibleCoursesMajor;
@@ -417,7 +418,10 @@ class StudentController extends Controller
         // add the course if it hasn't been added already
         if (!$this->relatedCourseRecordExists($sc, $course)) {
             if ($type == "Completed") {
-                $course->CompletedCourses()->attach($sc);
+                if(is_null($student->completedCourses))
+                    $student->completedCourses()->create();
+                $course->completedCourses()->attach($student->completedCourses);
+                //dd($student, $course, $type, false, $student->completedCourses);
             }
             elseif ($type == "Major") {
                 $course->EligibleCoursesMajor()->attach($sc);

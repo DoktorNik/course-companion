@@ -21,10 +21,10 @@ if(!isset($course))
         @endif
     @endif
     <x-slot name="header">
-        <div class="flex justify-between w-full">
+        <div class="flex justify-between items-center w-full">
             <div class="w-full">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Course Feedback \ Create') }}
+                    {{ __('Course Feedback \ New') }}
                 </h2>
             </div>
         </div>
