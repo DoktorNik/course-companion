@@ -90,6 +90,9 @@
                 @foreach($student->eligibleCoursesMajor->course as $courseCompleted)
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
+                        @if($courseCompleted->minimumGrade)
+                            <span class = "text-red-500">*{{ $courseCompleted->minimumGrade }}%</span>
+                        @endif
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
                             <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
@@ -105,6 +108,9 @@
                 @foreach($student->eligibleCoursesConcentration->course as $courseCompleted)
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
+                        @if($courseCompleted->minimumGrade)
+                            <span class = "text-red-500">*{{ $courseCompleted->minimumGrade }}%</span>
+                        @endif
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
                             <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
@@ -120,6 +126,9 @@
                 @foreach($student->eligibleCoursesElectiveMajor->course as $courseCompleted)
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
+                        @if($courseCompleted->minimumGrade)
+                            <span class = "text-red-500">*{{ $courseCompleted->minimumGrade }}%</span>
+                        @endif
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
                             <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
@@ -133,6 +142,9 @@
             @foreach($student->eligibleCoursesElective->course as $courseCompleted)
                 <div class="tooltip-container">
                     {{ $courseCompleted->code }}: {{$courseCompleted->name}}
+                    @if($courseCompleted->minimumGrade)
+                        <span class = "text-red-500">*{{ $courseCompleted->minimumGrade }}%</span>
+                    @endif
                     <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
                         <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                     </div>
