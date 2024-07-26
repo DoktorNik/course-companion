@@ -44,12 +44,14 @@
                 </div>
             </div>
             @can('create', \App\Models\Course::class)
+            <a href="{{ route('courses.index') }}">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-6">
                 <div class="p-6 text-gray-900">
                     <p class="font-semibold">Academic Advisors</p>
-                    <p class="ml-4">* <a href="{{ route('courses.index') }}">Academic advisors can add, edit, and delete <i>courses</i> on the <i>courses</i> page.</a></p>
+                    <p class="ml-4">* Academic advisors can add, edit, and delete <i>courses</i> on the <i>courses</i> page</p>
                 </div>
             </div>
+            </a>
             @endcan
         </div>
     </div>

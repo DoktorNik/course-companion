@@ -34,7 +34,7 @@
         <div class="font-bold text-lg mt-6 mb-3">Course Listing</div>
         <div class="bg-white shadow-sm rounded-lg divide-y">
             @foreach ($courses as $course)
-                <x-course-highlight :course="$course" :p="2"></x-course-highlight>
+                <x-course-highlight :course="$course" :p="4"></x-course-highlight>
             @endforeach
         </div>
     </div>
