@@ -12,7 +12,7 @@
     // set left margin for first element
     $ml = "ml-".$ml;
 @endphp
-<a href="{{ route('courseFeedback.find', ['code' => $course->code])}}" class="{{$ml}}" title="Difficulty">&#128547&nbsp;<span class="-ml-1">{{$course->ratingDifficulty}}</span></a>
+<a href="{{ route('courseFeedback.find', ['code' => $course->code])}}" class="{!!$ml!!}" title="Difficulty">&#128547&nbsp;<span class="-ml-1">{{$course->ratingDifficulty}}</span></a>
 <a href="{{ route('courseFeedback.find', ['code' => $course->code])}}" class="ml-2" title="Workload">&#128338&nbsp;<span class="-ml-1">{{$course->ratingWorkload}}</span></a>
 <a href="{{ route('courseFeedback.find', ['code' => $course->code])}}" class="ml-2" title="Clarity">&#128302&nbsp;<span class="-ml-1">{{$course->ratingClarity}}</span></a>
 <a href="{{ route('courseFeedback.find', ['code' => $course->code])}}" class="ml-2" title="Relevance">&#128175&nbsp;<span class="-ml-1">{{$course->ratingRelevance}}</span></a>

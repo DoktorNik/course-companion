@@ -186,7 +186,7 @@ class StudentController extends Controller
         // count completed credits
         $creditsCompleted = 0.0;
         $creditsCompletedMajor = 0.0;
-        $electivesCompletedFirstYear = 0.0;
+        $creditsCompletedFirstYear = 0.0;
         $electivesCompletedSecondYear = 0.0;
 
         // if any courses are completed
@@ -203,6 +203,11 @@ class StudentController extends Controller
                     $count += 1;
                 }
 
+                // count first year credits
+                if (Str::substr($courseCompleted->code, 5, 1) == "1") {
+                    $creditsCompletedFirstYear += $count;
+                }
+
                 // major?
                 $course = Course::where('code', $courseCompleted->code)->first();
 
@@ -213,11 +218,8 @@ class StudentController extends Controller
                         $creditsCompletedMajor += $count;
                     }
                     else {
-                        // count first year elective course
-                        if (Str::substr($courseCompleted->code, 5, 1) == "1") {
-                            $electivesCompletedFirstYear += $count;
-                        }
-                        elseif (Str::substr($courseCompleted->code, 5, 1) == "2") {
+                        // second year+ elective?
+                        if (Str::substr($courseCompleted->code, 5, 1) > 1) {
                             $electivesCompletedSecondYear += $count;
                         }
                     }
@@ -230,7 +232,7 @@ class StudentController extends Controller
         // update student record
         $student->creditsCompleted = $creditsCompleted;
         $student->creditsCompletedMajor = $creditsCompletedMajor;
-        $student->electivesCompletedFirstYear = $electivesCompletedFirstYear;
+        $student->creditsCompletedFirstYear = $creditsCompletedFirstYear;
         $student->electivesCompletedSecondYear = $electivesCompletedSecondYear;
         $student->save();
     }

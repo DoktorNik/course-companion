@@ -17,4 +17,25 @@
     ol {
         @apply list-disc list-inside;
     }
+
+    .tooltip-container {
+        position: relative;
+        display: block;
+        width: fit-content;
+        padding-right: 3.5em;
+    }
+
+    .tooltip {
+        visibility: hidden;
+        position: absolute;
+        z-index: 1;
+    }
+
+    .tooltip-container:hover .tooltip {
+       visibility: visible;
+}
+
+
+
+
 }

@@ -27,7 +27,7 @@ if(is_null($course))
         <div class="flex justify-between items-center w-full">
             <div class = "w-full">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    {{ __('Course Feedback \ Show') }}
+                    {{ __('Course Feedback / ') }} {{ $course->code }}
                 </h2>
             </div>
 
@@ -51,74 +51,75 @@ if(is_null($course))
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg my-4 mx-auto">
                 <div class="p-6 text-gray-900">
                     <a class="font-bold text-xl ml-5" href="{{ route('courses.findCourse', ['code' => $course->code]) }}">{{ $course->code }}: {{$course->name}}</a>
-                    <div class="flex justify-start w-full mb-8">
+                    <div class="flex justify-start w-full">
                         <x-show-ratings :course="$course" ml="8"></x-show-ratings>
                     </div>
 {{--                no feedback yet--}}
-                    @if(!isset($courseFeedback))
-                    <div class="p-2 w-10/12 m-auto">
+                    <div class="p-2 w-10/12 my-4 m-auto">
+                        @if(!isset($courseFeedback))
                             <p class="font-bold text-red-500">There is no feedback available for this course yet!</p>
                             <p class="text-sm ml-3">Please be the first to add feedback</p>
-                            {{--                otherwise show the feedback--}}
+                        {{--                otherwise show the feedback--}}
                         @else
-                        <div class = "border-2 border-gray-300 rounded-lg p-2 w-10/12 m-auto">
-                            <div class = "flex justify-center items-center w-full">
-                                @if(isset($courseFeedbackCollection))
-                                    <div class = "flex flex-col items-center">
-                                        <p class="font-bold text-xl mt-4">Lecturer: <i>{{ $courseFeedback->lecturer }}</i></p>
-                                        <p class="text-sm font-normal italic">{{$courseFeedback->created_at}}</p>
+                            <div class = "border-2 border-gray-300 rounded-lg p-2 w-10/12 m-auto">
+                                <div class = "flex justify-center items-center w-full">
+                                    @if(isset($courseFeedbackCollection))
+                                        <div class = "flex flex-col items-center">
+                                            <p class="font-bold text-xl mt-4">Lecturer: <i>{{ $courseFeedback->lecturer }}</i></p>
+                                            <p class="text-sm font-normal italic">{{$courseFeedback->created_at}}</p>
+                                        </div>
+                                    @else
+                                    <p class="text-xl font-bold">New Feedback Entry</p>
+                                    @endif
+                                </div>
+                                <div class = "m-auto px-16 pt-2 mt-6">
+                                    <div class="flex justify-between">
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How challenging you found the course">Difficulty</p>
+                                            <x-five-star id="difficulty"></x-five-star>
+                                        </div>
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How much work you did in this course">Workload</p>
+                                            <x-five-star id="workload"></x-five-star>
+                                        </div>
                                     </div>
-                                @else
-                                <p class="text-xl font-bold">New Feedback Entry</p>
-                                @endif
+                                    <div class="mt-3 flex justify-between w-full">
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How clear the course material is">Clarity</p>
+                                            <x-five-star id="clarity"></x-five-star>
+                                        </div>
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How relevant the course material is">Relevance</p>
+                                            <x-five-star id="relevance"></x-five-star>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 flex justify-between w-full">
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How interesting the course is">Interest</p>
+                                            <x-five-star id="interest"></x-five-star>
+                                        </div>
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How helpful the course is">Helpfulness</p>
+                                            <x-five-star id="helpfulness"></x-five-star>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3 flex justify-between w-full">
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How much experience you gained in the course">Experiential</p>
+                                            <x-five-star id="experiential"></x-five-star>
+                                        </div>
+                                        <div class="w-full flex flex-col items-center">
+                                            <p class="font-bold" title="How positive you felt during the course">Positive Affect</p>
+                                            <x-five-star id="affect"></x-five-star>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mx-8 mt-8 mb-2">
+                                    {!!$courseFeedback->comment!!}
+                                </div>
                             </div>
-                            <div class = "m-auto px-16 pt-2 mt-6">
-                                <div class="flex justify-between">
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How challenging you found the course">Difficulty</p>
-                                        <x-five-star id="difficulty"></x-five-star>
-                                    </div>
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How much work you did in this course">Workload</p>
-                                        <x-five-star id="workload"></x-five-star>
-                                    </div>
-                                </div>
-                                <div class="mt-3 flex justify-between w-full">
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How clear the course material is">Clarity</p>
-                                        <x-five-star id="clarity"></x-five-star>
-                                    </div>
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How relevant the course material is">Relevance</p>
-                                        <x-five-star id="relevance"></x-five-star>
-                                    </div>
-                                </div>
-                                <div class="mt-3 flex justify-between w-full">
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How interesting the course is">Interest</p>
-                                        <x-five-star id="interest"></x-five-star>
-                                    </div>
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How helpful the course is">Helpfulness</p>
-                                        <x-five-star id="helpfulness"></x-five-star>
-                                    </div>
-                                </div>
-                                <div class="mt-3 flex justify-between w-full">
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How much experience you gained in the course">Experiential</p>
-                                        <x-five-star id="experiential"></x-five-star>
-                                    </div>
-                                    <div class="w-full flex flex-col items-center">
-                                        <p class="font-bold" title="How positive you felt during the course">Positive Affect</p>
-                                        <x-five-star id="affect"></x-five-star>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="mx-8 mt-8 mb-2">
-                                {!!$courseFeedback->comment!!}
-                            </div>
+                        @endif
                     </div>
-                    @endif
                 </div>
             </div>
 {{--        pagination--}}
