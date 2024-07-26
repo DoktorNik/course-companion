@@ -62,7 +62,7 @@
                 >
             </div>
             <div class="pl-1 w-full">
-                <p class="font-bold">Second Year Elective <i>Minimum</i></p>
+                <p class="font-bold">Second+ Year Elective <i>Minimum</i></p>
                 <input readonly
                        type="text"
                        name="creditsCompletedMajor"
