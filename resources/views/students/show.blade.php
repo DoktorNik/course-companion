@@ -78,7 +78,7 @@
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
-                            <x-course-highlight :course="$courseCompleted" :p="0"></x-course-highlight>
+                            <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
                     </div>
                 @endforeach
@@ -91,7 +91,7 @@
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
-                            <x-course-highlight :course="$courseCompleted" :p="0"></x-course-highlight>
+                            <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
                     </div>
                 @endforeach
@@ -106,7 +106,7 @@
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
-                            <x-course-highlight :course="$courseCompleted" :p="0"></x-course-highlight>
+                            <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
                     </div>
                 @endforeach
@@ -121,7 +121,7 @@
                     <div class="tooltip-container">
                         {{ $courseCompleted->code }}: {{$courseCompleted->name}}
                         <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
-                            <x-course-highlight :course="$courseCompleted" :p="0"></x-course-highlight>
+                            <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                         </div>
                     </div>
                 @endforeach
@@ -134,7 +134,7 @@
                 <div class="tooltip-container">
                     {{ $courseCompleted->code }}: {{$courseCompleted->name}}
                     <div class = "tooltip w-auto bg-gray-200 p-1 rounded-md ml-2">
-                        <x-course-highlight :course="$courseCompleted" :p="0"></x-course-highlight>
+                        <x-course-highlight :course="$courseCompleted" :p="1"></x-course-highlight>
                     </div>
                 </div>
             @endforeach

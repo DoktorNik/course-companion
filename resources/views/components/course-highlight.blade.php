@@ -1,5 +1,5 @@
 @php
-    $p = 'p-'.$p;
+    $p = 'px-'.$p;
 @endphp
 <div class="{!!$p!!} flex space-x-2">
     <div class="flex-1">
