@@ -24,16 +24,15 @@
                 <div class="p-6 text-gray-900">
                     <p class="font-bold text-xl">Course Code</p>
                     <p class="italic ml-3">Lookup a course code to add or view feedback</p>
-                    <br/>
                     <form method="POST" action="{{ route('courseFeedback.find') }}">
                         @csrf
                         @method('GET')
-                        <div class="flex justify-between mb-3">
+                        <div class="flex pl-4 mt-1 mb-3">
                             <input
                                 type = "text"
                                 name="code"
                                 placeholder="COSC 1P02"
-                                class="block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                class="block w-36 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                             >
                             <x-primary-button class="ml-1">
                                 Lookup
