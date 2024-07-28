@@ -34,6 +34,15 @@ return new class extends Migration {
      */
     public function down(): void
     {
+        DB::statement(<<<SQL
+            INSERT INTO eligible_courses_concentration_courses (id, course_id, eligible_courses_concentration_id, created_at, updated_at)
+                SELECT E.id, E.course_id, ECC.id, E.created_at, E.updated_at
+                FROM eligible_concentration_courses as E
+                INNER JOIN eligible_courses_concentrations AS ECC
+                    ON ECC.student_id = E.student_id
+            ON CONFLICT(id) DO NOTHING
+        SQL
+        );
         Schema::dropIfExists('eligible_concentration_courses');
     }
 };
