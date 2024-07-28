@@ -11,13 +11,15 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('eligible_courses_concentration_courses', function (Blueprint $table) {
-            $table->id();
-            $table->foreignIdFor(Course::class);
-            $table->foreignId('eligible_courses_concentration_id')
-                ->constrained('eligible_courses_concentrations');
-            $table->timestamps();
-        });
+        if (!Schema::hasTable('eligible_courses_concentration_courses')) {
+            Schema::create('eligible_courses_concentration_courses', function (Blueprint $table) {
+                $table->id();
+                $table->foreignIdFor(Course::class);
+                $table->foreignId('eligible_courses_concentration_id')
+                    ->constrained('eligible_courses_concentrations');
+                $table->timestamps();
+            });
+        }
     }
 
     /**
