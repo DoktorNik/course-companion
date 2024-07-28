@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Student;
 use App\Models\Course;
+use App\Models\Student;
+use App\Rules\uniqueStudentPerUser;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Illuminate\Http\RedirectResponse;
-use App\Rules\uniqueStudentPerUser;
 
 class StudentController extends Controller
 {
@@ -49,7 +48,7 @@ class StudentController extends Controller
 
         // create
         $student = $request->user()->students()->create($validated);
-        $this->fillChildren($student);
+        $student->fillChildren();
         $student->refresh(); // force the model to refresh *flips desk*
         return $this->update($request, $student);
     }
@@ -57,7 +56,7 @@ class StudentController extends Controller
     /**
      * find a student for display
      */
-    public function findStudent(Request $request) :View
+    public function findStudent(Request $request): View
     {
 
         // get the student from database
@@ -156,31 +155,6 @@ class StudentController extends Controller
         return redirect(route('students.index'));
     }
 
-    private function fillChildren($student): void{
-
-        // setup children if necessary
-        if(!isset($student->completedCourses)) {
-            $student->completedCourses()->create();
-        }
-        if(!isset($student->eligibleCoursesMajor)) {
-            $student->eligibleCoursesMajor()->create();
-        }
-        if(!isset($student->eligibleCoursesConcentration)) {
-            $student->eligibleCoursesConcentration()->create();
-        }
-        if(!isset($student->eligibleCoursesElectiveMajor)) {
-            $student->eligibleCoursesElectiveMajor()->create();
-        }
-        if(!isset($student->eligibleCoursesContext)) {
-            $student->eligibleCoursesContext()->create();
-        }
-        if(!isset($student->eligibleCoursesElective)) {
-            $student->eligibleCoursesElective()->create();
-        }
-        $student->save();
-        //dd($student);
-    }
-
     private function updateCreditsCompleted(student $student): void
     {
         // count completed credits
@@ -190,7 +164,7 @@ class StudentController extends Controller
         $electivesCompletedSecondYear = 0.0;
 
         // if any courses are completed
-        if($student->completedCourses && $student->completedCourses->course) {
+        if ($student->completedCourses && $student->completedCourses->course) {
 
             // each course completed
             foreach ($student->completedCourses->course as $courseCompleted) {
@@ -214,10 +188,9 @@ class StudentController extends Controller
                 // do math
                 if (!is_null($course)) {
                     // major or elective
-                    if ($course->isRequiredByMajor == $student->major || Str::substr($course->code, 0,4) == $student->major) {
+                    if ($course->isRequiredByMajor == $student->major || Str::substr($course->code, 0, 4) == $student->major) {
                         $creditsCompletedMajor += $count;
-                    }
-                    else {
+                    } else {
                         // second year+ elective?
                         if (Str::substr($courseCompleted->code, 5, 1) > 1) {
                             $electivesCompletedSecondYear += $count;
@@ -263,7 +236,7 @@ class StudentController extends Controller
             if ($course->prereqs) {
 
                 // go through the required prereqs
-                foreach ($course->prereqs as $coursePrereqCode=>$coursePrereqName) {
+                foreach ($course->prereqs as $coursePrereqCode => $coursePrereqName) {
 
                     // override for a course most people aren't actually required to take
                     if ($coursePrereqCode == "MATH 1P20")
@@ -296,8 +269,7 @@ class StudentController extends Controller
             // does the required major match the student major
             if ($course->isRequiredByMajor == $student->major) {
                 $this->createRelatedCourseRecord($student, "Major", $course->code);
-            }
-            else {
+            } else {
                 // is it a concentration course?
                 $concentration = false;
 
@@ -312,9 +284,8 @@ class StudentController extends Controller
 
                 // mark course as eligible as appropriate
                 if ($concentration) {
-                    $this->createRelatedCourseRecord($student, "Concentration", $course->code);
-                }
-                else {
+                    $student->markAsEligibleForConcentrationCourse($course);
+                } else {
                     if (substr($course->code, 0, 4) == $student->major) {
                         $this->createRelatedCourseRecord($student, "ElectiveMajor", $course->code);
                     } else {
@@ -329,7 +300,7 @@ class StudentController extends Controller
     {
 
         // update computed student info
-        if(!is_null($request)) {
+        if (!is_null($request)) {
             $this->updateCoursesTaken($request, $student);
         }
 
@@ -339,7 +310,7 @@ class StudentController extends Controller
         $this->updateEligibleCourses($student);
     }
 
-    private function updateCoursesTaken($request, $student): void
+    private function updateCoursesTaken($request, Student $student): void
     {
         // create array from user input for parsing
         $coursesCompleted = explode(", ", $request->get("coursesCompleted"));
@@ -357,13 +328,11 @@ class StudentController extends Controller
             $this->createRelatedCourseRecord($student, "Completed", $course->code);
 
             // remove from prereqs
-            if(isset($student->eligibleCoursesMajor)) {
+            if (isset($student->eligibleCoursesMajor)) {
                 $course->eligibleCoursesMajor()->detach($student->eligibleCoursesMajor);
             }
-            if(isset($student->eligibleCoursesConcentration)) {
-                $course->eligibleCoursesConcentration()->detach($student->eligibleCoursesConcentration);
-            }
-            if(isset($student->eligibleCoursesElectiveMajor)) {
+            $student->markAsNoLongerEligibleForConcentrationCourse($course);
+            if (isset($student->eligibleCoursesElectiveMajor)) {
                 $course->eligibleCoursesElectiveMajor()->detach($student->eligibleCoursesElectiveMajor);
             }
             // not implemented
@@ -372,7 +341,7 @@ class StudentController extends Controller
                 $course->eligibleCoursesContext()->detach($student->eligibleCoursesContext);
             }
             */
-            if(isset($student->eligibleCoursesElective)) {
+            if (isset($student->eligibleCoursesElective)) {
                 $course->eligibleCoursesElective()->detach($student->eligibleCoursesElective);
             }
         }
@@ -381,7 +350,7 @@ class StudentController extends Controller
     private function relatedCourseRecordExists($sc, $course): bool
     {
         $found = false;
-        if(isset($sc->course)) {
+        if (isset($sc->course)) {
             foreach ($sc->course as $savedCourse) {
                 if ($savedCourse->code == $course->code) {
                     $found = true;
@@ -392,52 +361,44 @@ class StudentController extends Controller
         return $found;
     }
 
-    private function createRelatedCourseRecord($student, $type, $code): void
+    /**
+     * Note: deprecated for concentration records,
+     * `createRelatedCourseRecord($student, 'Concentration', $code)`.
+     * Instead, use `$student->markAsEligibleForConcentrationCourse($course)`
+     */
+    private function createRelatedCourseRecord(Student $student, string $type, string $code): void
     {
-        $this->fillChildren($student);
+        $student->fillChildren();
         $sc = null; // student course of this type
         $course = Course::where('code', $code)->first(); // the course
         if ($type == "Completed") {
             $sc = $student->completedCourses;
-            //dd($student, $type, $sc);
-        }
-        elseif ($type == "Major") {
+        } elseif ($type == "Major") {
             $sc = $student->eligibleCoursesMajor;
-        }
-        elseif ($type == "Concentration") {
-            $sc = $student->eligibleCoursesConcentration;
-        }
-        elseif ($type == "ElectiveMajor") {
+        } elseif ($type == "Concentration") {
+            /* DEPRECATED: use Student::markAsEligibleForConcentrationCourse instead */
+        } elseif ($type == "ElectiveMajor") {
             $sc = $student->eligibleCoursesElectiveMajor;
-        }
-        elseif ($type == "Context") {
+        } elseif ($type == "Context") {
             $sc = $student->eligibleCoursesContext;
-        }
-        elseif ($type == "Elective") {
+        } elseif ($type == "Elective") {
             $sc = $student->eligibleCoursesElective;
         }
 
         // add the course if it hasn't been added already
         if (!$this->relatedCourseRecordExists($sc, $course)) {
             if ($type == "Completed") {
-                if(is_null($student->completedCourses))
+                if (is_null($student->completedCourses))
                     $student->completedCourses()->create();
                 $course->completedCourses()->attach($student->completedCourses);
                 //dd($student, $course, $type, false, $student->completedCourses);
-            }
-            elseif ($type == "Major") {
+            } elseif ($type == "Major") {
                 $course->EligibleCoursesMajor()->attach($sc);
-            }
-            elseif ($type == "Concentration") {
-                $course->eligibleCoursesConcentration()->attach($sc);
-            }
-            elseif ($type == "ElectiveMajor") {
+            } elseif ($type == "ElectiveMajor") {
                 $course->EligibleCoursesElectiveMajor()->attach($sc);
-            }
-            elseif ($type == "Context") {
+            } elseif ($type == "Context") {
                 $course->EligibleCoursesContext()->attach($sc);
-            }
-            elseif ($type == "Elective") {
+            } elseif ($type == "Elective") {
                 $course->EligibleCoursesElective()->attach($sc);
             }
         }

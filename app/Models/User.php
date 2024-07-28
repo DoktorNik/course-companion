@@ -2,13 +2,25 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use DateTime;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
+/**
+ * @property int id
+ * @property bool isAdvisor
+ * @property string name
+ * @property string email
+ * @property string password
+ * @property string remember_token
+ * @property DateTime email_verified_at
+ * @property Collection<int, Student> students
+ * @property Collection<int, Course> courses
+ */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
