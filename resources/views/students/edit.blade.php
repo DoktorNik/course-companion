@@ -92,7 +92,7 @@
                 id="taArray"
                 name="coursesCompleted"
                 class="mt-1 block w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
-            >{{ old('coursesCompleted') }}@if(!old('coursesCompleted') && !is_null($student->completedCourses))@foreach($student->completedCourses->course as $cc){{$cc->code}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
+            >{{ old('coursesCompleted') }}@if(!old('coursesCompleted') && !is_null($student->completedCoursesV2))@foreach($student->completedCoursesV2 as $cc){{$cc->code}}@if ($loop->remaining > 0){{ "," }}@endif @endforeach @endif</textarea>
             <div class="mt-4 space-x-2">
                 <x-primary-button class="mt-4">{{ __('Update') }}</x-primary-button>
                     <a href="{{ route('students.index') }}">{{ __('Cancel') }}</a>

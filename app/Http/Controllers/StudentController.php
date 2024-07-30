@@ -163,43 +163,39 @@ class StudentController extends Controller
         $creditsCompletedFirstYear = 0.0;
         $electivesCompletedSecondYear = 0.0;
 
-        // if any courses are completed
-        if ($student->completedCourses && $student->completedCourses->course) {
+        // each course completed
+        foreach ($student->completedCoursesV2 as $courseCompleted) {
+            $count = 0;
 
-            // each course completed
-            foreach ($student->completedCourses->course as $courseCompleted) {
-                $count = 0;
+            // half or full credit?
+            if (Str::substr($courseCompleted->code, 6, 1) == "P") {
+                $count += 0.5;
+            } elseif (Str::substr($courseCompleted->code, 6, 1) == "F") {
+                $count += 1;
+            }
 
-                // half or full credit?
-                if (Str::substr($courseCompleted->code, 6, 1) == "P") {
-                    $count += 0.5;
-                } elseif (Str::substr($courseCompleted->code, 6, 1) == "F") {
-                    $count += 1;
-                }
+            // count first year credits
+            if (Str::substr($courseCompleted->code, 5, 1) == "1") {
+                $creditsCompletedFirstYear += $count;
+            }
 
-                // count first year credits
-                if (Str::substr($courseCompleted->code, 5, 1) == "1") {
-                    $creditsCompletedFirstYear += $count;
-                }
+            // major?
+            $course = Course::where('code', $courseCompleted->code)->first();
 
-                // major?
-                $course = Course::where('code', $courseCompleted->code)->first();
-
-                // do math
-                if (!is_null($course)) {
-                    // major or elective
-                    if ($course->isRequiredByMajor == $student->major || Str::substr($course->code, 0, 4) == $student->major) {
-                        $creditsCompletedMajor += $count;
-                    } else {
-                        // second year+ elective?
-                        if (Str::substr($courseCompleted->code, 5, 1) > 1) {
-                            $electivesCompletedSecondYear += $count;
-                        }
+            // do math
+            if (!is_null($course)) {
+                // major or elective
+                if ($course->isRequiredByMajor == $student->major || Str::substr($course->code, 0, 4) == $student->major) {
+                    $creditsCompletedMajor += $count;
+                } else {
+                    // second year+ elective?
+                    if (Str::substr($courseCompleted->code, 5, 1) > 1) {
+                        $electivesCompletedSecondYear += $count;
                     }
                 }
-                // regardless, add to total completed
-                $creditsCompleted += $count;
             }
+            // regardless, add to total completed
+            $creditsCompleted += $count;
         }
 
         // update student record
@@ -218,11 +214,9 @@ class StudentController extends Controller
         foreach ($courses as $course) {
 
             // skip if course is already completed
-            if (isset($student->completedCourses->course)) {
-                foreach ($student->completedCourses->course as $courseCompleted) {
-                    if ($course->code == $courseCompleted->code) {
-                        continue 2;
-                    }
+            foreach ($student->completedCoursesV2 as $courseCompleted) {
+                if ($course->code == $courseCompleted->code) {
+                    continue 2;
                 }
             }
 
@@ -245,16 +239,13 @@ class StudentController extends Controller
                     // default to not completed
                     $completed = false;
 
-                    if (isset($student->completedCourses->course)) {
+                    // go through each course completed by the student
+                    foreach ($student->completedCoursesV2 as $courseCompleted) {
 
-                        // go through each course completed by the student
-                        foreach ($student->completedCourses->course as $courseCompleted) {
-
-                            // set it to completed if there's a match
-                            if ($courseCompleted->code == $coursePrereqCode) {
-                                $completed = true;
-                                break;
-                            }
+                        // set it to completed if there's a match
+                        if ($courseCompleted->code == $coursePrereqCode) {
+                            $completed = true;
+                            break;
                         }
                     }
 
@@ -325,7 +316,7 @@ class StudentController extends Controller
             }
 
             // add to completed
-            $this->createRelatedCourseRecord($student, "Completed", $course->code);
+            $student->markAsComplete($course);
 
             // remove from prereqs
             if (isset($student->eligibleCoursesMajor)) {
@@ -362,9 +353,9 @@ class StudentController extends Controller
     }
 
     /**
-     * Note: deprecated for concentration records,
-     * `createRelatedCourseRecord($student, 'Concentration', $code)`.
-     * Instead, use `$student->markAsEligibleForConcentrationCourse($course)`
+     * Note: deprecated for concentration and complete records,
+     * `createRelatedCourseRecord($student, 'Concentration' | 'Completed', $code)`.
+     * Instead, use `$student->markAsEligibleForConcentrationCourse($course)` or `$student->markAsComplete($course)`
      */
     private function createRelatedCourseRecord(Student $student, string $type, string $code): void
     {
@@ -372,11 +363,13 @@ class StudentController extends Controller
         $sc = null; // student course of this type
         $course = Course::where('code', $code)->first(); // the course
         if ($type == "Completed") {
-            $sc = $student->completedCourses;
+            /* DEPRECATED: use Student::markAsComplete instead */
+            return;
         } elseif ($type == "Major") {
             $sc = $student->eligibleCoursesMajor;
         } elseif ($type == "Concentration") {
             /* DEPRECATED: use Student::markAsEligibleForConcentrationCourse instead */
+            return;
         } elseif ($type == "ElectiveMajor") {
             $sc = $student->eligibleCoursesElectiveMajor;
         } elseif ($type == "Context") {
@@ -387,12 +380,7 @@ class StudentController extends Controller
 
         // add the course if it hasn't been added already
         if (!$this->relatedCourseRecordExists($sc, $course)) {
-            if ($type == "Completed") {
-                if (is_null($student->completedCourses))
-                    $student->completedCourses()->create();
-                $course->completedCourses()->attach($student->completedCourses);
-                //dd($student, $course, $type, false, $student->completedCourses);
-            } elseif ($type == "Major") {
+            if ($type == "Major") {
                 $course->EligibleCoursesMajor()->attach($sc);
             } elseif ($type == "ElectiveMajor") {
                 $course->EligibleCoursesElectiveMajor()->attach($sc);
