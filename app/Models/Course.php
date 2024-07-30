@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,6 +20,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int prereqCreditCount
  * @property int prereqCreditCountMajor
  * @property ?string prereqs
+ * @property Collection<int, Student> eligibleConcentrationStudents
+ * @property Collection<int, Student> completedStudents
  */
 class Course extends Model
 {
@@ -49,9 +52,18 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * TODO: remove once 'completed_courses_courses' table is gone
+     * @deprecated use `completedStudents()` instead
+     */
     public function completedCourses(): BelongsToMany
     {
         return $this->belongsToMany(CompletedCourses::class, 'completed_courses_courses');
+    }
+
+    public function completedStudents(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'completed_courses_v2');
     }
 
     public function EligibleCoursesMajor(): BelongsToMany

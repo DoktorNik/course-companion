@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property float creditsCompleted
  * @property float creditsCompletedMajor
  * @property Collection<int, Course> eligibleConcentrationCourses
+ * @property Collection<int, Course> completedCoursesV2
  */
 class Student extends Model
 {
@@ -29,6 +30,18 @@ class Student extends Model
         'major',
         'concentration',
     ];
+
+    public function markAsComplete(Course $course): void
+    {
+        /* `syncWithoutDetaching` works similar to `attach`
+         * but doesn't raise an exception when the record already exists
+         * which is what we want */
+        $this->completedCoursesV2()->syncWithoutDetaching($course);
+        // TODO: remove the following once 'completed_courses_courses' table is gone
+        if (is_null($this->completedCourses))
+            $this->completedCourses()->create();
+        $course->completedCourses()->attach($this->completedCourses);
+    }
 
     public function markAsNoLongerEligibleForConcentrationCourse(Course $course): void
     {
@@ -52,7 +65,7 @@ class Student extends Model
     public function fillChildren(): void
     {
         // setup children if necessary
-        if (!isset($this->completedCourses)) {
+        if (!isset($this->completedCourses)) { // TODO: remove the following once 'completed_courses_courses' table is gone
             $this->completedCourses()->create();
         }
         if (!isset($this->eligibleCoursesMajor)) {
@@ -78,9 +91,18 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
+    /**
+     * TODO: remove once 'completed_courses_courses' table is gone
+     * @deprecated use `completedCoursesV2()` instead
+     */
     public function completedCourses(): HasOne
     {
         return $this->hasOne(CompletedCourses::class);
+    }
+
+    public function completedCoursesV2(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'completed_courses_v2');
     }
 
     public function EligibleCoursesMajor(): HasOne
