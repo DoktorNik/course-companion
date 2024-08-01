@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property float creditsCompleted
  * @property float creditsCompletedMajor
  * @property Collection<int, Course> eligibleConcentrationCourses
+ * @property Collection<int, Course> eligibleMajorCourses
  * @property Collection<int, Course> completedCoursesV2
  */
 class Student extends Model
@@ -52,6 +53,15 @@ class Student extends Model
         }
     }
 
+    public function markAsNoLongerEligibleForMajorCourse(Course $course): void
+    {
+        $this->eligibleMajorCourses()->detach($course);
+        // TODO: remove the following once 'eligible_courses_major_courses' table is gone
+        if (isset($this->eligibleCoursesMajor)) {
+            $course->eligibleCoursesMajor()->detach($this->eligibleCoursesMajor);
+        }
+    }
+
     public function markAsEligibleForConcentrationCourse(Course $course): void
     {
         /* `syncWithoutDetaching` works similar to `attach`
@@ -60,6 +70,17 @@ class Student extends Model
         $this->eligibleConcentrationCourses()->syncWithoutDetaching($course);
         // TODO: remove the following once 'eligible_courses_concentration_courses' table is gone
         $course->eligibleCoursesConcentration()->attach($this->eligibleCoursesConcentration);
+    }
+
+
+    public function markAsEligibleForMajorCourse(Course $course): void
+    {
+        /* `syncWithoutDetaching` works similar to `attach`
+         * but doesn't raise an exception when the record already exists
+         * which is what we want */
+        $this->eligibleMajorCourses()->syncWithoutDetaching($course);
+        // TODO: remove the following once 'eligible_courses_major_courses' table is gone
+        $course->eligibleCoursesMajor()->attach($this->eligibleCoursesMajor);
     }
 
     public function fillChildren(): void
@@ -105,9 +126,18 @@ class Student extends Model
         return $this->belongsToMany(Course::class, 'completed_courses_v2');
     }
 
+    /**
+     * TODO: remove once 'eligible_courses_major_courses' table is gone
+     * @deprecated use `eligibleConcentrationMajors()` instead
+     */
     public function EligibleCoursesMajor(): HasOne
     {
         return $this->hasOne(EligibleCoursesMajor::class);
+    }
+
+    public function eligibleMajorCourses(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'eligible_major_courses');
     }
 
     /**
