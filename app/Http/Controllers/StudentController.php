@@ -259,7 +259,7 @@ class StudentController extends Controller
             // all checks passed, so add it to as eligible
             // does the required major match the student major
             if ($course->isRequiredByMajor == $student->major) {
-                $this->createRelatedCourseRecord($student, "Major", $course->code);
+                $student->markAsEligibleForMajorCourse($course);
             } else {
                 // is it a concentration course?
                 $concentration = false;
@@ -319,9 +319,7 @@ class StudentController extends Controller
             $student->markAsComplete($course);
 
             // remove from prereqs
-            if (isset($student->eligibleCoursesMajor)) {
-                $course->eligibleCoursesMajor()->detach($student->eligibleCoursesMajor);
-            }
+            $student->markAsNoLongerEligibleForMajorCourse($course);
             $student->markAsNoLongerEligibleForConcentrationCourse($course);
             if (isset($student->eligibleCoursesElectiveMajor)) {
                 $course->eligibleCoursesElectiveMajor()->detach($student->eligibleCoursesElectiveMajor);
@@ -353,9 +351,12 @@ class StudentController extends Controller
     }
 
     /**
-     * Note: deprecated for concentration and complete records,
-     * `createRelatedCourseRecord($student, 'Concentration' | 'Completed', $code)`.
-     * Instead, use `$student->markAsEligibleForConcentrationCourse($course)` or `$student->markAsComplete($course)`
+     * Note: deprecated for concentration, major, and complete records,
+     * `createRelatedCourseRecord($student, 'Concentration' | 'Major' | 'Completed', $code)`.
+     * Instead, use
+     * - `$student->markAsEligibleForConcentrationCourse($course)` or
+     * - `$student->markAsEligibleForMajorCourse($course)` or
+     * - `$student->markAsComplete($course)`
      */
     private function createRelatedCourseRecord(Student $student, string $type, string $code): void
     {
@@ -366,7 +367,8 @@ class StudentController extends Controller
             /* DEPRECATED: use Student::markAsComplete instead */
             return;
         } elseif ($type == "Major") {
-            $sc = $student->eligibleCoursesMajor;
+            /* DEPRECATED: use Student::markAsEligibleForMajorCourse instead */
+            return;
         } elseif ($type == "Concentration") {
             /* DEPRECATED: use Student::markAsEligibleForConcentrationCourse instead */
             return;
@@ -380,9 +382,7 @@ class StudentController extends Controller
 
         // add the course if it hasn't been added already
         if (!$this->relatedCourseRecordExists($sc, $course)) {
-            if ($type == "Major") {
-                $course->EligibleCoursesMajor()->attach($sc);
-            } elseif ($type == "ElectiveMajor") {
+            if ($type == "ElectiveMajor") {
                 $course->EligibleCoursesElectiveMajor()->attach($sc);
             } elseif ($type == "Context") {
                 $course->EligibleCoursesContext()->attach($sc);

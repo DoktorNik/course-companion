@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int prereqCreditCountMajor
  * @property ?string prereqs
  * @property Collection<int, Student> eligibleConcentrationStudents
+ * @property Collection<int, Student> eligibleMajorStudents
  * @property Collection<int, Student> completedStudents
  */
 class Course extends Model
@@ -66,9 +67,18 @@ class Course extends Model
         return $this->belongsToMany(Student::class, 'completed_courses_v2');
     }
 
+    /**
+     * TODO: remove once 'eligible_courses_major_courses' table is gone
+     * @deprecated use `eligibleMajorStudents()` instead
+     */
     public function EligibleCoursesMajor(): BelongsToMany
     {
         return $this->BelongsToMany(EligibleCoursesMajor::class, 'eligible_courses_major_courses');
+    }
+
+    public function eligibleMajorStudents(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'eligible_major_courses');
     }
 
     /**
