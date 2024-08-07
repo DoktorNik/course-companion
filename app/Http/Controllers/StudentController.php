@@ -322,12 +322,6 @@ class StudentController extends Controller
             $student->markAsNoLongerEligibleForMajorCourse($course);
             $student->markAsNoLongerEligibleForConcentrationCourse($course);
             $student->markAsNoLongerEligibleForElectiveMajorCourse($course);
-            // not implemented
-            /*
-            if(isset($student->eligibleCoursesContext)) {
-                $course->eligibleCoursesContext()->detach($student->eligibleCoursesContext);
-            }
-            */
             $student->markAsNoLongerEligibleForElectiveCourse($course);
         }
     }
@@ -372,7 +366,8 @@ class StudentController extends Controller
             /* DEPRECATED: use Student::markAsEligibleForElectiveMajorCourse instead */
             return;
         } elseif ($type == "Context") {
-            $sc = $student->eligibleCoursesContext;
+            /* DEPRECATED: use Student::markAsEligibleForElectiveCourse instead */
+            return;
         } elseif ($type == "Elective") {
             /* DEPRECATED: use Student::markAsEligibleForElectiveCourse instead */
             return;
@@ -380,9 +375,7 @@ class StudentController extends Controller
 
         // add the course if it hasn't been added already
         if (!$this->relatedCourseRecordExists($sc, $course)) {
-            if ($type == "Context") {
-                $course->EligibleCoursesContext()->attach($sc);
-            }
+
         }
     }
 }

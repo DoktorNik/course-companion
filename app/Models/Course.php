@@ -23,6 +23,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property Collection<int, Student> eligibleConcentrationStudents
  * @property Collection<int, Student> eligibleMajorStudents
  * @property Collection<int, Student> eligibleElectiveStudents
+ * @property Collection<int, Student> eligibleElectiveMajorStudents
  * @property Collection<int, Student> completedStudents
  */
 class Course extends Model
