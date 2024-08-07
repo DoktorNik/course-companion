@@ -278,7 +278,7 @@ class StudentController extends Controller
                     $student->markAsEligibleForConcentrationCourse($course);
                 } else {
                     if (substr($course->code, 0, 4) == $student->major) {
-                        $this->createRelatedCourseRecord($student, "ElectiveMajor", $course->code);
+                        $student->markAsEligibleForElectiveMajorCourse($course);
                     } else {
                         $this->createRelatedCourseRecord($student, "Elective", $course->code);
                     }
@@ -321,9 +321,7 @@ class StudentController extends Controller
             // remove from prereqs
             $student->markAsNoLongerEligibleForMajorCourse($course);
             $student->markAsNoLongerEligibleForConcentrationCourse($course);
-            if (isset($student->eligibleCoursesElectiveMajor)) {
-                $course->eligibleCoursesElectiveMajor()->detach($student->eligibleCoursesElectiveMajor);
-            }
+            $student->markAsNoLongerEligibleForElectiveMajorCourse($course);
             // not implemented
             /*
             if(isset($student->eligibleCoursesContext)) {
@@ -373,7 +371,8 @@ class StudentController extends Controller
             /* DEPRECATED: use Student::markAsEligibleForConcentrationCourse instead */
             return;
         } elseif ($type == "ElectiveMajor") {
-            $sc = $student->eligibleCoursesElectiveMajor;
+            /* DEPRECATED: use Student::markAsEligibleForElectiveMajorCourse instead */
+            return;
         } elseif ($type == "Context") {
             $sc = $student->eligibleCoursesContext;
         } elseif ($type == "Elective") {
@@ -382,9 +381,7 @@ class StudentController extends Controller
 
         // add the course if it hasn't been added already
         if (!$this->relatedCourseRecordExists($sc, $course)) {
-            if ($type == "ElectiveMajor") {
-                $course->EligibleCoursesElectiveMajor()->attach($sc);
-            } elseif ($type == "Context") {
+            if ($type == "Context") {
                 $course->EligibleCoursesContext()->attach($sc);
             } elseif ($type == "Elective") {
                 $course->EligibleCoursesElective()->attach($sc);

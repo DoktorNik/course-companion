@@ -55,7 +55,7 @@ class Course extends Model
 
     /**
      * TODO: remove once 'completed_courses_courses' table is gone
-     * @deprecated use `completedStudents()` instead
+     * @deprecated use {@link self::completedStudents()} instead
      */
     public function completedCourses(): BelongsToMany
     {
@@ -69,7 +69,7 @@ class Course extends Model
 
     /**
      * TODO: remove once 'eligible_courses_major_courses' table is gone
-     * @deprecated use `eligibleMajorStudents()` instead
+     * @deprecated use {@link self::eligibleMajorStudents()} instead
      */
     public function EligibleCoursesMajor(): BelongsToMany
     {
@@ -83,7 +83,7 @@ class Course extends Model
 
     /**
      * TODO: remove once 'eligible_courses_concentration_courses' table is gone
-     * @deprecated use `eligibleConcentrationStudents()` instead
+     * @deprecated use {@link self::eligibleConcentrationStudents()} instead
      */
     public function EligibleCoursesConcentration(): BelongsToMany
     {
@@ -95,9 +95,18 @@ class Course extends Model
         return $this->belongsToMany(Student::class, 'eligible_concentration_courses');
     }
 
+    /**
+     * TODO: remove once 'eligible_courses_elective_major_courses' table is gone
+     * @deprecated use {@link self::eligibleElectiveMajorStudents()}
+     */
     public function EligibleCoursesElectiveMajor(): BelongsToMany
     {
         return $this->BelongsToMany(EligibleCoursesElectiveMajor::class, 'eligible_courses_elective_major_courses');
+    }
+
+    public function eligibleElectiveMajorStudents(): BelongsToMany
+    {
+        return $this->belongsToMany(Student::class, 'eligible_elective_major_courses');
     }
 
     public function EligibleCoursesElective(): BelongsToMany
