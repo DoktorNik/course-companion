@@ -22,6 +22,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property Collection<int, Course> completedCoursesV2
  * @property Collection<int, Course> eligibleElectiveMajorCourses
  * @property Collection<int, Course> eligibleElectiveCourses
+ * @property Collection<int, Course> eligibleContextCourses
  */
 class Student extends Model
 {
@@ -208,9 +209,18 @@ class Student extends Model
         return $this->belongsToMany(Course::class, 'eligible_elective_major_courses');
     }
 
+    /**
+     * TODO: remove once 'eligible_courses_context_courses' table is gone
+     * @deprecated use {@link self::eligibleContextCourses()} instead
+     */
     public function EligibleCoursesContext(): hasOne
     {
         return $this->hasOne(EligibleCoursesContext::class);
+    }
+
+    public function eligibleContextCourses(): BelongsToMany
+    {
+        return $this->belongsToMany(Course::class, 'eligible_context_courses');
     }
 
     /**
