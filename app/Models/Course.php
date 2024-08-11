@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 /**
  * @property int id
@@ -48,6 +49,35 @@ class Course extends Model
             'prereqs' => 'array',
             'concentration' => 'array',
         ];
+    }
+
+    /**
+     * the 4-letter department name in the course code
+     * eg.
+     * ```
+     * Course(code='COSC 1P02')->major() === 'COSC'
+     * ```
+     * @return string
+     */
+    public function major(): string
+    {
+        return Str::substr($this->code, 0, 4);
+    }
+
+    public function credit(): float
+    {
+        if (Str::substr($this->code, 6, 1) == "P") {
+            return 0.5;
+        } elseif (Str::substr($this->code, 6, 1) == "F") {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
+    }
+
+    public function isForFirstYear(): bool
+    {
+        return Str::substr($this->code, 5, 1) === "1";
     }
 
     public function User(): BelongsTo
