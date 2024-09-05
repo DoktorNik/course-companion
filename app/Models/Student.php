@@ -45,8 +45,11 @@ class Student extends Model
     {
         static::saved(function (self $student) {
             static::withoutEvents(function () use ($student) {
-                $student->updateCreditsCompleted();
-                $student->updateEligibleCourses();
+                $student->refresh(); // to get the latest relation data
+                DB::transaction(function () use ($student) {
+                    $student->updateCreditsCompleted();
+                    $student->updateEligibleCourses();
+                });
             });
         });
     }
@@ -68,6 +71,7 @@ class Student extends Model
                 $this->markAsNoLongerEligibleForElectiveMajorCourse($course);
                 $this->markAsNoLongerEligibleForElectiveCourse($course);
             }
+            $this->save(); // to activate the `static::saved` hook
         });
     }
 
