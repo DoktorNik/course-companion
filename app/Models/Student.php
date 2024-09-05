@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -36,16 +35,19 @@ class Student extends Model
         'number',
         'major',
         'concentration',
+        'creditsCompleted',
+        'creditsCompletedMajor',
+        'creditsCompletedFirstYear',
+        'electivesCompletedSecondYear',
     ];
 
     protected static function booted(): void
     {
-        static::created(function (self $student) {
-            $student->fillChildren();
-        });
-        static::updating(function (self $student) {
-            $student->updateCreditsCompleted();
-            $student->updateEligibleCourses();
+        static::saved(function (self $student) {
+            static::withoutEvents(function () use ($student) {
+                $student->updateCreditsCompleted();
+                $student->updateEligibleCourses();
+            });
         });
     }
 
@@ -114,29 +116,6 @@ class Student extends Model
         ]);
     }
 
-    private function fillChildren(): void
-    {
-        // setup children if necessary
-        if (!isset($this->completedCourses)) { // TODO: remove the following once 'completed_courses_courses' table is gone
-            $this->completedCourses()->create();
-        }
-        if (!isset($this->eligibleCoursesMajor)) { // TODO: remove the following once 'eligible_courses_major_courses' table is gone
-            $this->eligibleCoursesMajor()->create();
-        }
-        if (!isset($this->eligibleCoursesConcentration)) { // TODO: remove the following once 'eligible_courses_concentration_courses' table is gone
-            $this->eligibleCoursesConcentration()->create();
-        }
-        if (!isset($this->eligibleCoursesElectiveMajor)) { // TODO: remove the following once 'eligible_courses_elective_major_courses' table is gone
-            $this->eligibleCoursesElectiveMajor()->create();
-        }
-        if (!isset($this->eligibleCoursesContext)) { // TODO: remove the following once 'eligible_courses_context_courses' table is gone
-            $this->eligibleCoursesContext()->create();
-        }
-        if (!isset($this->eligibleCoursesElective)) { // TODO: remove the following once 'eligible_courses_elective_courses' table is gone
-            $this->eligibleCoursesElective()->create();
-        }
-    }
-
     private function hasCompleted(Course $course): bool
     {
         return $this->completedCoursesV2
@@ -146,7 +125,7 @@ class Student extends Model
     private function hasSatisfiedPrerequisitesFor(Course $course): bool
     {
         return collect($course->prereqs)
-            ->reject(fn(string $code, string $name) => $code === 'MATH 1P20') // override for a course most people aren't actually required to take // 3
+            ->reject(fn(string $code, string $name) => $code === 'MATH 1P20') // override for a course most people aren't actually required to take
             ->every(fn(string $code, string $name) => $this->hasCompletedCourseWithCode($code));
     }
 
@@ -191,46 +170,26 @@ class Student extends Model
          * but doesn't raise an exception when the record already exists
          * which is what we want */
         $this->completedCoursesV2()->syncWithoutDetaching($course);
-        // TODO: remove the following once 'completed_courses_courses' table is gone
-        if (is_null($this->completedCourses))
-            $this->completedCourses()->create();
-        $course->completedCourses()->attach($this->completedCourses);
     }
 
     private function markAsNoLongerEligibleForConcentrationCourse(Course $course): void
     {
         $this->eligibleConcentrationCourses()->detach($course);
-        // TODO: remove the following once 'eligible_courses_concentration_courses' table is gone
-        if (isset($this->eligibleCoursesConcentration)) {
-            $course->eligibleCoursesConcentration()->detach($this->eligibleCoursesConcentration);
-        }
     }
 
     private function markAsNoLongerEligibleForMajorCourse(Course $course): void
     {
         $this->eligibleMajorCourses()->detach($course);
-        // TODO: remove the following once 'eligible_courses_major_courses' table is gone
-        if (isset($this->eligibleCoursesMajor)) {
-            $course->eligibleCoursesMajor()->detach($this->eligibleCoursesMajor);
-        }
     }
 
     private function markAsNoLongerEligibleForElectiveMajorCourse(Course $course): void
     {
         $this->eligibleElectiveMajorCourses()->detach($course);
-        // TODO: remove the following once 'eligible_courses_elective_major_courses' table is gone
-        if (isset($student->eligibleCoursesElectiveMajor)) {
-            $course->eligibleCoursesElectiveMajor()->detach($student->eligibleCoursesElectiveMajor);
-        }
     }
 
     private function markAsNoLongerEligibleForElectiveCourse(Course $course): void
     {
         $this->eligibleElectiveCourses()->detach($course);
-        // TODO: remove the following once 'eligible_courses_elective_courses' table is gone
-        if (isset($student->eligibleCoursesElective)) {
-            $course->eligibleCoursesElective()->detach($student->eligibleCoursesElective);
-        }
     }
 
     private function markAsEligibleForConcentrationCourse(Course $course): void
@@ -239,8 +198,6 @@ class Student extends Model
          * but doesn't raise an exception when the record already exists
          * which is what we want */
         $this->eligibleConcentrationCourses()->syncWithoutDetaching($course);
-        // TODO: remove the following once 'eligible_courses_concentration_courses' table is gone
-        $course->eligibleCoursesConcentration()->attach($this->eligibleCoursesConcentration);
     }
 
     private function markAsEligibleForMajorCourse(Course $course): void
@@ -249,8 +206,6 @@ class Student extends Model
          * but doesn't raise an exception when the record already exists
          * which is what we want */
         $this->eligibleMajorCourses()->syncWithoutDetaching($course);
-        // TODO: remove the following once 'eligible_courses_major_courses' table is gone
-        $course->eligibleCoursesMajor()->attach($this->eligibleCoursesMajor);
     }
 
     private function markAsEligibleForElectiveMajorCourse(Course $course): void
@@ -259,8 +214,6 @@ class Student extends Model
          * but doesn't raise an exception when the record already exists
          * which is what we want */
         $this->eligibleElectiveMajorCourses()->syncWithoutDetaching($course);
-        // TODO: remove the following once 'eligible_courses_elective_major_courses' table is gone
-        $course->eligibleElectiveMajorStudents()->attach($this->eligibleCoursesMajor);
     }
 
     private function markAsEligibleForElectiveCourse(Course $course): void
@@ -269,8 +222,6 @@ class Student extends Model
          * but doesn't raise an exception when the record already exists
          * which is what we want */
         $this->eligibleElectiveCourses()->syncWithoutDetaching($course);
-        // TODO: remove the following once 'eligible_courses_elective_courses' table is gone
-        $course->eligibleElectiveStudents()->attach($this->eligibleCoursesElective);
     }
 
     public function user(): BelongsTo
@@ -278,27 +229,9 @@ class Student extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * TODO: remove once 'completed_courses_courses' table is gone
-     * @deprecated use {@link self::completedCoursesV2()} instead
-     */
-    public function completedCourses(): HasOne
-    {
-        return $this->hasOne(CompletedCourses::class);
-    }
-
     public function completedCoursesV2(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'completed_courses_v2');
-    }
-
-    /**
-     * TODO: remove once 'eligible_courses_major_courses' table is gone
-     * @deprecated use {@link self::eligibleConcentrationMajors()} instead
-     */
-    public function EligibleCoursesMajor(): HasOne
-    {
-        return $this->hasOne(EligibleCoursesMajor::class);
     }
 
     public function eligibleMajorCourses(): BelongsToMany
@@ -306,27 +239,9 @@ class Student extends Model
         return $this->belongsToMany(Course::class, 'eligible_major_courses');
     }
 
-    /**
-     * TODO: remove once 'eligible_courses_concentration_courses' table is gone
-     * @deprecated use {@link self::eligibleConcentrationCourses()} instead
-     */
-    public function EligibleCoursesConcentration(): hasOne
-    {
-        return $this->hasOne(EligibleCoursesConcentration::class);
-    }
-
     public function eligibleConcentrationCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'eligible_concentration_courses');
-    }
-
-    /**
-     * TODO: remove once 'eligible_courses_elective_major_courses' table is gone
-     * @deprecated use {@link self::eligibleElectiveMajorCourses()} instead
-     */
-    public function EligibleCoursesElectiveMajor(): hasOne
-    {
-        return $this->hasOne(EligibleCoursesElectiveMajor::class);
     }
 
     public function eligibleElectiveMajorCourses(): BelongsToMany
@@ -334,27 +249,9 @@ class Student extends Model
         return $this->belongsToMany(Course::class, 'eligible_elective_major_courses');
     }
 
-    /**
-     * TODO: remove once 'eligible_courses_context_courses' table is gone
-     * @deprecated use {@link self::eligibleContextCourses()} instead
-     */
-    public function EligibleCoursesContext(): hasOne
-    {
-        return $this->hasOne(EligibleCoursesContext::class);
-    }
-
     public function eligibleContextCourses(): BelongsToMany
     {
         return $this->belongsToMany(Course::class, 'eligible_context_courses');
-    }
-
-    /**
-     * TODO: remove once 'eligible_courses_elective_courses' table is gone
-     * @deprecated use {@link self::eligibleElectiveCourses()} instead
-     */
-    public function EligibleCoursesElective(): hasOne
-    {
-        return $this->hasOne(EligibleCoursesElective::class);
     }
 
     public function eligibleElectiveCourses(): BelongsToMany

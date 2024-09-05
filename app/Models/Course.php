@@ -85,41 +85,15 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
-    /**
-     * TODO: remove once 'completed_courses_courses' table is gone
-     * @deprecated use {@link self::completedStudents()} instead
-     */
-    public function completedCourses(): BelongsToMany
-    {
-        return $this->belongsToMany(CompletedCourses::class, 'completed_courses_courses');
-    }
-
     public function completedStudents(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'completed_courses_v2');
     }
 
-    /**
-     * TODO: remove once 'eligible_courses_major_courses' table is gone
-     * @deprecated use {@link self::eligibleMajorStudents()} instead
-     */
-    public function EligibleCoursesMajor(): BelongsToMany
-    {
-        return $this->BelongsToMany(EligibleCoursesMajor::class, 'eligible_courses_major_courses');
-    }
 
     public function eligibleMajorStudents(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'eligible_major_courses');
-    }
-
-    /**
-     * TODO: remove once 'eligible_courses_concentration_courses' table is gone
-     * @deprecated use {@link self::eligibleConcentrationStudents()} instead
-     */
-    public function EligibleCoursesConcentration(): BelongsToMany
-    {
-        return $this->BelongsToMany(EligibleCoursesConcentration::class, 'eligible_courses_concentration_courses');
     }
 
     public function eligibleConcentrationStudents(): BelongsToMany
@@ -127,27 +101,9 @@ class Course extends Model
         return $this->belongsToMany(Student::class, 'eligible_concentration_courses');
     }
 
-    /**
-     * TODO: remove once 'eligible_courses_elective_major_courses' table is gone
-     * @deprecated use {@link self::eligibleElectiveMajorStudents()}
-     */
-    public function EligibleCoursesElectiveMajor(): BelongsToMany
-    {
-        return $this->BelongsToMany(EligibleCoursesElectiveMajor::class, 'eligible_courses_elective_major_courses');
-    }
-
     public function eligibleElectiveMajorStudents(): BelongsToMany
     {
         return $this->belongsToMany(Student::class, 'eligible_elective_major_courses');
-    }
-
-    /**
-     * TODO: remove once 'eligible_courses_elective_major_courses' table is gone
-     * @deprecated use {@link self::eligibleElectiveStudents()}
-     */
-    public function EligibleCoursesElective(): BelongsToMany
-    {
-        return $this->BelongsToMany(EligibleCoursesElective::class, 'eligible_courses_elective_courses');
     }
 
     public function eligibleElectiveStudents(): BelongsToMany
