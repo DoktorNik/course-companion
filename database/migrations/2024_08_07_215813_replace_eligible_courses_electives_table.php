@@ -13,18 +13,18 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('completed_courses_v2', function (Blueprint $table) {
+        Schema::create('eligible_elective_courses', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Course::class);
             $table->foreignIdFor(Student::class);
             $table->timestamps();
         });
         DB::statement(<<<SQL
-            INSERT INTO completed_courses_v2 (id, course_id, student_id, created_at, updated_at)
+            INSERT INTO eligible_elective_courses (id, course_id, student_id, created_at, updated_at)
             SELECT ECCC.id, ECCC.course_id, ECC.student_id, ECCC.created_at, ECCC.updated_at
-            FROM completed_courses_courses AS ECCC
-            INNER JOIN completed_courses AS ECC
-                ON ECC.id = ECCC.completed_courses_id
+            FROM eligible_courses_elective_courses AS ECCC
+            INNER JOIN eligible_courses_electives AS ECC
+                ON ECC.id = ECCC.eligible_courses_elective_id
         SQL
         );
     }
@@ -35,14 +35,14 @@ return new class extends Migration {
     public function down(): void
     {
         DB::statement(<<<SQL
-            INSERT INTO completed_courses_courses (id, course_id, completed_courses_id, created_at, updated_at)
+            INSERT INTO eligible_courses_elective_courses (id, course_id, eligible_courses_elective_id, created_at, updated_at)
                 SELECT E.id, E.course_id, ECC.id, E.created_at, E.updated_at
-                FROM completed_courses_v2 as E
-                INNER JOIN completed_courses AS ECC
+                FROM eligible_elective_courses as E
+                INNER JOIN eligible_courses_electives AS ECC
                     ON ECC.student_id = E.student_id
             ON CONFLICT(id) DO NOTHING
         SQL
         );
-        Schema::dropIfExists('completed_courses_v2');
+        Schema::dropIfExists('eligible_elective_courses');
     }
 };
