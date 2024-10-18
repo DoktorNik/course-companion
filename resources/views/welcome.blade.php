@@ -69,9 +69,10 @@
                                         class="absolute -bottom-16 -left-16 h-40 w-[calc(100%+8rem)] bg-gradient-to-b from-transparent via-white to-white dark:via-zinc-900 dark:to-zinc-900"
                                     ></div>
                                 </div>
+                            </a>
 
-
-                                <div class="relative flex items-center gap-6 rounded-lg lg:items-end">
+                            <a href="{{ route('dashboard') }}">
+                                <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
                                     <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
                                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                                     </div>
@@ -81,26 +82,11 @@
 
                                         <p class="mt-4 text-sm/relaxed">
                                             The course companion is here to help you with planning your upcoming courses at Brock University.
+                                            <br><br>
+                                            See exactly which courses you're eligible for based on your current credit count and completed courses!
                                         </p>
                                     </div>
                                 </div>
-                            </a>
-
-                            <a href="{{ route('dashboard') }}">
-                            <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
-
-                                <div class="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#FF2D20]/10 sm:size-16">
-                                    <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
-                                </div>
-
-                                <div class="pt-3 sm:pt-5">
-                                        <h2 class="text-xl font-semibold text-black dark:text-white">Eligibility</h2>
-                                    <p class="mt-4 text-sm/relaxed">
-                                        See exactly which courses you're eligible for based on your current credit count and completed courses!
-                                    </p>
-                                </div>
-                            <!--<svg class="size-6 shrink-0 self-center stroke-[#FF2D20]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12h15m0 0l-6.75-6.75M19.5 12l-6.75 6.75"/></svg>-->
-                            </div>
                             </a>
 
                             <div class="flex items-start gap-4 rounded-lg bg-white p-6 shadow-[0px_14px_34px_0px_rgba(0,0,0,0.08)] ring-1 ring-white/[0.05] transition duration-300 hover:text-black/70 hover:ring-black/20 focus:outline-none focus-visible:ring-[#FF2D20] lg:pb-10 dark:bg-zinc-900 dark:ring-zinc-800 dark:hover:text-white/70 dark:hover:ring-zinc-700 dark:focus-visible:ring-[#FF2D20]">
@@ -134,7 +120,7 @@
                         </div>
                     </main>
 
-                    <footer class="my-16 bg-amber-200 text-center text-sm text-black dark:text-white/70 dark:bg-zinc-900" style="margin-top:2rem; padding:1rem;">
+                    <footer class="my-16 bg-amber-200 text-center text-sm text-black dark:text-white/70 dark:bg-zinc-900 rounded-lg" style="margin-top:2rem; padding:1rem;">
 {{--                    <footer class="mt-8 p-4 bg-amber-200 text-center text-sm text-black dark:text-white/70 dark:bg-zinc-900">--}}
                         Brock University Computer Science Club
                     </footer>
