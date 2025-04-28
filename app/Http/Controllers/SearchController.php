@@ -34,6 +34,7 @@ class SearchController extends Controller
         // course code = 9 characters, 2 sets of 4 seperated by a space
         else if(strlen($searchStr) == 9 && substr($searchStr, 4, 1) == " ") {
             $type = $TYPE_COURSE_CODE;
+            $searchStr = strtoupper($searchStr);
         }
 
         // now search
