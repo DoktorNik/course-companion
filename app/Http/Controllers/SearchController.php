@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\View\View;
+use function Psy\debug;
 
 class SearchController extends Controller
 {
@@ -31,7 +32,7 @@ class SearchController extends Controller
             $type = $TYPE_STUDENT_NUMBER;
         }
         // course code = 9 characters, 2 sets of 4 seperated by a space
-        else if(strlen($searchStr) == 9 && substr($searchStr, 5, 1) == " ") {
+        else if(strlen($searchStr) == 9 && substr($searchStr, 4, 1) == " ") {
             $type = $TYPE_COURSE_CODE;
         }
 
@@ -70,6 +71,6 @@ class SearchController extends Controller
         }
 
         // since we can't find it, return failure
-        return View('search.noResults');
+        return View('search.noResults', ['searchString' => $searchStr]);
     }
 }
